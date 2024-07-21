@@ -1,0 +1,1065 @@
+\section{The Measurement of Interest}
+\label{sect:interest-measurement}
+\subsection{Origin of Interest}
+\begin{enumerate}
+\item We start with two people: \faIcon{user} and \faIcon{walking}. Suppose
+\faIcon{user} lends his \faIcon{apple-alt} to \faIcon{walking}.
+\item Terminologies:
+\begin{itemize}
+\item \faIcon{user}: \defn{lender}
+\item \faIcon{walking}: \defn{borrower}
+\item \faIcon{apple-alt}: \defn{capital} (owned by lender \faIcon{user})
+\end{itemize}
+
+\item In order to provide \emph{incentive} for the lender \faIcon{user} to lend
+his \faIcon{apple-alt} to \faIcon{walking}, the borrower \faIcon{walking} needs
+to give something to \faIcon{user}, which is known as \defn{interest}
+\faIcon{arrow-right} main thing to be studied in this notes!
+
+\item Usually, both capital and interest are expressed in terms of \emph{money}
+\faIcon{dollar-sign}, which makes the calculations convenient.
+\end{enumerate}
+\subsection{Terminologies for Investment}
+\begin{enumerate}
+\item Here \emph{investment} is in the broad sense of putting aside
+(\emph{invest}/\emph{lend}) a sum of money \faIcon{coins} (\emph{initial
+investment}) into an ``investment fund'' \faIcon{piggy-bank} (playing the role
+of ``borrower'') to get more money \faIcon{dollar-sign} (\emph{interest}) in
+return (amount of \faIcon{dollar-sign} in \faIcon{piggy-bank} grows over time).
+
+\begin{note}
+The potential of earning more money in return by putting aside money for some
+time is sometimes called \defn{time value of money}.
+\end{note}
+
+\item For the investment fund \faIcon{piggy-bank}, we shall impose the following assumptions:
+\begin{itemize}
+\item There is neither \emph{contribution} nor \emph{withdrawal} after the
+initial investment, so that changes in ``value'' of (amount of money in) the
+fund \faIcon{piggy-bank} are only due to \emph{interest}. \begin{note}
+We will relax this assumption in \cref{sect:dcf-analysis}.
+\end{note}
+\item The ``growth rate'' for money in the fund \faIcon{piggy-bank} is constant
+over time (regardless of the amount in the fund) and is independent from the
+amount and timing of initial investment.
+\end{itemize}
+
+\item \defn{Principal} is the amount of initial investment made now (at time 0).
+\item \defn{Accumulated value} (AV) at time \(t\) is the total amount
+(principal + extra money in return) received when we withdraw all money from
+the fund \faIcon{piggy-bank} at time \(t\) .
+
+\begin{remark}
+\item Accumulated value at time 0 = principal, since we simply receive back our
+initial investment if we withdraw immediately from \faIcon{piggy-bank} at time
+0 (there is no opportunity for ``growth''!).
+\item Sometimes we just simply call ``accumulated value at time \(t\)'' as ``value at
+time \(t\)''. (There is another kind of value; See \cref{subsect:present-val}.)
+\end{remark}
+
+\item \defn{Amount of interest} (between now and time \(t\)) is the extra money
+in return (when withdrawing from \faIcon{piggy-bank} at time \(t\)), which is \(\text{time-\(t\) accumulated value}-\text{principal}\).
+
+\item \defn{Measurement period} is the time \emph{unit} for ``time-related''
+phrase like ``time \(t\)'', ``\(t\)th period'' etc.
+
+\begin{note}
+Unless otherwise specified, we assume the measurement period is \emph{years}
+here \faIcon{arrow-right} e.g., ``1 period'' = ``1 year''.
+\end{note}
+
+\item \defn{Accumulation function} (denoted by \(a(t)\)) gives the
+accumulated value of principal of 1 at time \(t\), for any \(t\ge 0\).
+
+\begin{note}
+Special case: \(a(0)=\text{principal}=1\).
+\end{note}
+
+\item \defn{Amount function} (denoted by \(A(t)\)) gives the
+accumulated value of principal of \(k\) at time \(t\), for any \(t\ge 0\).
+
+\begin{remark}
+\item Special case: \(A(0)=\text{principal}=k\).
+\item We have \(A(t)=ka(t)\) for any \(t\ge 0\) as the ``growth rate'' is
+independent from the amount of initial investment.
+\end{remark}
+
+\item \defn{\(n\)th period} is the time period from time \(n-1\) to time \(n\),
+for any \(n\in\N\).
+
+\begin{warning}
+It is \underline{not} the time period from time \(n\) to time \(n+1\)!
+\end{warning}
+
+Furthermore, time \(n\) (\(n-1\)) is called the \defn{end of \(n\)th period}
+(\defn{beginning of \(n\)th period})
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\draw[very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=15pt, mirror}] (0,0) -- (2,0)
+node[midway, below=0.7cm, font=\small]{1st period};
+\draw[very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=15pt, mirror}] (2,0) -- (4,0)
+node[midway, below=0.7cm, font=\small]{2nd period};
+\draw[very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=15pt, mirror}] (4,0) -- (6,0)
+node[midway, below=0.7cm, font=\small]{3rd period};
+\draw[very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=15pt, mirror}] (6,0) -- (8,0)
+node[midway, below=0.7cm, font=\small]{4th period};
+\draw[-Latex] (3.5,1) -- (4,0.2)
+node[pos=-0.3]{beg.\ of 3rd period}
+node[pos=-0.8]{end of 2nd period};
+\draw[-Latex] (6.5,1) -- (6,0.2)
+node[pos=-0.3]{end of 3rd period}
+node[pos=-0.8]{beg.\ of 4th period};
+\draw[-Latex] (0,1) -- (0,0.2)
+node[pos=-0.3]{now};
+\end{tikzpicture}
+\end{center}
+
+\item The \defn{amount of interest earned during \(n\)th period} (denoted by
+\(I_n\)) is the increase in accumulated value during \(n\)th period
+(accumulated value at the end of \(n\)th period subtracted by that at the
+beginning of \(n\)th period):
+\[
+I_n=A(n)-A(n-1).
+\]
+
+\item Time-\(t\) accumulated value for an initial investment made at time
+\(s>0\) (where \(t\ge s\)) is \(\displaystyle k\cdot\frac{a(t)}{a(s)}\).
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0}
+node[above, brown]{1}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}};
+\fill[] (4,0) circle [radius=0.05]
+node[below=0.1cm] {\(s\)}
+node[above, brown]{\(a(s)\)}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}}
+node[below=0.6cm, violet]{\(k\)}
+node[below=1.2cm, violet]{\faIcon{piggy-bank}};
+\fill[] (8,0) circle [radius=0.05]
+node[below=0.1cm] {\(t\)}
+node[above, brown]{\(a(t)\)}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}}
+node[below=0.5cm, violet]{\(k\cdot\frac{a(t)}{a(s)}\)}
+node[below=1.2cm, violet]{\faIcon{piggy-bank}};
+\draw[-Latex, brown] (5,0.6) -- (7,0.6);
+\draw[-Latex, violet] (5,-1.2) -- (7,-1.2);
+\draw[<->, magenta] (6,-1.1) -- (6,0.5)
+node[pos=0.4, right, text width=1cm]{same growth};
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+\subsection{Interest Rates}
+\label{subsect:interest-rates}
+\begin{enumerate}
+\item Interest rate describes the amounts of interest \faIcon{dollar-sign}
+earned during different periods, and there are different kinds of interest rates.
+
+\item \defn{Effective interest rate for \(n\)th period} (denoted by
+\(i_n\)) is the ratio of interest earned during \(n\)th period to
+the accumulated value at the \emph{beginning} of \(n\)th period, i.e.
+\(I_n/A(n-1)\).
+\item \label{it:effective-int-fmlas}
+The effective interest rate \(i_n\) can be expressed in the following forms:
+\begin{itemize}
+\item \(\displaystyle i_n=\frac{A(n)-A(n-1)}{A(n-1)}\) or \(A(n)=A(n-1)(1+i_n)\) (in terms of \(A(\cdot)\)'s)
+\item \(\displaystyle i_n=\frac{a(n)-a(n-1)}{a(n-1)}\) or \(a(n)=a(n-1)(1+i_n)\) (in terms of \(a(\cdot)\)'s)
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (a4) at (8,0.3) {\(A(4)\)};
+\node[] (a3) at (6,0.3) {\(A(3)\)};
+\node[] (a2) at (4,0.3) {\(A(2)\)};
+\node[] (a1) at (2,0.3) {\(A(1)\)};
+\node[] (a0) at (0,0.3) {\(A(0)\)};
+\draw[-Latex, brown] (a3.north east) to[bend left] (a4.north west);
+\draw[-Latex, brown] (a2.north east) to[bend left] (a3.north west);
+\draw[-Latex, brown] (a1.north east) to[bend left] (a2.north west);
+\draw[-Latex, brown] (a0.north east) to[bend left] (a1.north west);
+\node[brown] () at (8.5,0.9) {\(\cdots\)};
+\node[brown] () at (7.2,1.2) {\(\times(1+i_4)\)};
+\node[brown] () at (5.2,1.2) {\(\times(1+i_3)\)};
+\node[brown] () at (3.2,1.2) {\(\times(1+i_2)\)};
+\node[brown] () at (1.2,1.2) {\(\times(1+i_1)\)};
+\end{tikzpicture}
+\end{center}
+\item For \emph{simple interest}, the amount of interest earned during each
+period is a constant:
+\[
+\underbrace{\text{principal}}_{A(0)}\times\underbrace{\text{simple interest
+rate}}_{i}.\]
+
+\item Now fix a measurement period (time unit). Since a constant amount of
+interest (\(A(0)i\)) is earned during each period, we can deduce the
+accumulated value at the end of each period:
+\begin{itemize}
+\item \(A(1)=A(0)+A(0)i=A(0)(1+i)\)
+\item \(A(2)=\underbrace{A(1)}_{\mathclap{A(0)(1+i)}}+A(0)i=A(0)(1+2i)\)
+\item \(A(3)=\underbrace{A(2)}_{\mathclap{A(0)(1+2i)}}+A(0)i=A(0)(1+3i)\)
+\item etc.
+\end{itemize}
+\item Generally, we have
+\begin{itemize}
+\item \(A(t)=A(0)(1+it)=k(1+it)\) for any \(t\in\N_0\)\footnote{\(\N_0=\{0,1,2,\dotsc\}.\)};
+\item special case (\(k=1\)): \(a(t)=1+it\) for any \(t\in\N_0\).
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a(t)\), xlabel=\(t\), title={\(a(t)=1+it\) for any \(t\in\N_0\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{1+0.03*x};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (1.1,1.03) -- (1.1,1)
+node[brown, midway, right=10pt]{\(i\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (2.1,1.06) -- (2.1,1.03)
+node[brown, midway, right=10pt]{\(i\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (3.1,1.09) -- (3.1,1.06)
+node[brown, midway, right=10pt]{\(i\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (4.1,1.12) -- (4.1,1.09)
+node[brown, midway, right=10pt]{\(i\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\begin{remark}
+\item The plot only contains discrete dots since only values at integer time points are
+deduced.
+\item When the measurement period chosen is shorter, the deduced values would
+be more ``close in time'' (but they are still ``discrete'' in nature).
+\end{remark}
+\item We can observe that the dots in the plot are kind of ``linear'', so it
+seems to be natural to join them by a straight line:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a(t)\), xlabel=\(t\), title={\(a(t)=1+it\) for any \(t\ge 0\)}]
+\addplot[blue]{1+0.03*x};
+\addplot[violet, only marks, mark size=1pt, samples=6]{1+0.03*x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+From this we obtain the general definition of \defn{simple interest}:
+\[
+a(t)=1+it
+\]
+for any \(t\ge 0\), where \(i\) is the \defn{simple interest rate}
+\faIcon{arrow-right} amount of interest earned during any time interval is
+\emph{proportional} to the length of interval.
+
+\item For \emph{compound interest}, the amount of interest earned during each
+period is given by
+\[
+\text{accumulated value at the beginning of period}\times\underbrace{\text{compound interest rate}}_{i}.
+\]
+
+\item Similarly, we can deduce the accumulated value at the end of each period:
+\begin{itemize}
+\item \(A(1)=A(0)+A(0)i=A(0)(1+i)\)
+\item \(A(2)=A(1)+A(1)i=\underbrace{A(1)}_{\mathclap{A(0)(1+i)}}(1+i)=A(0)(1+i)^{2}\)
+\item \(A(3)=A(2)+A(2)i=\underbrace{A(2)}_{\mathclap{A(0)(1+i)^{2}}}(1+i)=A(0)(1+i)^{3}\)
+\item etc.
+\end{itemize}
+
+\item Generally, we have
+\begin{itemize}
+\item \(A(t)=A(0)(1+i)^{t}=k(1+i)^{t}\) for any \(t\in\N_0\);
+\item special case (\(k=1\)): \(a(t)=(1+i)^{t}\) for any \(t\in\N_0\).
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a(t)\), xlabel=\(t\), title={\(a(t)=(1+i)^t\) for any \(t\in\N_0\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{1.3^x};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (1.1,1.3) -- (1.1,1)
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (2.1,\fpeval{1.3^2}) -- (2.1,1.3)
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (3.1,\fpeval{1.3^3}) -- (3.1,\fpeval{1.3^2})
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (4.1,\fpeval{1.3^4}) -- (4.1,\fpeval{1.3^3})
+;
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\item Since the dots in the plot are kind of ``exponential'', it is natural to
+join them by an exponential function:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a(t)\), xlabel=\(t\), title={\(a(t)=(1+i)^t\) for any \(t\ge 0\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{1.3^x};
+\addplot[blue]{1.3^x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+This gives the general definition of \defn{compound interest}:
+\[
+a(t)=(1+i)^t
+\]
+for any \(t\ge 0\), where \(i\) is the \defn{compound interest rate}.  \item A
+remarkable property for compound interest is that \emph{effective} interest
+rate and \emph{compound} interest rate coincide: Under compound interest with
+compound interest rate \(i\), the effective interest rate
+\[
+i_n=\frac{a(n)-a(n-1)}{a(n-1)}=\frac{(1+i)^{n}-(1+i)^{n-1}}{(1+i)^{n-1}}=1+i-1=i.
+\]
+for any \(n\in\N\).
+
+\begin{remark}
+\item Because of this ``nice'' property, compound interest is often used.
+\item Here, unless otherwise specified, we shall assume compound interest, and
+use the notation \(i\) to denote the constant (annual) compound interest rate
+(which is also the effective interest rate for any year).
+\end{remark}
+
+\item In practice, interest (amount for whole period) is often only paid at the
+end of each period \faIcon{arrow-right} ``jumps'' of amount of
+\faIcon{dollar-sign} in \faIcon{piggy-bank} at discrete time points, rather
+than in a ``continuous manner'' (interests paid/added to the fund
+\faIcon{piggy-bank} simultaneously as they are earned \faIcon{arrow-right}
+amount of \faIcon{dollar-sign} in \faIcon{piggy-bank} grows ``continuously'').
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a(t)\), xlabel=\(t\)]
+\addplot[brown, const plot, mark=*, mark size=1pt, samples=6]{1.3^x};
+\addplot[blue, opacity=0.3]{1.3^x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+\subsection{Present Value}
+\label{subsect:present-val}
+\begin{enumerate}
+\item \emph{Present value} captures the idea of ``current worth of future
+money''. This concept is useful for answering questions like ``How much do we
+need to invest in \faIcon{piggy-bank} to have an accumulated value of 1000 at
+time 5?"
+\item To find out the current worth, generally \emph{discounting} needs to be
+performed, which can be understood as the ``reverse process'' of accumulating
+(i.e., earning interest over time).
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (ds) at (6,0.3) {\faIcon{dollar-sign}};
+\node[] (cds) at (0,0.3) {\faIcon{question}};
+\draw[-Latex, brown] (cds.north east) to[bend left] (ds.north west);
+\node[brown] () at (3,1.7) {accumulate};
+\draw[-Latex, violet] (ds.south west) to[bend left] (cds.south east);
+\node[violet] () at (3,-1.3) {discount};
+\draw[-Latex] (7.5,1.2) -- (6.3,0.5)
+node[pos=-0.3]{future money};
+\end{tikzpicture}
+\end{center}
+\item Given an effective interest rate \(i\), the \defn{discount factor}
+(denoted by \(v\)) is given by \(v=1/(1+i)\).
+
+\begin{note}
+Multiplying the discount factor \(v\) = dividing by \(1+i\) = reverse process
+of multiplying by \(1+i\) (accumulating for one period)
+\faIcon{arrow-right} ``discount'' for one period.
+\end{note}
+\item Multiplying the discount factor \(v\) to an amount \faIcon{dollar-sign}
+at the end of a period gives its \emph{value} (worth) at the beginning of the
+period (i.e., the amount needed at that time in order to accumulate to
+\faIcon{dollar-sign} at the end of the period).
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05] node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (ds) at (6,0.3) {\faIcon{dollar-sign}};
+\node[] (cds) at (4,0.3) {value};
+\draw[-Latex, brown] (cds.north east) to[bend left] (ds.north west);
+\node[brown] () at (5.2,1.2) {\(\times(1+i)\)};
+\draw[-Latex, violet] (ds.south west) to[bend left] (cds.south east);
+\node[violet] () at (5.2,-0.5) {\(\times v\)};
+\end{tikzpicture}
+\end{center}
+\item The \emph{time-0 value} of an amount \faIcon{dollar-sign} is known as its
+\defn{present value} (PV).
+\item More generally, we can discount for any number of periods. A ``more
+general'' discount factor is given by the inverse function \(a^{-1}(t)\)
+\faIcon{arrow-right} discounting for \(t\) periods: discount an amount
+\faIcon{dollar-sign} at time \(t\) back to time 0.
+
+\begin{note}
+Still, this discounting serves as the reverse process of accumulating (for
+\(t\) years). This applies similarly to other cases (discounting from a time
+\(t\) to another time \(s<t\) \faIcon{arrows-alt-h} reverse process of
+accumulating from time \(s\) to time \(t\) etc.)
+\end{note}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0}; \fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (ds) at (6,0.3) {\faIcon{dollar-sign}};
+\node[] (cds) at (0,0.3) {PV};
+\draw[-Latex, brown] (cds.north east) to[bend left] (ds.north west);
+\node[brown] () at (3,1.7) {\(\times a(t)\)};
+\draw[-Latex, violet] (ds.south west) to[bend left] (cds.south east);
+\node[violet] () at (3,-1.2) {\(\times a^{-1}(t)\)};
+\end{tikzpicture}
+\end{center}
+\item The expressions for \(a^{-1}(t)\) under simple and compound interest are
+respectively:
+\begin{itemize}
+\item simple interest: \(a^{-1}(t)=1/(1+it)\);
+\item compound interest: \(a^{-1}(t)=(1+i)^{-t}=v^t\) (frequently used! \ystar)
+\end{itemize}
+\end{enumerate}
+\subsection{Discount Rates}
+\label{subsect:discount-rates}
+\begin{enumerate}
+\item \emph{Discount rate}, as its name suggests, is somewhat related to the
+process of discounting.
+
+\begin{warning}
+Discount \emph{rate} and discount \emph{factor} are \underline{not}
+the same!
+\end{warning}
+\item Discount rate may be seen as ``dual'' of interest rate, and we also have
+three kinds of discount rates:
+\begin{itemize}
+\item effective discount rate \faIcon{arrows-alt-h} effective interest rate
+\item simple discount rate \faIcon{arrows-alt-h} simple interest rate
+\item compound discount rate \faIcon{arrows-alt-h} compound interest rate
+\end{itemize}
+\begin{note}
+Nonetheless, there are some subtleties in developing discount rates that do not
+present in the development of interest rates.
+\end{note}
+
+\item \defn{Effective discount rate for \(n\)th period} (denoted by
+\(d_n\)) is the ratio of interest earned (or ``discount earned'') during
+\(n\)th period to the accumulated value at the \emph{end} of \(n\)th
+period, i.e.  \(I_n/A(n)\).
+
+\item \label{it:effective-discount-fmlas}
+The effective discount rate \(d_n\) can be expressed in the following forms:
+\begin{itemize}
+\item \(\displaystyle d_n=\frac{A(n)-A(n-1)}{A(n)}\) or \(A(n-1)=A(n)-\underbrace{A(n)d_n}_{\mathclap{\text{``discount earned''}}}=A(n)(1-d_n)\) (in terms of
+\(A(\cdot)\)'s)
+\item \(\displaystyle d_n=\frac{a(n)-a(n-1)}{a(n)}\) or \(a(n-1)=a(n)-\underbrace{a(n)d_n}_{\mathclap{\text{``discount earned''}}}=a(n)(1-d_n)\) (in terms of
+\(a(\cdot)\)'s)
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (a4) at (8,0.3) {\(A(4)\)};
+\node[] (a3) at (6,0.3) {\(A(3)\)};
+\node[] (a2) at (4,0.3) {\(A(2)\)};
+\node[] (a1) at (2,0.3) {\(A(1)\)};
+\node[] (a0) at (0,0.3) {\(A(0)\)};
+\draw[-Latex, brown] (a4.north west) to[bend right] (a3.north east);
+\draw[-Latex, brown] (a3.north west) to[bend right] (a2.north east);
+\draw[-Latex, brown] (a2.north west) to[bend right] (a1.north east);
+\draw[-Latex, brown] (a1.north west) to[bend right] (a0.north east);
+\node[brown] () at (7,1.2) {\(\times(1-d_4)\)};
+\node[brown] () at (5,1.2) {\(\times(1-d_3)\)};
+\node[brown] () at (3,1.2) {\(\times(1-d_2)\)};
+\node[brown] () at (1,1.2) {\(\times(1-d_1)\)};
+\end{tikzpicture}
+\end{center}
+\begin{intuition}
+About the term ``discount earned'': In each period the beginning value may be
+seen as the ending value with ``discount'' (an amount subtracted). As time
+passes, the ``discount'' is gradually ``earned back''.
+\end{intuition}
+
+\begin{remark}
+\item From this, we can see that the effective discount rate is inherently ``backward''
+\faIcon{arrow-right} ``discounting'' process.
+\item An implicit requirement on \(d_n\) is that it must be less than 1 (for
+\(A(n-1)\) to be positive \faIcon{arrow-right} ``sensible'').
+\end{remark}
+\item Of course one can reverse this ``reverse process'' and use the effective
+discount rate \(d_n\) to ``move forward'':
+\begin{itemize}
+\item \(\displaystyle A(n)=A(n-1)\cdot\frac{1}{1-d_n}\)
+\item \(\displaystyle a(n)=a(n-1)\cdot\frac{1}{1-d_n}\)
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (a4) at (8,0.3) {\(A(4)\)};
+\node[] (a3) at (6,0.3) {\(A(3)\)};
+\node[] (a2) at (4,0.3) {\(A(2)\)};
+\node[] (a1) at (2,0.3) {\(A(1)\)};
+\node[] (a0) at (0,0.3) {\(A(0)\)};
+
+\draw[-Latex, brown] (a4.north west) to[bend right] (a3.north east);
+\draw[-Latex, brown] (a3.north west) to[bend right] (a2.north east);
+\draw[-Latex, brown] (a2.north west) to[bend right] (a1.north east);
+\draw[-Latex, brown] (a1.north west) to[bend right] (a0.north east);
+\node[brown] () at (7,1.2) {\(\times(1-d_4)\)};
+\node[brown] () at (5,1.2) {\(\times(1-d_3)\)};
+\node[brown] () at (3,1.2) {\(\times(1-d_2)\)};
+\node[brown] () at (1,1.2) {\(\times(1-d_1)\)};
+
+\draw[-Latex, violet] (a3.south east) to[bend right] (a4.south west);
+\draw[-Latex, violet] (a2.south east) to[bend right] (a3.south west);
+\draw[-Latex, violet] (a1.south east) to[bend right] (a2.south west);
+\draw[-Latex, violet] (a0.south east) to[bend right] (a1.south west);
+\node[violet] () at (7,-0.8) {\(\displaystyle \times\frac{1}{1-d_4}\)};
+\node[violet] () at (5,-0.8) {\(\displaystyle \times\frac{1}{1-d_3}\)};
+\node[violet] () at (3,-0.8) {\(\displaystyle \times\frac{1}{1-d_2}\)};
+\node[violet] () at (1,-0.8) {\(\displaystyle \times\frac{1}{1-d_1}\)};
+\end{tikzpicture}
+\end{center}
+Compare this with the case for effective interest rate:
+\begin{itemize}
+\item \(\displaystyle A(n-1)=A(n)\cdot\frac{1}{1+i_n}\)
+\item \(\displaystyle a(n-1)=a(n)\cdot\frac{1}{1+i_n}\)
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0};
+\fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (a4) at (8,0.3) {\(A(4)\)};
+\node[] (a3) at (6,0.3) {\(A(3)\)};
+\node[] (a2) at (4,0.3) {\(A(2)\)};
+\node[] (a1) at (2,0.3) {\(A(1)\)};
+\node[] (a0) at (0,0.3) {\(A(0)\)};
+
+\draw[-Latex, brown] (a3.north east) to[bend left] (a4.north west);
+\draw[-Latex, brown] (a2.north east) to[bend left] (a3.north west);
+\draw[-Latex, brown] (a1.north east) to[bend left] (a2.north west);
+\draw[-Latex, brown] (a0.north east) to[bend left] (a1.north west);
+\node[brown] () at (7,1.2) {\(\times(1+i_4)\)};
+\node[brown] () at (5,1.2) {\(\times(1+i_3)\)};
+\node[brown] () at (3,1.2) {\(\times(1+i_2)\)};
+\node[brown] () at (1,1.2) {\(\times(1+i_1)\)};
+
+\draw[-Latex, violet] (a4.south west) to[bend left] (a3.south east);
+\draw[-Latex, violet] (a3.south west) to[bend left] (a2.south east);
+\draw[-Latex, violet] (a2.south west) to[bend left] (a1.south east);
+\draw[-Latex, violet] (a1.south west) to[bend left] (a0.south east);
+\node[violet] () at (7,-0.8) {\(\displaystyle \times\frac{1}{1+i_4}\)};
+\node[violet] () at (5,-0.8) {\(\displaystyle \times\frac{1}{1+i_3}\)};
+\node[violet] () at (3,-0.8) {\(\displaystyle \times\frac{1}{1+i_2}\)};
+\node[violet] () at (1,-0.8) {\(\displaystyle \times\frac{1}{1+i_1}\)};
+\end{tikzpicture}
+\end{center}
+\item For \emph{simple discount}, the amount of ``discount earned'' during each
+period is constant.
+
+\begin{warning}
+The constant amount is \underline{not} ``\(A(0)i\)'' or ``\(A(0)d\)''.
+\end{warning}
+
+To determine the constant amount, first we need to fix an \(n\in \N\) as the
+``last'' time point in our consideration. Then, the constant amount of
+``discount earned'' in each period is given by
+\[
+A(n)\times\underbrace{\text{simple discount rate}}_{d}
+\]
+(where \(d<1\) to ensure positive accumulated values).
+\item To deduce the accumulated values at different time points, we need to
+work \emph{backward} from time \(n\) (``reverse process'' of the process for
+the case of effective interest rate):
+\begin{itemize}
+\item \(A(n-1)=A(n)-A(n)d=A(n)(1-d)\)
+\item \(A(n-2)=\underbrace{A(n-1)}_{A(n)(1-d)}-A(n)d=A(n)(1-2d)\)
+\item \(\vdots\)
+\item \(A(n-p)=A(n)\underbrace{(1-pd)}_{>0}\) {\color{ForestGreen}\faIcon{check}}
+\item \(A(n-p-1)=A(n)\underbrace{(1-(p+1)d)}_{\le 0}\) {\color{red}\faIcon{times}}
+\end{itemize}
+\begin{note}
+The equations are only valid (``sensible'') when RHS is positive, so we stop
+this process once RHS becomes nonpositive.
+\end{note}
+\item The general form is thus \(A(n-k)=A(n)(1-kd)\) for any \(k=0,1,\dotsc,n\)
+where RHS is positive (i.e., \(k<1/d\)).
+\item \label{it:simple-discount-a-inv} Particularly, when \(n<1/d\), then we
+have
+\[
+A(0)=A(n)\underbrace{(1-nd)}_{a^{-1}(n)}.
+\]
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0}; \fill[] (2,0) circle [radius=0.05]
+node[below] {1};
+\fill[] (4,0) circle [radius=0.05]
+node[below] {2};
+\fill[] (6,0) circle [radius=0.05]
+node[below] {3};
+\fill[] (8,0) circle [radius=0.05]
+node[below] {4};
+\node[] (ds) at (6,0.3) {\(A(n)\)};
+\node[] (cds) at (0,0.3) {\(A(0)\)};
+\draw[-Latex, brown] (cds.north east) to[bend left] (ds.north west);
+\node[brown] () at (3,1.7) {\(\times a(n)\)};
+\draw[-Latex, violet] (ds.south west) to[bend left] (cds.south east);
+\node[violet] () at (3,-1.2) {\(\times a^{-1}(n)\)};
+\end{tikzpicture}
+\end{center}
+
+Consequently, as we fix different \(n\in\N\) satisfying \(n<1/d\), we have
+\[
+a^{-1}(n)=1-nd
+\]
+for any \(n\in\N\) with \(n<1/d\). (Of course the equation also holds for
+\(n=0\) since \(a^{-1}(0)=1\) always.)
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a^{-1}(t)\), xlabel=\(t\), title={\(a^{-1}(t)=1-dt\) for any \(t\in\N_0\) with \(t<1/d\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{1-0.03*x};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (1.1,1) -- (1.1,0.97)
+node[brown, midway, right=10pt]{\(d\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (2.1,0.97) -- (2.1,0.94)
+node[brown, midway, right=10pt]{\(d\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (3.1,0.94) -- (3.1,0.91)
+node[brown, midway, right=10pt]{\(d\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (4.1,0.91) -- (4.1,0.88)
+node[brown, midway, right=10pt]{\(d\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item It is again natural to join the dots by a straight line:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a^{-1}(t)\), xlabel=\(t\), title={\(a^{-1}(t)=1-dt\) for any \(0\le t<1/d\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{1-0.03*x};
+\addplot[blue]{1-0.03*x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+This gives the general definition of \defn{simple discount}:
+\[
+a^{-1}(t)=1-dt
+\]
+for any \(0\le t<1/d\), where \(d\) is the \defn{simple discount rate}.
+
+\begin{warning}
+It is \underline{not} \(a(t)=1-dt\) in the definition! We consider the \emph{inverse
+function} \(a^{-1}(t)\) instead.  Alternatively, one may express the definition
+as
+\[
+a(t)=\frac{1}{1-dt}
+\]
+for any \(0\le t<1/d\) \faIcon{arrow-right} \(a(t)\) is \emph{nonlinear}!
+\end{warning}
+\item For \emph{compound discount}, the amount of ``discount earned'' each
+period is
+\[
+\text{accumulated value at the \emph{end} of period}\times\underbrace{\text{compound discount rate}}_{d}
+\]
+(where \(d<1\)).
+\item Likewise, we work backward from a fixed time \(n\):
+\begin{itemize}
+\item \(A(n-1)=A(n)-A(n)d=A(n)(1-d)\)
+\item \(A(n-2)=A(n-1)-A(n-1)d=\underbrace{A(n-1)}_{A(n)(1-d)}(1-d)=A(n)(1-d)^{2}\)
+\item \(\vdots\)
+\item \(A(0)=A(n)(1-d)^{n}\)
+\end{itemize}
+(RHS is always positive since \(1-d>0\).)
+\item Using a similar argument as \labelcref{it:simple-discount-a-inv}, we have
+\[
+a^{-1}(t)=(1-d)^{t}
+\]
+for any \(t\in\N_0\).
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a^{-1}(t)\), xlabel=\(t\), title={\(a^{-1}(t)=(1-d)^{t}\) for any \(t\in\N_0\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{(1-0.3)^x};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (1.1,1) -- (1.1,0.7)
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (2.1,0.7) -- (2.1,\fpeval{0.7^2})
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (3.1,\fpeval{0.7^2}) -- (3.1,\fpeval{0.7^3})
+;
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (4.1,\fpeval{0.7^3}) -- (4.1,\fpeval{0.7^4})
+;
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item Like the case for compound interest rate, it is natural to join the dots
+by an exponential function:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ylabel=\(a^{-1}(t)\), xlabel=\(t\), title={\(a^{-1}(t)=(1-d)^{t}\) for any \(t\ge 0\)}]
+\addplot[violet, only marks, mark size=1pt, samples=6]{(1-0.3)^x};
+\addplot[blue]{(1-0.3)^x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+This leads to the general definition of \defn{compound discount}:
+\[
+a^{-1}(t)=(1-d)^{t}
+\]
+for any \(t\ge 0\).
+
+\begin{remark}
+\item Alternatively, we can express the definition as
+\[
+a(t)=\frac{1}{(1-d)^{t}}
+\]
+for any \(t\ge 0\).
+\item Like interest rate, unless otherwise specified, we shall assume \emph{compound
+discount} and use the notation \(d\) to denote the (annual) compound discount
+rate.
+\end{remark}
+\end{enumerate}
+\subsection{Relationship Between Interest and Discount Rates}
+\begin{enumerate}
+\item We have separately discussed interest and discount rates in
+\cref{subsect:interest-rates,subsect:discount-rates}. So naturally, the next
+question to ask is how are they \emph{related}.
+\item An important concept that connects two rates is the concept of
+\emph{equivalency}.
+\item Two interest/discount rates are \defn{equivalent} if a fixed principal
+\faIcon{dollar-sign} invested at each of the rates gives the \emph{same
+accumulated value} at any fixed time point.
+
+\begin{note}
+More explicitly, let \(r_1\) and \(r_2\) be the two rates. Then it means
+\[
+a(t)\;@\;r_1 = a(t)\;@\;r_2
+\]
+for any \(t\ge 0\).
+\end{note}
+
+\item Example: For compound interest rate \(i\) and compound discount rate
+\(d\), they are equivalent when
+\[
+(1+i)^{t}=\frac{1}{(1-d)^{t}}\quad\text{for any \(t\ge 0\)},
+\]
+which implies \(\displaystyle 1+i=\frac{1}{1-d}\).
+
+\begin{note}
+Unless otherwise specified, we shall assume the rates \(i\) and \(d\) are
+equivalent (when we use the notations ``\(i\)'' and ``\(d\)'').
+\end{note}
+
+\item \label{it:id-equiv-fmlas}
+The following are some results under the equivalency between \(i\) and \(d\):
+\begin{itemize}
+\item \(\displaystyle i=\frac{d}{1-d}\)
+\item \(\displaystyle d=\frac{i}{1+i}\)
+\item \(v=1-d\)
+\end{itemize}
+(All of them follow readily from rearranging the equation \(1+i=1/(1-d)\).)
+
+\item We can observe from \cref{subsect:discount-rates} that the formulas for
+discount rates appear to be ``more messy'', hence the equivalency between \(i\)
+and \(d\) should be the main (but not only!) tool you are using for
+calculations involving discount rates.
+\end{enumerate}
+\subsection{Nominal Interest and Discount Rates}
+\begin{enumerate}
+\item \emph{Nominal rate}, as suggested by its name, is only nominal (``in name
+only'') and is not an \emph{actual} rate that is directly used in the
+calculations. It serves as a \emph{reference} for computing \emph{actual}
+interests.
+\item Example: When a bank \faIcon{landmark} offers 12\% loan interest rate
+(per annum) ``compounded monthly'', ``12\%'' serves as a reference only: It
+does not simply mean the annual effective interest rate is 12\%. Rather, it
+means
+\begin{itemize}
+\item the measurement period is months (signified by ``monthly''), while the
+``base'' time unit is years (signified by ``per annum'');
+\item compound interest is assumed (signified by ``compounded'');
+\item the compound interest rate (for each month) is
+\(12\%{\color{violet}/12}=1\%\). (Number of months in a period in ``base'' time
+unit = 12.)
+\end{itemize}
+\begin{note}
+Unless otherwise specified, we assume that the ``base'' time unit is years for
+any nominal rate.
+\end{note}
+\item More generally, we can define nominal interest rate as follows. For the
+case of \defn{compounded \(m\)thly} with the (annual) \defn{nominal interest
+rate compounded \(m\)thly} (denoted by \(i^{(m)}\)),
+\begin{itemize}
+\item the measurement period is \(1/m\) of years;
+\item compound interest is assumed;
+\item the compound interest rate is \(i^{(m)}/m\).
+\end{itemize}
+In this case, the accumulation function is given by
+\[
+a(s)=\qty(1+\frac{i^{(m)}}{m})^{s}
+\]
+for any \(s\ge 0\), \emph{where the time unit of \(s\) is \(1/m\) of years}, or
+
+\[
+a(t)=\qty(1+\frac{i^{(m)}}{m})^{mt}
+\]
+for any \(t\ge 0\), \emph{where the time unit of \(t\) is years}.
+
+\begin{note}
+Time \(t\) in years is time \(mt\) in \(1/m\) of years.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time (in years)};
+\foreach \x in {0,...,4}
+\fill[] (2*\x,0) circle [radius=0.05]
+node[below] {\x};
+
+\draw[-Latex] (0,-1) -- (10,-1) node[right]{Time (in half years)};
+\foreach \x in {0,...,8}
+\fill[] (\x,-1) circle [radius=0.05]
+node[below] {\x};
+
+\draw[-Latex] (0,-2) -- (10,-2) node[right]{Time (in quarters)};
+\foreach \x in {0,...,16}
+\fill[] (0.5*\x,-2) circle [radius=0.05]
+node[below] {\x};
+\end{tikzpicture}
+\end{center}
+\end{note}
+
+\begin{warning}
+Make sure that you are clear about the time unit being used!
+\end{warning}
+\item For the case of \emph{compounded \(m\)thly} with the (annual)
+\defn{nominal discount rate compounded \(m\)thly} (denoted by \(d^{(m)}\)),
+\begin{itemize}
+\item the measurement period is \(1/m\) of years;
+\item compound interest is assumed;
+\item the compound discount rate is \(d^{(m)}/m\).
+\end{itemize}
+In this case, the accumulation function is
+\[
+a(s)=\qty(1-\frac{d^{(m)}}{m})^{{\color{magenta}-}s}
+\]
+for any \(s\ge 0\), \emph{where the time unit of \(s\) is \(1/m\) of years}, or
+
+\[
+a(t)=\qty(1-\frac{d^{(m)}}{m})^{{\color{magenta}-}mt}
+\]
+for any \(t\ge 0\), \emph{where the time unit of \(t\) is years}.
+\item \label{it:nominal-effective-equiv-rates-fmlas}
+We can also talk about the concept of equivalency for nominal rates:
+\begin{itemize}
+\item when compound effective interest rate \(i\) and nominal interest rate
+\(i^{(m)}\) are equivalent,
+\[
+(1+i)^{t}=\qty(1+\frac{i^{(m)}}{m})^{mt}\;\forall t\ge 0
+\implies
+\boxed{1+i=\qty(1+\frac{i^{(m)}}{m})^{m}}.
+\]
+\begin{warning}
+We need to use the same time unit for both sides!
+\end{warning}
+
+\item when compound effective discount rate \(d\) and nominal interest rate
+\(d^{(m)}\) are equivalent,
+\[
+(1-d)^{-t}=\qty(1-\frac{d^{(m)}}{m})^{-mt}\;\forall t\ge 0
+\implies
+\boxed{1-d=\qty(1-\frac{d^{(m)}}{m})^{m}}.
+\]
+\end{itemize}
+\end{enumerate}
+
+\subsection{Force of Interest and Discount}
+\begin{enumerate}
+\item Loosely, (annual) force of interest (discount) is the ``nominal rate''
+``\(i^{(\infty)}\)'' (``\(d^{(\infty)}\)'' resp.):
+\begin{center}
+\begin{tikzpicture}
+\node[] () at (0,0) {compounded \(1/m\)thly};
+\node[] () at (10,0) {compounded ``continuously''};
+\draw[-Latex] (3,0) -- (7,0)
+node[midway, above]{\(m\to\infty\)};
+\node[] () at (0,-1) {\(i^{(m)}\) (\(d^{(m)}\))};
+\node[] () at (10,-1) {\(i^{(\infty)}\) (\(d^{(\infty)}\))};
+\draw[<->, magenta] (1,-1) -- (9,-1)
+node[midway, below]{same numerical value};
+\end{tikzpicture}
+\end{center}
+\item More precisely, we fix the nominal interest and discount rates compounded
+\(m\)thly at some values \(i^{(\infty)}\) and \(d^{(\infty)}\) respectively.
+Then, consider the limits of the accumulation function \(a(t)\) for the
+compounded \(m\)thly case at each of the rates as \(m\to\infty\): For any
+\(t\ge 0\),
+\[
+\lim_{m\to \infty}\qty(1+\frac{i^{(\infty)}}{m})^{mt}=e^{i^{(\infty)}t},
+\]
+and
+\[
+\lim_{m\to \infty}\qty(1-\frac{d^{(\infty)}}{m})^{-mt}=e^{-d^{(\infty)}(-t)}
+=e^{d^{(\infty)}t}.
+\]
+We shall fix the values \(i^{(\infty)}\) and \(d^{(\infty)}\) such that they
+are equivalent asymptotically (``at limit''), i.e.,
+\[
+e^{i^{(\infty)}t}=e^{d^{(\infty)}t}\quad\text{for any \(t\ge 0\)},
+\]
+which implies \(i^{(\infty)}=d^{(\infty)}\).
+
+\item \label{it:foi-fod}
+We denote this common value \(i^{(\infty)}=d^{(\infty)}\) by \(\delta\)
+and call it \defn{force of interest} (or \defn{force of discount}).
+
+For the \defn{compounded continuously} case with (annual) force of interest
+\(\delta\) (or interest rate \(\delta\) \emph{compounded continuously}), the
+accumulation function is given by
+\[
+a(t)=e^{\delta t}\quad\text{for any \(t\ge 0\)}.
+\]
+\item \label{it:foi-effective-equiv-fmla}
+Then, when the effective interest rate \(i\) and force of interest \(\delta\)
+are equivalent, we have
+\[
+(1+i)^t=e^{\delta t}\;\forall t\ge 0
+\implies \boxed{\delta=\ln(1+i)}.
+\]
+\item \labelcref{it:foi-fod} gives the definition of \emph{constant} force of
+interest. Generally, in the compounded continuously case, we can indeed allow
+\emph{varying} force of interest , whose definition can be motivated through an
+``infinitesimal'' argument (see \labelcref{it:varying-foi-motivation}).
+
+\item \label{it:varying-foi-motivation}
+For the compounded continuously case with constant force of interest
+\(\delta\), we have for any \(t\ge 0\), \(a(t)=e^{\delta t}\), which implies
+\(A(t)=A(0)e^{\delta t}\). Hence, the interest earned during the time interval
+\([t, t+h]\) is
+\[
+A(t+h)-A(t)=\underbrace{A(t)}_{A(0)e^{\delta t}}(e^{\delta h}-1)
+\approx A(t)(1+\delta h-1)=A(t)\delta h.
+\]
+(The approximation works better when \(h\) is smaller.)
+After that, loosely speaking, the interest earned in the infinitesimal time
+interval \([t,t+\dd{t}]\) is \(A(t)\delta\dd{t}\).
+
+Now, for the case with \emph{varying} force of interest \(\delta_t\) (as a
+function of time \(t\)), the interest earned in \([t,t+\dd{t}]\) becomes
+\(A(t)\delta_t\dd{t}\).\footnote{Loosely speaking, during the infinitesimal time
+interval \([t,t+\dd{t}]\), the force of interest can be ``regarded'' as staying at
+its time-\(t\) value \(\delta_t\) since the time length involved is
+``infinitesimally small'' \faIcon{arrow-right} ``constant'' force of interest
+during the interval.} Thus, we have
+\[
+\dd{A(t)}=\underbrace{A(t+\dd{t})-A(t)}_{\mathclap{\text{interest earned in \([t,t+\dd{t}]\)}}}=A(t)\delta_t\dd{t}
+\implies
+\dv{A(t)}{t}=A(t)\delta_t.
+\]
+It follows that
+\[
+\delta_t=\frac{A'(t)}{A(t)}
+\]
+which gives the definition of \defn{force of interest at time \(t\)}.
+
+\item From this definition of varying force of interest, we can derive the
+following result.
+\begin{proposition}
+\label{prp:foi-fmlas}
+For any time \(t\),
+\begin{enumerate}
+\item \(\displaystyle a(t)=\exp(\int_{0}^{t}\delta_s\dd{s})\);
+\item \(\displaystyle A(t)=A(0)+\int_{0}^{t}A(s)\delta_s\dd{s}\).
+\end{enumerate}
+\end{proposition}
+\begin{intuition}
+\begin{itemize}
+\item For the first formula, firstly for any time \(s\) we have \(A(s+h)\approx
+A(s)e^{\delta_sh}\) when \(h\) is small. Hence,
+\[
+a(t)=\frac{A(t)}{A(0)}=\frac{A(h)}{A(0)}\frac{A(2h)}{A(h)}\dotsb\frac{A(t)}{A(t-h)}
+\approx\exp(\delta_0h+\delta_1h+\dotsb+\delta_{t-h}h)
+\]
+Then, loosely, letting \(h\to 0\) gives
+\[
+a(t)=\exp(\int_{0}^{t}\delta_s\dd{s}).
+\]
+\item For the second formula, \(A(s)\delta_s\dd{s}\) can be regarded as
+``interest earned in infinitesimal time interval \([s,s+\dd{s}]\)'', and thus
+\(\displaystyle \int_{0}^{t}A(s)\delta_s\dd{s}\) can be interpreted as ``sum''
+of all such interests \faIcon{arrow-right} amount of interest earned in time
+interval \([0,t]\).
+\end{itemize}
+\end{intuition}
+
+\begin{pf}
+Firstly, by chain rule we have \(\displaystyle \delta_s=\dv{}{s}\ln A(s)\).
+Thus,
+\[
+\int_{0}^{t}\delta_s\dd{s}=\ln A(t)-\ln A(0)=\ln(\frac{A(t)}{A(0)})=\ln a(t),
+\]
+and then the first formula follows.
+
+Next, note that \(A(s)\delta_s=A'(s)\), so
+\[
+\int_{0}^{t}A(s)\delta_s\dd{s}=A(t)-A(0),
+\]
+proving the second formula.
+\end{pf}
+\end{enumerate}
