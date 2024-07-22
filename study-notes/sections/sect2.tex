@@ -1,2 +1,1368 @@
 \section{Interest Problems and Annuities}
-\label{sect:annuities}
+\label{sect:int-prob-annuities}
+\subsection{Interest Problems}
+\begin{enumerate}
+\item An interest problem (involving a single investment) generally involves
+four basic quantities:
+\begin{enumerate}
+\item principal;
+\item length of investment period;
+\item interest rate (or force of interest);
+\item accumulated value at the end of the investment period,
+\end{enumerate}
+where three of them are given, and we are asked to find the remaining one
+(target quantity).
+
+\item To find the target quantity, we need to:
+\begin{enumerate}
+\item set up an \emph{equation of
+value}, i.e., equation in the form of
+\[
+\text{principal}\times\text{accumulation factor}=\text{accumulated value at the end}
+\]
+where ``accumulation factor'' incorporates the interest effect over the
+investment period;
+\item solve the equation for the target quantity, either analytically or
+numerically.
+\end{enumerate}
+In simple cases, analytical method is possible for obtaining the solution. But
+occasionally, numerical method is needed (e.g., when analytical method is too
+``complex'' or does not exist).
+
+\item Here we introduce a basic numerical method: \emph{linear interpolation}.
+The process is as follows:
+\begin{enumerate}
+\item Set up the equation of value in the form of \(f(x)=0\) where \(x\) is the
+unknown target quantity, for some function \(f\). (So, now we want to find
+a \(x\) such that the equation holds, i.e., a \emph{root} of the equation.)
+\item Find out two pairs of numbers \((x_1,f(x_1))\) and \((x_2,f(x_2))\) such
+that \(f(x_1)<0<f(x_2)\). (They may be given in the question sometimes.)
+\item Perform \emph{linear interpolation} between coordinates \((x_1,f(x_1))\)
+and \((x_2,f(x_2))\): Joining them by a line segment and the intersection of
+the segment and \(x\)-axis gives an \emph{approximated} root \(x^*\), which is
+obtained by solving
+\[
+{\color{brown}\frac{f(x_2)-0}{x_2-x^*}}={\color{Salmon}\frac{f(x_2)-f(x_1)}{x_2-x_1}}.
+\]
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:2.5, ymin=-0.9, ymax=0.9, axis x line=middle, axis y line=left,
+extra x ticks={0.7}, extra x tick labels={\(x^*\)}, samples=100]
+\addplot[blue, opacity=0.5]{-0.7*x^3+0.8*x^2+0.9*x-0.7};
+\draw[violet, fill] (1,0.3) circle [radius=1.5pt]
+node[above]{\((x_2,f(x_2))\)};
+\draw[violet, fill] (0,-0.7) circle [radius=1.5pt]
+node[right=0.3cm]{\((x_1,f(x_1))\)};
+\draw[red, fill] (0.7,0) circle [radius=1.5pt];
+\draw[violet] (0,-0.7) -- (1,0.3);
+\draw[pen colour=brown, very thick, decorate,decoration={mirror, calligraphic brace, amplitude=5pt, raise=5pt}] (0.7,0) -- (1,0.3);
+\draw[pen colour=Salmon, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (0.04,-0.66) -- (1,0.3);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+\end{enumerate}
+\subsection{Method of Equated Time}
+\begin{enumerate}
+\item The \emph{method of equated time} is also an approach for
+\emph{approximating} an unknown quantity, but in a setting where
+\emph{multiple} investments are involved.
+\item The setting is as follows. Suppose there are cash flows (e.g., amounts of
+money withdrawn from several investments) of amounts \(C_1,\dotsc,C_n\) at time
+\(t_1,\dotsc,t_n\) respectively.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0);
+\draw[fill] (1,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (7,0) circle [radius=0.5mm];
+\node[] () at (1,-0.5) {\(t_1\)};
+\node[] () at (3,-0.5) {\(t_2\)};
+\node[] () at (5,-0.5) {\(\cdots\)};
+\node[] () at (7,-0.5) {\(t_n\)};
+
+\node[] () at (1,0.5) {\(C_1\)};
+\node[] () at (3,0.5) {\(C_2\)};
+\node[] () at (5,0.5) {\(\cdots\)};
+\node[] () at (7,0.5) {\(C_n\)};
+\end{tikzpicture}
+\end{center}
+\begin{note}
+Conventionally, ``cash flow'' of a nonnegative (negative) amount refers to cash
+\underline{in}flow (\underline{out}flow) of that amount in absolute value.
+\end{note}
+\item Sometimes we want to have a ``sense'' of ``overall timing'' of these cash
+flows (CFs). A metric for that is a time \(t\) such that
+\[
+\text{PV of a single CF \(C_1+\dotsb+C_n\) @ time \(t\)}
+=
+\text{PV of above CFs @ time \(t_1,\dotsc,t_n\)}\footnote{PV of multiple CFs is
+obtained by summing the PV of each of them, since PV of multiple CFs means the
+total amount needed now to accumulate (separately) to yield each of those CFs.},
+\]
+i.e.,
+\[
+(C_1+\dotsb+C_n)v^t=C_1v^{t_1}+\dotsb+C_nv^{t_n}.
+\]
+Here of course one can solve analytically for \(t\):
+\[
+t=\frac{1}{\ln v}\ln(\frac{C_1v^{t_1}+\dotsb+C_nv^{t_n}}{C_1+\dotsb+C_n}).
+\]
+However, the expression on RHS may appear to be ``too complex'' for some, and
+the \emph{method of equated time} provides an approximation method that yields
+a ``simpler'' expression.
+
+\item \label{it:method-of-eq-time-fmla}
+For \defn{method of equated time}, the solution \(t\) is approximated by
+\[
+\overline{t}=\frac{C_1t_1+\dotsb+C_nt_n}{C_1+\dotsb+C_n},
+\]
+which is a weighted average of time according to the amounts of cash flows.
+
+\begin{note}
+A ``better'' approximation that takes \emph{time value of money} into account
+will be discussed in \cref{sect:duration}.
+\end{note}
+\end{enumerate}
+
+\subsection{Annuity-Immediate and Annuity-Due}
+\label{subsect:annuity-imm-due}
+\begin{enumerate}
+\item An \defn{annuity} is a series of cash inflows made at
+\emph{equal} intervals of time (i.e., ``made regularly'').
+
+\begin{remark}
+\item An annuity whose payments are made \emph{certainly} is called \defn{annuity-certain}.
+\item An annuity where \emph{uncertainties} are involved in the payments is
+called \defn{contingent annuity}. (Special case: when payments are only made
+while the recipient is \emph{alive}, the annuity is called \defn{life annuity}
+(to be studied in STAT3901).)
+\item We shall focus on annuity-certain in STAT2902: ``Annuity'' refers to
+annuity-certain here.
+\end{remark}
+\item An \defn{\(n\)-period annuity-immediate} (\defn{\(n\)-period
+annuity-due}) is an annuity whose cash inflows are made at the \emph{end}
+(\emph{beginning}) of each period, for \(n\) periods.
+
+\begin{note}
+Here ``immediate'' is in the sense of ``immediately after current
+\emph{period}'' (\underline{not} ``immediately after now''!): We need to wait
+till the end of current period to receive the first cash inflow.
+
+For ``due'', it is in the sense of ``due now'': The first cash flow is made now
+(time 0).
+\end{note}
+\item \label{it:pv-annuity-imm}
+The PV of an \(n\)-period annuity-immediate (amount of each CF = 1) is
+\[
+\ax{\angl{n}}=v+v^2+\dotsb+v^n=\frac{v}{1-v}(1-v^n)=\boxed{\frac{1-v^n}{i}}.
+\]
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (10,0.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+\begin{note}
+In general, for an \(n\)-period annuity-immediate (amount of each CF = \(k\)),
+its PV is \(k\ax{\angl{n}}\). (Similar for other kinds of annuities.)
+\end{note}
+
+\item Before proceeding further, let us introduce a key ``trick'' that is
+useful for deriving many upcoming formulas:
+Accumulating/discounting (``shifting'') CFs at the given interest rate  \faIcon{arrow-right}
+\emph{amount} of shifted CF becomes the \emph{value} of original CF at that time point.
+
+The usefulness of this trick is that the value of the shifted CF turns out to
+be identical to the one of the original CF (under \emph{compound} interest)!
+This helps us ``reducing'' various situations to a familiar case.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (6,0) circle [radius=0.5mm];
+\node[] () at (2,0.5) {\(C\)};
+\node[] () at (6,0.5) {\(C(1+i)^2\)};
+\node[] () at (2,-0.5) {1};
+\node[] () at (6,-0.5) {3};
+\draw[-Latex, violet] (2.5,0.5) -- (5,0.5)
+node[midway, above]{``forward shift''};
+\end{tikzpicture}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (6,0) circle [radius=0.5mm];
+\node[] () at (2,0.5) {\(Cv^2\)};
+\node[] () at (6,0.5) {\(C\)};
+\node[] () at (2,-0.5) {1};
+\node[] () at (6,-0.5) {3};
+\draw[-Latex, violet] (5.5,0.5) -- (2.5,0.5)
+node[midway, above]{``backward shift''};
+\end{tikzpicture}
+\end{center}
+
+\item \label{it:pv-annuity-due}
+For the PV of an \(n\)-period annuity-due (amount of each CF = 1), we can
+develop its formula based on \(\ax{\angl{n}}\) through ``shifting'':
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (0,0.5) {\(+1\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (6,1.5) {Original (annuity-due)};
+
+
+\draw[-Latex] (0,-2) -- (12,-2);
+\draw[fill] (0,-2) circle [radius=0.5mm];
+\draw[fill] (2,-2) circle [radius=0.5mm];
+\draw[fill] (4,-2) circle [radius=0.5mm];
+\draw[fill] (8,-2) circle [radius=0.5mm];
+\draw[fill] (10,-2) circle [radius=0.5mm];
+\node[] () at (0,-2.5) {0};
+\node[] () at (2,-2.5) {1};
+\node[] () at (4,-2.5) {2};
+\node[] () at (6,-2.5) {\(\cdots\)};
+\node[] () at (8,-2.5) {\(n-1\)};
+\node[] () at (10,-2.5) {\(n\)};
+\node[] () at (2,-1.5) {\(+(1+i)\)};
+\node[] () at (4,-1.5) {\(+(1+i)\)};
+\node[] () at (8,-1.5) {\(+(1+i)\)};
+\node[] () at (10,-1.5) {\(+(1+i)\)};
+\node[] () at (6,-3.5) {Shifted (annuity-immediate)};
+
+\draw[-Latex, violet] (0.5,0.2) -- (1.8,-1);
+\draw[-Latex, violet] (2.5,0.2) -- (3.8,-1);
+\draw[-Latex, violet] (4.5,0.2) -- (5.8,-1);
+\draw[-Latex, violet] (6.5,0.2) -- (7.8,-1);
+\draw[-Latex, violet] (8.5,0.2) -- (9.8,-1);
+\end{tikzpicture}
+\end{center}
+Since value remains unchanged after ``shifting'', it follows that the desired
+PV is
+\[
+\ax**{\angl{n}}=(1+i)\ax{\angl{n}}=(1+i)\frac{1-v^n}{i}=\boxed{\frac{1-v^n}{d}}.
+\]
+\begin{mnemonic}
+The PV of an \(n\)-period annuity {\color{magenta}i}mmediate ({\color{magenta}d}ue) is
+\(\displaystyle \frac{1-v^n}{{\color{magenta}i}}\) (\(\displaystyle \frac{1-v^n}{{\color{magenta}d}}\)).
+\end{mnemonic}
+\item After obtaining the formulas for the PV of \(n\)-period annuity-immediate
+and annuity-due, getting the formulas for their \emph{accumulated value} at
+time \(n\) becomes straightforward (through ``shifting'').
+\item \label{it:av-annuity-imm}
+For the accumulated value of annuity-immediate:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (10,0.5) {\(+1\)};
+\node[] () at (6,1.5) {Original (annuity-immediate)};
+
+
+\draw[-Latex] (0,-2) -- (12,-2);
+\draw[fill] (0,-2) circle [radius=0.5mm];
+\draw[fill] (2,-2) circle [radius=0.5mm];
+\draw[fill] (4,-2) circle [radius=0.5mm];
+\draw[fill] (8,-2) circle [radius=0.5mm];
+\draw[fill] (10,-2) circle [radius=0.5mm];
+\node[] () at (0,-2.5) {0};
+\node[] () at (2,-2.5) {1};
+\node[] () at (4,-2.5) {2};
+\node[] () at (6,-2.5) {\(\cdots\)};
+\node[] () at (8,-2.5) {\(n-1\)};
+\node[] () at (10,-2.5) {\(n\)};
+\node[] () at (0,-1.5) {\(+\ax{\angl{n}}\)};
+\node[] () at (6,-3.5) {Shifted (single CF)};
+
+\draw[-Latex, violet] (1.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (3.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (5.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (7.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (9.8,0.2) -- (0.2,-1);
+\end{tikzpicture}
+\end{center}
+From this we know that the accumulated value of an \(n\)-period annuity-immediate
+at time \(n\) is the same as the one for the single CF:
+\[
+\sx{\angl{n}}=\ax{\angl{n}}(1+i)^n=\boxed{\frac{(1+i)^n-1}{i}}.
+\]
+\item \label{it:av-annuity-due}
+For the accumulated value of annuity-due:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (0,0.5) {\(+1\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (6,1.5) {Original (annuity-due)};
+
+
+\draw[-Latex] (0,-2) -- (12,-2);
+\draw[fill] (0,-2) circle [radius=0.5mm];
+\draw[fill] (2,-2) circle [radius=0.5mm];
+\draw[fill] (4,-2) circle [radius=0.5mm];
+\draw[fill] (8,-2) circle [radius=0.5mm];
+\draw[fill] (10,-2) circle [radius=0.5mm];
+\node[] () at (0,-2.5) {0};
+\node[] () at (2,-2.5) {1};
+\node[] () at (4,-2.5) {2};
+\node[] () at (6,-2.5) {\(\cdots\)};
+\node[] () at (8,-2.5) {\(n-1\)};
+\node[] () at (10,-2.5) {\(n\)};
+\node[] () at (0,-1.5) {\(+\ax**{\angl{n}}\)};
+\node[] () at (6,-3.5) {Shifted (single CF)};
+
+\draw[-Latex, violet] (0,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (1.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (3.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (5.8,0.2) -- (0.2,-1);
+\draw[-Latex, violet] (7.8,0.2) -- (0.2,-1);
+\end{tikzpicture}
+\end{center}
+Likewise, the accumulated value of an \(n\)-period annuity-due at time \(n\) is
+\[
+\sx**{\angl{n}}=\ax**{\angl{n}}(1+i)^n=\boxed{\frac{(1+i)^n-1}{d}}.
+\]
+\end{enumerate}
+\subsection{Perpetuities}
+\label{subsect:perpetuity}
+\begin{enumerate}
+\item Simply speaking, a \emph{perpetuity} is an ``\(\infty\)-period'' annuity.
+\item A \defn{perpetuity-immediate} (\defn{perpetuity-due}) is an
+annuity-immediate (annuity-due) whose cash inflows last forever.
+\item \label{it:pv-perpetuity-imm}
+The PV of a perpetuity-immediate is then the limit
+\[
+\ax{\angl{\infty}}=\sum_{n=1}^{\infty}v^n=\lim_{n\to \infty}\ax{\angl{n}}
+=\lim_{n\to \infty}\frac{1-v^n}{i}=\boxed{\frac{1}{i}}.
+\]
+\item \label{it:pv-perpetuity-due}
+Likewise, the PV of a perpetuity-due is
+\[
+\ax**{\angl{\infty}}=\sum_{n=0}^{\infty}v^n=\lim_{n\to \infty}\ax**{\angl{n}}
+=\lim_{n\to \infty}\frac{1-v^n}{d}=\boxed{\frac{1}{d}}.
+\]
+\end{enumerate}
+\subsection{Annuities With CFs Less Frequent Than ``Each Period''}
+\label{subsect:annuities-less-freq}
+\begin{enumerate}
+\item Consider here annuities with CFs made \emph{each \(k\) periods}, where
+\(k>1\) is an integer. In this case, we can also develop formulas for
+annuity/perpetuity-immediate and annuity/perpetuity-due, by ``adjusting'' the
+formulas mentioned in \cref{subsect:annuity-imm-due,subsect:perpetuity}.
+\item First, we discuss \(n\)-period annuities with such CF frequency. Here we
+shall assume that \(n\) is divisible by \(k\) (so that \(n/k\in\N\)).
+\item For an \(n\)-period annuity-immediate (due) with such CF frequency, the cash
+inflows are made at the end (beginning) of \emph{each \(k\) periods}, for \(n\)
+periods. (So there are \(n/k\in\N\) cash inflows in total.)
+
+\begin{note}
+For a perpetuity-immediate (due) with such CF frequency, it is defined in a
+similar manner as before: the respective annuity-immediate (due) with cash
+inflows lasting forever.
+\end{note}
+\item An important trick to derive formulas in this kind of case (different CF
+frequencies) is called \defn{\(j\)-method}. The procedure is as follows:
+\begin{enumerate}
+\item Find the \emph{\(k\)-period} interest rate \(j\) that is equivalent to the
+(1-period) interest rate \(i\) (by solving \(1+j=(1+i)^k\) for \(j\)).
+\item Change the measurement period to \(k\) periods (1 unit of time = \(k\)
+periods now).
+\item Apply the formulas derived in
+\cref{subsect:annuity-imm-due,subsect:perpetuity} with interest rate \(j\).
+\begin{warning}
+Check the amount of each CF to see if multiplication of a constant is needed!
+\end{warning}
+\end{enumerate}
+A key benefit of this method is that it does \emph{not} require us to memorize
+another set of formulas to handle calculations in this kind of situation.
+Hence, this should be the main approach to be used in solving problems of this
+kind.
+\item Occasionally, specific ``formulas'' for this kind of situation are useful
+(and provide some ``shortcuts''). So, henceforth we will derive some formulas
+(still based on \(j\)-method mainly) for the sake of completeness.
+\item \label{it:pv-annuity-imm-less-freq}
+For the PV of an \(n\)-period annuity-immediate with such CF frequency (amount of each CF = 1):
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {\(k\)};
+\node[] () at (4,-0.5) {\(2k\)};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-k\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (10,0.5) {\(+1\)};
+\node[draw] () at (6,1.5) {interest rate per unit of time: \(i\)};
+\end{tikzpicture}
+\end{center}
+Now, using \(j\)-method, we change the measurement period (divide each of the
+time above by \(k\)) and get:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(\displaystyle \frac{n}{k}-1\)};
+\node[] () at (10,-0.5) {\(\displaystyle \frac{n}{k}\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+1\)};
+\node[] () at (8,0.5) {\(+1\)};
+\node[] () at (10,0.5) {\(+1\)};
+\node[draw] () at (6,1.5) {interest rate per unit of time: \(j\)};
+\end{tikzpicture}
+\end{center}
+Applying the equivalency relation between \(i\) and \(j\), we can get its PV:
+\[
+\ax{\angl{n/k}j}=\frac{1-(1+j)^{-n/k}}{j}
+=\frac{1-(1+i)^{-n}}{(1+i)^k-1}=\frac{1-v^n}{i}\cdot\frac{i}{(1+i)^k-1}
+=\boxed{\frac{\ax{\angl{n}i}}{\sx{\angl{k}i}}}.
+\]
+\begin{note}
+The ``\(j\)'' in the notation is to signify the interest rate (per unit of
+time) used is \(j\).
+\end{note}
+
+\item \label{it:pv-annuity-due-less-freq}
+For the PV of an \(n\)-period annuity-due with such CF frequency (amount of
+each CF = 1), applying the \(j\)-method and then using the previous relation
+with annuity-immediate (``shifting'') gives its PV:
+\[
+\ax**{\angl{n/k}j}=(1+j)\ax{\angl{n/k}j}=(1+i)^{k}\frac{\ax{\angl{n}i}}{\sx{\angl{k}i}}
+=\boxed{\frac{\ax{\angl{n}i}}{\ax{\angl{k}i}}}.
+\]
+\item\label{it:pv-perpetuities-less-freq}
+Next, we can easily obtain formulas for PVs of perpetuity-immediate and
+perpetuity-due with such CF frequency (amount of each CF = 1):
+\begin{itemize}
+\item perpetuity-immediate: \(\displaystyle \text{PV}=\lim_{n\to \infty}\frac{\ax{\angl{n}i}}{\sx{\angl{k}i}}
+=\frac{\ax{\angl{\infty}i}}{\sx{\angl{k}i}}=\boxed{\frac{1}{i\sx{\angl{k}i}}}\);
+\item perpetuity-due: \(\displaystyle \text{PV}=\lim_{n\to \infty}\frac{\ax{\angl{n}i}}{\ax{\angl{k}i}}
+=\frac{\ax{\angl{\infty}i}}{\ax{\angl{k}i}}=\boxed{\frac{1}{i\ax{\angl{k}i}}}\).
+\end{itemize}
+\end{enumerate}
+\subsection{Annuities With CFs More Frequent Than ``Each Period''}
+\begin{enumerate}
+\item Consider here annuities with CFs made \emph{each \(1/m\) of a period}, where
+\(m>1\) is an integer. Likewise we can use \(j\)-method in this case \begin{warning}
+Be careful about the amount of each CF!
+\end{warning}, and we shall derive some formulas based on it (which are more
+commonly used than the ones in \cref{subsect:annuities-less-freq}).
+
+\item For an \(n\)-period annuity-immediate (due) with such CF frequency, the
+cash inflows are made at the end (beginning) of \emph{each \(1/m\) of a
+period}, for \(n\) periods. (So there are \(mn\in\N\) cash inflows in total.)
+
+\item \label{it:pv-av-annuity-imm-more-freq}
+For an \(n\)-period annuity-immediate with such CF frequency (amount of each CF
+= \(1/m\) \warn):
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {\(1/m\)};
+\node[] () at (4,-0.5) {\(2/m\)};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1/m\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+1/m\)};
+\node[] () at (4,0.5) {\(+1/m\)};
+\node[] () at (8,0.5) {\(+1/m\)};
+\node[] () at (10,0.5) {\(+1/m\)};
+\node[draw] () at (6,1.5) {interest rate per unit of time: \(i\)};
+\end{tikzpicture}
+\end{center}
+Now again we change the measurement period:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(mn-1\)};
+\node[] () at (10,-0.5) {\(mn\)};
+\node[] () at (2,0.5) {\(+1/m\)};
+\node[] () at (4,0.5) {\(+1/m\)};
+\node[] () at (8,0.5) {\(+1/m\)};
+\node[] () at (10,0.5) {\(+1/m\)};
+\node[draw] () at (6,1.5) {interest rate per unit of time: \(j\)};
+\end{tikzpicture}
+\end{center}
+\begin{note}
+To get the interest rate \(j\), we solve \(1+j=(1+i)^{1/m}\) for \(j\).
+\end{note}
+
+Hence, the PV is
+\[
+\ax{\angl{n}}[(m)]
+=\frac{1}{m}\ax{\angl{mn}j}
+=\frac{1}{m}\cdot\frac{1-(1+j)^{-mn}}{j}
+=\frac{1-(1+i)^{-n}}{m\qty[(1+i)^{1/m}-1]}
+=\boxed{\frac{1-v^n}{i^{(m)}}}.
+\]
+Thus, by ``shifting'', the time-\(n\) accumulated value is
+\[
+\sx{\angl{n}}[(m)]
+=\ax{\angl{n}}[(m)]\underbrace{(1+i)^n}_{\mathclap{\text{or }(1+j)^{mn}}}
+=\boxed{\frac{(1+i)^n-1}{i^{(m)}}}.
+\]
+\item \label{it:pv-av-annuity-due-more-freq}
+For an \(n\)-period annuity-due with such CF frequency (amount of each CF =
+\(1/m\)), we can likewise apply the \(j\)-method and use the previous relation
+with annuity-immediate to get its PV:
+\[
+\ax**{\angl{n}}[(m)]=\frac{1}{m}\ax**{\angl{mn}j}
+=\frac{1}{m}(1+j)\ax{\angl{mn}j}
+=\underbrace{(1+j)}_{(1+i)^{1/m}}\cdot\frac{1-v^n}{i^{(m)}}
+=\frac{1-v^n}{(1+i)^{-1/m}\cdot \underbrace{m[(1+i)^{1/m}-1]}_{i^{(m)}}}
+=\boxed{\frac{1-v^n}{d^{(m)}}}
+\]
+since \(\displaystyle \qty(1-\frac{d^{(m)}}{m})^{-m}=1+i\implies d^{(m)}=m\qty[1-(1+i)^{-1/m}]\).
+
+Similarly, its time-\(n\) accumulated value is
+\[
+\sx**{\angl{n}}[(m)]=\ax**{\angl{n}}[(m)](1+i)^{n}=\boxed{\frac{(1+i)^n-1}{d^{(m)}}}.
+\]
+\begin{mnemonic}
+The PV of an \(n\)-period annuity {\color{magenta}i}mmediate
+({\color{magenta}d}ue) (amount of each CF = \(1/m\)) with such CF frequency is
+\(\displaystyle \frac{1-v^n}{{\color{magenta}i^{(m)}}}\) (\(\displaystyle
+\frac{1-v^n}{{\color{magenta}d^{(m)}}}\)).
+\end{mnemonic}
+
+\item \label{it:pv-perpetuities-more-freq}
+Next, we can similarly obtain formulas for PVs of perpetuity-immediate and
+perpetuity-due with such CF frequency (amount of each CF = \(1/m\)):
+\begin{itemize}
+\item perpetuity-immediate: \(\displaystyle \text{PV}=\lim_{n\to \infty}\ax{\angl{n}}[(m)]
+=\boxed{\frac{1}{i^{(m)}}}\);
+\item perpetuity-due: \(\displaystyle \text{PV}=\lim_{n\to \infty}\ax**{\angl{n}}[(m)]
+=\boxed{\frac{1}{d^{(m)}}}\).
+\end{itemize}
+\end{enumerate}
+\subsection{Continuous Annuities}
+\label{subsect:cts-annuity}
+\begin{enumerate}
+\item Loosely speaking, a \emph{continuous annuity} is an annuity with
+``infinitesimal'' CFs made ``\emph{each \(1/\infty\) of a period}''
+(\emph{continuously}). The ``total amount'' of those ``infinitesimal'' CFs for
+one period is the \defn{rate of CFs}.
+\item \label{it:pv-av-cts-annuity}
+Under \emph{constant} force of interest \(\delta\) (equivalent to the rate
+\(i\)), for an \(n\)-period continuous annuity (rate of cash inflows = 1), the
+PV can be obtained as the limit
+\[
+\ax*{\angl{n}}=\lim_{m\to \infty}\ax{\angl{n}}[(m)]=\lim_{m\to \infty}\frac{1-v^n}{i^{(m)}}
+=\boxed{\frac{1-v^n}{\delta}}.
+\]
+\begin{remark}
+\item The nominal rate \(i^{(m)}\) is equivalent to the rate \(i\) for every \(m\),
+so it approaches \(\delta\) as \(m\to\infty\).
+\item This is also equal to the limit \(\lim_{m\to \infty}\ax**{\angl{n}}[(m)]\) 
+as we also have \(\lim_{m\to \infty}d^{(m)}=\delta\) (where the nominal rate
+\(d^{(m)}\) is equivalent to the rate \(i\) for every \(m\)).
+\end{remark}
+
+For the time-\(n\) accumulated value, applying ``shifting'' argument to the
+expression in the limit gives
+\[
+\sx*{\angl{n}}=\lim_{m\to \infty}\ax{\angl{n}}[(m)](1+i)^n
+=\ax*{\angl{n}}(1+i)^n
+=\boxed{\frac{(1+i)^n-1}{\delta}}.
+\]
+
+\item \label{it:pv-varying-foi-cts-annuity}
+In general, under \emph{varying} force of interest \(\delta_t\) (as
+a function of time \(t\)), the formula for PV of an \(n\)-period continuous
+annuity (rate of cash inflows = 1) is given by
+\[
+\int_{0}^{n}a^{-1}(t)\dd{t}
+=\int_{0}^{n}\exp(-\int_{0}^{t}\delta_s\dd{s})\dd{t}
+\]
+(which may be seen as following from the definition).
+
+\begin{intuition}
+In each infinitesimal time interval \([t,t+\dd{t}]\), the PV of the ``stream''
+of cash inflows during the interval (total amount: \(\text{rate}\times\text{time length}=1\times \dd{t}=\dd{t}\)) is
+\[{\color{brown}\text{total amount}}\times{\color{violet}\text{discount factor}}
+={\color{violet}a^{-1}(t)}{\color{brown}\dd{t}}.\]
+``Summing'' all the PVs up then gives the total PV:
+\[
+\int_{0}^{n}a^{-1}(t)\dd{t}.
+\]
+\end{intuition}
+\end{enumerate}
+\subsection{Annuities With CFs Varying in Arithmetic Sequence}
+\begin{enumerate}
+\item Even among annuities with CFs varying in arithmetic sequence, we can
+divide them into different groups (by the frequency of CFs). In this section we
+will discuss the following groups:
+\begin{itemize}
+\item ``each period'' (one CF per period)
+\item ``each \(k\) periods'' (``less frequent'')
+\item ``each \(1/m\) of a period'' (``more frequent'')
+\end{itemize}
+We shall focus on \emph{annuity-immediate} here.
+\begin{note}
+The formulas (notations) can be easily translated for the annuity-due case, by
+``shifting'' (adding two dots on top of \(a\)).
+\end{note}
+\subsubsection*{``Each Period''}
+\item \label{it:annuity-as-gen-form}
+In this case, for an \(n\)-period annuity-immediate with such CF pattern,
+the cash inflows at time \(1,\dotsc,n\) are \(P, P+Q, P+2Q,\dotsc,P+(n-1)Q\)
+respectively (where the constants \(P\) and \(Q\) are such that all quantities
+involved are nonnegative).
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+P\)};
+\node[] () at (4,0.5) {\(+P+Q\)};
+\node[font=\small] () at (7.5,0.5) {\(+P+(n-2)Q\)};
+\node[font=\small] () at (10.5,0.5) {\(+P+(n-1)Q\)};
+\end{tikzpicture}
+\end{center}
+\item To find its PV, we use the following result
+\begin{proposition}
+\label{prp:pv-as-annuity-imm}
+The PV of this kind of \(n\)-period annuity-immediate is
+\[
+P\ax{\angl{n}}+Q\frac{\ax{\angl{n}}-nv^n}{i}.
+\]
+\end{proposition}
+\begin{pf}
+Firstly, the PV is
+\begin{align*}
+&Pv+(P+Q)v^{2}+(P+2Q)v^{3}+\dotsb+(P+(n-1)Q)v^{n} \\
+&\quad=P(v+v^2+v^3+\dotsb+v^n)+Q(\underbrace{v^2+2v^3+\dotsb+(n-1)v^n}_{u}) \\
+&\quad=P\ax{\angl{n}}+Qu.
+\end{align*}
+It then suffices to show that \(\displaystyle u=\frac{\ax{\angl{n}}-nv^n}{i}\).
+Now, we use the following trick:
+\begin{align*}
+(1+i)u-u = v&+2v^2+3v^3+\dotsb+(n-1)v^{n-1}\\
+& -v^2-2v^3-\dotsb-(n-2)v^{n-1}{\color{violet}-(n-1)v^n} \\
+=v&+v^2+v^3+\dotsb+v^{n-1}+{\color{violet}v^n-nv^n}
+=\ax{\angl{n}}-nv^n,
+\end{align*}
+as desired.
+\end{pf}
+
+\item \label{it:pv-av-incr-decr-annuities}
+Now we introduce some special cases (with names and special notations):
+\begin{itemize}
+\item \defn{\(n\)-period increasing annuity} (\(P=1, Q=1\)):
+\[
+\text{PV}=\Ia_{\angl{n}}=
+\ax{\angl{n}}+\frac{\ax{\angl{n}}-nv^n}{i}
+=\frac{(1+i)\ax{\angl{n}}-nv^n}{i}
+=\boxed{\frac{\ax**{\angl{n}}-nv^n}{i}},
+\]
+and (by ``shifting'')
+\[
+\text{time-\(n\) AV}=\Is_{\angl{n}}=\Ia_{\angl{n}}(1+i)^n=\boxed{\frac{\sx**{\angl{n}}-n}{i}}.
+\]
+\item \defn{\(n\)-period decreasing annuity} (\(P=n, Q=-1\)):
+\[
+\text{PV}=\Da_{\angl{n}}=
+n\underbrace{\ax{\angl{n}}}_{\mathclap{(1-v^n)/i}}-\frac{\ax{\angl{n}}-nv^n}{i}
+=\frac{n-nv^n-\ax{\angl{n}}+nv^n}{i}
+=\boxed{\frac{n-\ax{\angl{n}}}{i}},
+\]
+and (by ``shifting'')
+\[
+\text{time-\(n\) AV}=\Ds_{\angl{n}}=\Da_{\angl{n}}(1+i)^n=\boxed{\frac{n(1+i)^n-\sx{\angl{n}}}{i}}.
+\]
+\end{itemize}
+
+\item We can obtain another set of PV formulas for the increasing and
+decreasing annuities using ``horizontal view'' and ``splitting''.
+
+\item \label{it:pv-incr-annuity-alt}
+For increasing annuity:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[brown] () at (2,0.5) {\(+1\)};
+\node[brown] () at (4,0.5) {\(+1\)};
+\node[brown] () at (8,0.5) {\(+1\)};
+\node[brown] () at (10,0.5) {\(+1\)};
+\node[violet] () at (4,1) {\(+1\)};
+\node[violet] () at (8,1) {\(+1\)};
+\node[violet] () at (10,1) {\(+1\)};
+\node[] () at (8,1.5) {\(\vdots\)};
+\node[] () at (10,1.5) {\(\vdots\)};
+\node[blue] () at (8,2) {\(+1\)};
+\node[blue] () at (10,2) {\(+1\)};
+\node[magenta] () at (10,2.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+From this we can express the PV of an \(n\)-period increasing annuity as
+\[
+{\color{brown}\ax{\angl{n}}}
++{\color{violet}v\ax{\angl{n-1}}}
++\dotsb+
++{\color{blue}v^{n-1}\ax{\angl{2}}}
++{\color{magenta}v^{n}\ax{\angl{1}}}
+=\sum_{t=0}^{{\color{Maroon}n-1}}v^t\ax{\angl{n-t}}
+\]
+(by ``shifting'' cash inflows in each row such that the first one is at time 1).
+
+\item \label{it:pv-decr-annuity-alt}
+For decreasing annuity:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[brown] () at (2,0.5) {\(+1\)};
+\node[brown] () at (4,0.5) {\(+1\)};
+\node[brown] () at (8,0.5) {\(+1\)};
+\node[brown] () at (10,0.5) {\(+1\)};
+\node[violet] () at (2,1) {\(+1\)};
+\node[violet] () at (4,1) {\(+1\)};
+\node[violet] () at (8,1) {\(+1\)};
+\node[] () at (2,1.5) {\(\vdots\)};
+\node[] () at (4,1.5) {\(\vdots\)};
+\node[blue] () at (2,2) {\(+1\)};
+\node[blue] () at (4,2) {\(+1\)};
+\node[magenta] () at (2,2.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+From this we can likewise express the PV of an \(n\)-period decreasing annuity as
+\[
+{\color{brown}\ax{\angl{n}}}
++{\color{violet}\ax{\angl{n-1}}}
++\dotsb+
++{\color{blue}\ax{\angl{2}}}
++{\color{magenta}\ax{\angl{1}}}
+=\sum_{t=0}^{{\color{Maroon}n-1}}\ax{\angl{n-t}}.
+\]
+\begin{note}
+Here we do not even need ``shifting''!
+\end{note}
+
+\item \label{it:pv-as-perpetuity-imm}
+We can also develop a formula for \emph{perpetuity-immediate} with the
+CF pattern in \labelcref{it:annuity-as-gen-form}, i.e., cash inflows at time
+\(1,2,\dotsc,\) are \(P,P+Q,\dotsc\) respectively:
+\[
+\text{PV}=\lim_{n\to \infty}\qty(P\ax{\angl{n}}+Q\cdot\frac{\ax{\angl{n}}-nv^n}{i})
+=\frac{P}{i}+\frac{Q\ax{\angl{\infty}}}{i}
+=\boxed{\frac{P}{i}+\frac{Q}{i^2}}.
+\]
+\item As a special case, the PV of an \defn{increasing perpetuity} (increasing
+annuity whose cash inflows last forever) is
+\[
+\Ia_{\angl{\infty}}=\lim_{n\to \infty}\frac{\ax**{\angl{n}}-nv^n}{i}
+=\frac{\ax**{\angl{\infty}}}{i}
+=\frac{1}{id}.
+\]
+\begin{remark}
+\item An intuitive reason for \(\lim_{n\to \infty}nv^n=0\) is that as \(n\to\infty\),
+the ``speed'' at which \(v^n\) drops to zero (exponential) is higher than the
+``speed'' at which \(n\) approaches infinity (linear). Formally, one can use
+L'H\^{o}pital's rule to show this.
+\item There is not ``decreasing perpetuity'' since negative cash
+inflow is not allowed.
+\end{remark}
+
+\subsubsection*{``Each \(k\) Periods''}
+\item Here consider an \(n\)-period annuity-immediate where the cash inflows at
+time \(k,2k,\dotsc,n\) are \(1, 2,\dotsc,n/k\) respectively (assuming \(n\) is
+divisible by \(k\)).
+\item \label{it:pv-annuity-incr-each-k}
+To determine its PV, we can use \(j\)-method (the \(k\)-period rate \(j\) is
+found by solving \(1+j=(1+i)^k\)) and apply the formula for PV of \(n\)-period
+increasing annuity in \labelcref{it:pv-av-incr-decr-annuities}:
+\[
+\text{PV}=(Ia)_{\angl{n/k}j}=\frac{\ax**{\angl{n/k}j}-(n/k)(1+j)^{-n/k}}{j}
+=\boxed{\frac{\frac{\ax{\angl{n}i}}{\ax{\angl{k}i}}-\frac{n}{k}v^n}{(1+i)^k-1}}.
+\]
+
+\subsubsection*{``Each \(1/m\) of a Period''}
+\item We shall analyze two kinds of annuity-immediate under this case, that have
+different CF patterns (despite having the same CF frequency):
+\begin{enumerate}
+\item amount of CF increases by \(1/m\) per period:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (1,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (7,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (9,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (5.5,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (1,0.5) {\(+\frac{1}{m}\)};
+\node[] () at (2,0.5) {\(+\frac{1}{m}\)};
+\node[] () at (3,0.5) {\(+\frac{2}{m}\)};
+\node[draw, brown] () at (3,1.2) {\(\uparrow\frac{1}{m}\)};
+\node[] () at (4,0.5) {\(+\frac{2}{m}\)};
+\node[] () at (5.5,0.5) {\(\cdots\)};
+\node[draw, brown] () at (7,1.2) {\(\uparrow\frac{1}{m}\)};
+\node[] () at (7,0.5) {\(+\frac{n-1}{m}\)};
+\node[] () at (8,0.5) {\(+\frac{n-1}{m}\)};
+\node[draw, brown] () at (9,1.2) {\(\uparrow\frac{1}{m}\)};
+\node[] () at (9,0.5) {\(+\frac{n}{m}\)};
+\node[] () at (10,0.5) {\(+\frac{n}{m}\)};
+\end{tikzpicture}
+\end{center}
+\item \label{it:1m-annuity-incr-each-1m} amount of CF increases by \(1/m^2\) per \(1/m\) of a period:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (1,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (7,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (9,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (5.5,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (1,0.5) {\(+\frac{1}{m^2}\)};
+\node[] () at (2,0.5) {\(+\frac{2}{m^2}\)};
+\node[draw, brown, font=\small] () at (2,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[] () at (3,0.5) {\(+\frac{3}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (3,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[] () at (4,0.5) {\(+\frac{4}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (4,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[] () at (6,0.5) {\(\cdots\)};
+\node[font=\small] () at (7,0.5) {\(+\frac{mn-3}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (7,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[font=\small] () at (8,0.5) {\(+\frac{mn-2}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (8,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[font=\small] () at (9,0.5) {\(+\frac{mn-1}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (9,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\node[font=\small] () at (10,0.5) {\(+\frac{mn}{m^{2}}\)};
+\node[draw, brown, font=\small] () at (10,1.2) {\(\uparrow\frac{1}{m^{2}}\)};
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+
+\item \label{it:pv-1m-annuity-incr-each-per}
+For the first kind where the amount of CF increases by \(1/m\) per
+period, we can perform a ``shifting'' trick to derive its PV formula. First we
+``shift'' the CFs in the following way:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (1,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (7,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (9,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (5.5,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (1,0.5) {\(+\frac{1}{m}\)};
+\node[] () at (2,0.5) {\(+\frac{1}{m}\)};
+\node[] () at (3,0.5) {\(+\frac{2}{m}\)};
+\node[] () at (4,0.5) {\(+\frac{2}{m}\)};
+\node[] () at (5.5,0.5) {\(\cdots\)};
+\node[] () at (7,0.5) {\(+\frac{n-1}{m}\)};
+\node[] () at (8,0.5) {\(+\frac{n-1}{m}\)};
+\node[] () at (9,0.5) {\(+\frac{n}{m}\)};
+\node[] () at (10,0.5) {\(+\frac{n}{m}\)};
+
+\draw[-Latex] (0,-2) -- (12,-2);
+\draw[fill] (0,-2) circle [radius=0.5mm];
+\draw[fill] (2,-2) circle [radius=0.5mm];
+\draw[fill] (4,-2) circle [radius=0.5mm];
+\draw[fill] (8,-2) circle [radius=0.5mm];
+\draw[fill] (10,-2) circle [radius=0.5mm];
+\node[] () at (0,-2.5) {0};
+\node[] () at (2,-2.5) {1};
+\node[] () at (4,-2.5) {2};
+\node[] () at (5.5,-2.5) {\(\cdots\)};
+\node[] () at (8,-2.5) {\(n-1\)};
+\node[] () at (10,-2.5) {\(n\)};
+\node[] () at (2,-1.5) {\(+\sx{\angl{1}}[(m)]\)};
+\node[] () at (4,-1.5) {\(+2\sx{\angl{1}}[(m)]\)};
+\node[] () at (5.5,-1.5) {\(\cdots\)};
+\node[] () at (8,-1.5) {\(+(n-1)\sx{\angl{1}}[(m)]\)};
+\node[] () at (10,-1.5) {\(+n\sx{\angl{1}}[(m)]\)};
+
+\draw[-Latex, violet] (1.2,0.3) -- (2,-1.3);
+\draw[-Latex, violet] (2.0,0.3) -- (2,-1.3);
+\draw[-Latex, violet] (3.2,0.3) -- (4,-1.3);
+\draw[-Latex, violet] (4.0,0.3) -- (4,-1.3);
+\draw[-Latex, violet] (7.2,0.3) -- (8,-1.3);
+\draw[-Latex, violet] (8.0,0.3) -- (8,-1.3);
+\draw[-Latex, violet] (9.2,0.3) -- (10,-1.3);
+\draw[-Latex, violet] (10.0,0.3) -- (10,-1.3);
+
+\node[] () at (6,1.5) {Original};
+\node[] () at (6,-3) {Shifted};
+\end{tikzpicture}
+\end{center}
+From this, we know that its PV is
+\[
+\Ia_{\angl{n}}^{(m)}=\sx{\angl{1}}[(m)]\Ia_{\angl{n}}
+=\frac{(1+i)-1}{i^{(m)}}\Ia_{\angl{n}}=\frac{i}{i^{(m)}}\frac{\ax**{\angl{n}}-nv^n}{i}
+=\boxed{\frac{\ax**{\angl{n}}-nv^n}{i^{(m)}}}.
+\]
+\begin{mnemonic}
+The expression is \(\Ia_{\angl{n}}\) with \(i\to i^{(m)}\).
+\end{mnemonic}
+
+\item \label{it:pv-1m-annuity-incr-each-1m}
+For the second kind where the amount of CF increases by \(1/m^2\) per \(1/m\)
+of a period, we can use \(j\)-method to derive its PV formula (the rate \(j\)
+for \(1/m\) of a period can be found by solving \(1+j=(1+i)^{1/m}\) for \(j\)):
+\[
+\text{PV}=(I^{(m)}a)_{\angl{n}}^{(m)}=
+\frac{1}{m^2}\Ia_{\angl{mn}j}
+=\frac{1}{m^2}\cdot\frac{\overbrace{\ax**{\angl{mn}j}}^{m\ax**{\angl{n}i}[(m)]}-mn(1+j)^{-mn}}{\underbrace{j}_{i^{(m)}/m}}
+=\boxed{\frac{\ax**{\angl{n}}[(m)]-nv^n}{i^{(m)}}}.
+\]
+\begin{mnemonic}
+The expression is \(\Ia_{\angl{n}}^{(m)}\) with \(\ax**{\angl{n}}\to \ax**{\angl{n}}[(m)]\).
+\end{mnemonic}
+\end{enumerate}
+\subsection{Continuous Annuities With CFs Varying Continuously}
+\begin{enumerate}
+\item In \cref{subsect:cts-annuity}, we assume that the rate of cash inflows
+for \(n\)-period continuous annuity stays at a constant 1. Here we consider a
+more general case where the rate can vary as a function of time \(t\) (``vary
+continuously'').
+\item We first consider a special case where the rate is \(t\) at time \(t\)
+and we have a constant force of interest \(\delta\). We can observe that this
+case can be regarded as the limit of \labelcref{it:1m-annuity-incr-each-1m} as
+\(m\to\infty\). Hence, its PV is
+\[
+(\bar{I}\bar{a})_{\angl{n}}=\lim_{m\to \infty}(I^{(m)}a)_{\angl{n}}^{(m)}
+=\lim_{m\to \infty}\frac{\ax**{\angl{n}}[(m)]-nv^n}{i^{(m)}}
+=\frac{\ax*{\angl{n}}-nv^n}{\delta}.
+\]
+\item The general case is that the rate is \(g(t)\) at time \(t\) for some
+function \(g\), and we have a varying force of interest \(\delta_t\) (as a
+function of \(t\)). In this case, the PV is
+\[
+\int_{0}^{n}g(t)a^{-1}(t)\dd{t}
+=\int_{0}^{n}g(t)\exp(-\int_{0}^{t}\delta_s\dd{s})\dd{t}
+\]
+(which may be seen as following from the definition).
+
+\begin{intuition}
+In each infinitesimal time interval \([t,t+\dd{t}]\), the PV of the ``stream''
+of cash inflows during the interval (total amount: \(\text{rate}\times\text{time length}=g(t)\dd{t}\)) is
+\[{\color{brown}\text{total amount}}\times{\color{violet}\text{discount factor}}
+={\color{brown}g(t)}{\color{violet}a^{-1}(t)}{\color{brown}\dd{t}}.\]
+``Summing'' all the PVs up then gives the total PV:
+\[
+\int_{0}^{n}g(t)a^{-1}(t)\dd{t}.
+\]
+\end{intuition}
+\end{enumerate}
+\subsection{Annuities With CFs Varying in Geometric Sequence}
+\begin{enumerate}
+\item Apart from arithmetic sequence, the CFs in an annuity can also vary in a
+\emph{geometric sequence}. But in such case, for most calculations, using the
+\emph{geometric series formula} would be sufficient:
+\[
+a+ar+ar^2+\dotsb+ar^{n-1}
+=
+\begin{cases}
+\displaystyle\frac{a(1-r^n)}{1-r}&\text{if \(r\ne 1\)};\\
+an&\text{if \(r=1\)}.
+\end{cases}
+\]
+(One just needs to be careful about what the common ratio \(r\) is.)
+
+\item \label{it:pv-gs-annuity-imm}
+But for the sake of completeness, here we will derive some formulas in
+this case. Consider an \(n\)-period annuity-immediate where the cash inflows at
+time \(1,2,\dotsc,n\) are \(1,(1+k),\dotsc,(1+k)^{n-1}\) with \(k> -1\) (to
+avoid negative cash inflow) respectively. Then, its PV is \[
+v+(1+k)v^2+\dotsb+(1+k)^{n-1}v^n=
+\begin{cases}
+nv&\text{if \(i=k\)};\\
+\displaystyle \frac{v[1-(v(1+k))^{n}]}{1-v(1+k)}&\text{if \(i\ne k\)}.
+\end{cases}
+\]
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (2,0.5) {\(+1\)};
+\node[] () at (4,0.5) {\(+(1+k)\)};
+\node[] () at (8,0.5) {\(+(1+k)^{n-2}\)};
+\node[] () at (10,0.5) {\(+(1+k)^{n-1}\)};
+\end{tikzpicture}
+\end{center}
+\item For \emph{perpetuity-immediate} whose cash inflows at time
+\(1,2,\dotsc,\) are \(1,(1+k),\dotsc\) (assuming \(i\ne k\) and \(k> -1\))
+respectively, its PV is
+\[
+\lim_{n\to \infty}\frac{v[1-(v(1+k))^{n}]}{1-v(1+k)}
+=\frac{v}{1-v(1+k)}
+=\frac{1}{1+i-1-k}
+=\frac{1}{i-k}.
+\]
+\end{enumerate}
+\subsection{Rainbow Immediate}
+\begin{enumerate}
+\item Starting from here, we will discuss some annuities that are ``exotic'' in
+terms of CF pattern. The first one is known as \emph{rainbow immediate}, whose
+CF pattern looks like a ``rainbow'':
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (\x,-0.5) {\x};}
+\draw[opacity=0.4, red, line width=0.2cm, line cap=round, rounded corners=0.5cm] (1,0.5) -- (5,2.6) -- (9,0.5);
+\draw[opacity=0.4, orange!50!yellow, line width=0.2cm, line cap=round, rounded corners=0.5cm] (2,0.5) -- (5,2.1) -- (8,0.5);
+\draw[opacity=0.4, green, line width=0.2cm, line cap=round, rounded corners=0.5cm] (3,0.5) -- (5,1.6) -- (7,0.5);
+\draw[opacity=0.4, blue, line width=0.2cm, line cap=round, rounded corners=0.5cm] (4,0.5) -- (5,1.1) -- (6,0.5);
+\draw[opacity=0.4, violet, line width=0.2cm, line cap=round, rounded corners=0.5cm] (4.7,0.5) -- (5,0.7) -- (5.3,0.5);
+\foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,8}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,7}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,6}\node[] () at (\x,2) {\(+1\)};
+\node[] () at (5,2.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+\item More precisely, an \defn{\(2n-1\)-period rainbow immediate} is an
+\(2n-1\)-period annuity-immediate whose CFs at time
+\(1,\dotsc,n,n+1,\dotsc,2n-1\) are \(1,\dotsc,n,n-1,\dotsc,1\) respectively.
+\item \label{it:rainbow-imm-pv-split-shift}
+There are two ways to derive its PV formula. The first way is the
+``splitting'' and ``shifting'' approach:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (\x,-0.5) {\x};}
+\draw[fill, opacity=0.4, orange!50!yellow] (0.8,0.3) -- (5.2,2.7) -- (5.2,0.3) -- cycle;
+\draw[-Latex, violet] (3.5,1.2) to[bend right] node[bend right, auto, swap]{shift} (0,0.8);
+\node[orange] () at (0,0.5) {\(\Ia_{\angl{n}}\)};
+\draw[fill, opacity=0.4, blue!50!white] (5.8,0.3) -- (9.2,0.3) -- (5.8,2.2) -- cycle;
+\draw[-Latex, violet] (7.5,1) to[bend right] node[bend right, auto, swap]{shift} (0,2);
+\node[blue] () at (0,1.5) {\(v^n\Da_{\angl{n-1}}\)};
+\foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,8}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,7}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,6}\node[] () at (\x,2) {\(+1\)};
+\node[] () at (5,2.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+From this, the PV is
+\[
+\Ia_{\angl{n}}+v^n\Da_{\angl{n-1}}.
+\]
+\item \label{it:rainbow-imm-pv-diag-horizon}
+Another way is to have a ``diagonal \& horizontal'' view and ``shifting'':
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (\x,-0.5) {\x};}
+\draw[opacity=0.4, red, line width=0.2cm, line cap=round] (1,0.5) -- (5.2,2.5);
+\draw[opacity=0.4, orange!50!yellow, line width=0.2cm, line cap=round, rounded corners=0.5cm] (2,0.5) -- (5,2.1) -- (6.2,2.1);
+\draw[opacity=0.4, green, line width=0.2cm, line cap=round, rounded corners=0.5cm] (3,0.5) -- (5,1.6) -- (7.2,1.6);
+\draw[opacity=0.4, blue, line width=0.2cm, line cap=round, rounded corners=0.5cm] (4,0.5) -- (5,1.1) -- (8.2,1.1);
+\draw[opacity=0.4, violet, line width=0.2cm, line cap=round] (5,0.5) -- (9.2,0.5);
+\foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,8}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,7}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,6}\node[] () at (\x,2) {\(+1\)};
+\node[] () at (5,2.5) {\(+1\)};
+
+\draw[-Latex] (0,-2) -- (12,-2);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,-2) circle [radius=0.5mm];
+\node[] () at (\x,-2.5) {\x};}
+\node[red] () at (1,-1.5) {\(+\ax**{\angl{n}}\)};
+\node[orange!50!yellow] () at (2,-1.5) {\(+\ax**{\angl{n}}\)};
+\node[green!80!black] () at (3,-1.5) {\(+\ax**{\angl{n}}\)};
+\node[blue] () at (4,-1.5) {\(+\ax**{\angl{n}}\)};
+\node[violet] () at (5,-1.5) {\(+\ax**{\angl{n}}\)};
+
+\draw[-Latex, brown] (1.5,0.7) -- (1.1,-1.1);
+\draw[-Latex, brown] (2.5,0.7) -- (2.1,-1.1);
+\draw[-Latex, brown] (3.5,0.7) -- (3.1,-1.1);
+\draw[-Latex, brown] (4.5,0.7) -- (4.1,-1.1);
+\draw[-Latex, brown] (5.5,0.5) -- (5.1,-1.1);
+\node[brown] () at (6,-1.1) {shift};
+\end{tikzpicture}
+\end{center}
+From this, we know that the PV is \(\ax**{\angl{n}}\ax{\angl{n}}\).
+\end{enumerate}
+\subsection{Paused Rainbow Immediate}
+\begin{enumerate}
+\item The next annuity is \emph{paused rainbow immediate}, whose
+CF pattern looks like a ``rainbow'' with a ``pause'' at the middle:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,10} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (\x,-0.5) {\x};}
+\draw[opacity=0.4, red, line width=0.2cm, line cap=round, rounded corners=0.5cm] (1,0.5) -- (5,2.6) -- (6,2.6) -- (10,0.5);
+\draw[opacity=0.4, orange!50!yellow, line width=0.2cm, line cap=round, rounded corners=0.5cm] (2,0.5) -- (5,2.1) -- (6,2.1) -- (9,0.5);
+\draw[opacity=0.4, green, line width=0.2cm, line cap=round, rounded corners=0.5cm] (3,0.5) -- (5,1.6) -- (6,1.6) -- (8,0.5);
+\draw[opacity=0.4, blue, line width=0.2cm, line cap=round, rounded corners=0.5cm] (4,0.5) -- (5,1.1) -- (6,1.1) -- (7,0.5);
+\draw[opacity=0.4, violet, line width=0.2cm, line cap=round, rounded corners=0.5cm] (4.7,0.5) -- (5,0.7) -- (6,0.7) -- (6.3,0.5);
+\foreach \x in {1,...,10}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,9}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,8}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,7}\node[] () at (\x,2) {\(+1\)};
+\foreach \x in {5,...,6}\node[] () at (\x,2.5) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+
+\item More precisely, an \defn{\(2n\)-period paused rainbow immediate} is an
+\(2n\)-period annuity-immediate whose CFs at time
+\(1,\dotsc,n,n+1,\dotsc,2n-1\) are \(1,\dotsc,n,n,\dotsc,1\) respectively.
+
+\item \label{it:paused-rainbow-imm-pv-fmlas}
+In a similar manner as
+\labelcref{it:rainbow-imm-pv-split-shift,it:rainbow-imm-pv-diag-horizon}, we
+can derive two formulas for PV of an \(n\)-period paused rainbow immediate:
+\begin{itemize}
+\item \(\text{PV}=\Ia_{\angl{n}}+v^n\Da_{\angl{n}}\);
+\item \(\text{PV}=\ax**{\angl{n+1}}\ax{\angl{n}}\).
+\end{itemize}
+\end{enumerate}
+\subsection{``Paused-from-time-\(m\)'' Increasing Annuity}
+\begin{enumerate}
+\item The last ``exotic'' annuity discussed here is the so-called \(n\)-period
+``paused-from-time \(m\)'' increasing annuity (this name is not standard),
+where \(m<n, m,n\in\N\).  Simply speaking, it is an \(n\)-period increasing
+annuity but the CF stays at \(m\) (``paused'') starting from time \(m\) until the end.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+}
+\node[] () at (0,-0.5) {0};
+\node[] () at (4,-0.5) {\(m\)};
+\node[] () at (9,-0.5) {\(n\)};
+\foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,9}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,9}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,9}\node[] () at (\x,2) {\(+1\)};
+\end{tikzpicture}
+\end{center}
+\item \label{it:pv-pause-from-m-incr-annuity-split-shift}
+To get its PV, we can use the ``splitting'' and ``shifting'' approach:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\foreach \x in {0,...,9} {
+\draw[fill] (\x,0) circle [radius=0.5mm];
+}
+\node[] () at (0,-0.5) {0};
+\node[] () at (4,-0.5) {\(m\)};
+\node[] () at (9,-0.5) {\(n\)};
+\draw[fill, opacity=0.4, orange!50!yellow] (0.8,0.3) -- (4.2,2.2) -- (4.2,0.3) -- cycle;
+\draw[fill, opacity=0.4, blue!50!white] (4.8,0.3) rectangle (9.2,2.2);
+\foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
+\foreach \x in {2,...,9}\node[] () at (\x,1) {\(+1\)};
+\foreach \x in {3,...,9}\node[] () at (\x,1.5) {\(+1\)};
+\foreach \x in {4,...,9}\node[] () at (\x,2) {\(+1\)};
+\draw[-Latex, violet] (3.5,1.2) to[bend right] node[bend right, auto, swap]{shift} (0,0.8);
+\node[orange] () at (0,0.5) {\(\Ia_{\angl{m}}\)};
+\draw[-Latex, violet] (7.5,1.5) to[bend right] node[bend right, auto, swap]{shift} (0,2);
+\node[blue] () at (0,1.5) {\(v^m(m\ax{\angl{n-m}})\)};
+\end{tikzpicture}
+\end{center}
+Hence, the PV is
+\[
+(I_{\angl{m}}a)_{\angl{n}}=\Ia_{\angl{m}}+v^m(m\ax{\angl{n-m}}).
+\]
+\begin{note}
+``\(I_{\angl{m}}\)'' represents ``increasing for \(m\) periods (up to time \(m\))''.
+\end{note}
+\end{enumerate}
+\subsection{Summary of Tricks and Intuition}
+\begin{enumerate}
+\item The following are tricks/intuition mentioned for deriving various
+formulas, and they are also useful in solving problems sometimes:
+\begin{enumerate}
+\item ``splitting'' and ``shifting'' (\faIcon{check} useful generally)
+\item \(j\)-method (\faIcon{check} ``more frequent''/``less frequent'' case)
+\item think in ``infinitesimal'' (\faIcon{check} continuous case)
+\item ``horizontal'' and ``diagonal'' views (\faIcon{check} varying CFs case)
+\end{enumerate}
+\end{enumerate}
+\subsection{Varying Effective Interest Rate}
+\begin{enumerate}
+\item Lastly, we discuss a general setting where the effective interest rate
+can vary and compound interest may \emph{not} be assumed throughout. In this
+case, we generally need to use ``first principle'' to compute the PV/AV of an
+annuity, namely summing the PV/AV of each CF one by one.
+\item \label{it:pv-av-annuities-varying-effective}
+To be more explicit, we have the following (general) formulas, using the
+effective interest rate notation:
+\begin{itemize}
+\item \(n\)-period annuity-immediate:
+\begin{align*}
+\text{PV}&=a^{-1}(1)+a^{-1}(2)+\dotsb+a^{-1}(n) \\
+&=\boxed{(1+i_1)^{-1}+(1+i_1)^{-1}(1+i_2)^{-1}+\dotsb+(1+i_1)^{-1}\dotsb(1+i_n)^{-1}}.
+\end{align*}
+and
+\begin{align*}
+\text{time-\(n\) AV}&=\text{PV}\cdot(1+i_1)(1+i_2)\dotsb(1+i_n) \\
+&=\boxed{1+(1+i_{n})+(1+i_{n-1})(1+i_{n})+\dotsb+(1+i_2)\dotsb(1+i_{n})}.
+\end{align*}
+\item \(n\)-period annuity-due
+\begin{align*}
+\text{PV}&=a^{-1}(0)+a^{-1}(1)+\dotsb+a^{-1}(n-1) \\
+&=\boxed{1+(1+i_1)^{-1}+\dotsb+(1+i_1)^{-1}\dotsb(1+i_{n-1})^{-1}}.
+\end{align*}
+and
+\begin{align*}
+\text{time-\(n\) AV}&=\text{PV}\cdot(1+i_1)(1+i_2)\dotsb(1+i_n). \\
+&=\boxed{(1+i_{n})+(1+i_{n-1})(1+i_{n})+\dotsb+(1+i_1)\dotsb(1+i_{n})}.
+\end{align*}
+\end{itemize}
+\end{enumerate}

@@ -351,9 +351,9 @@ amount of \faIcon{dollar-sign} in \faIcon{piggy-bank} grows ``continuously'').
 \label{subsect:present-val}
 \begin{enumerate}
 \item \emph{Present value} captures the idea of ``current worth of future
-money''. This concept is useful for answering questions like ``How much do we
-need to invest in \faIcon{piggy-bank} to have an accumulated value of 1000 at
-time 5?"
+money''. This concept is useful for answering questions like ``How much money
+do we need to invest in \faIcon{piggy-bank} now to have an accumulated value of
+1000 at time 5?"
 \item To find out the current worth, generally \emph{discounting} needs to be
 performed, which can be understood as the ``reverse process'' of accumulating
 (i.e., earning interest over time).
@@ -389,9 +389,9 @@ of multiplying by \(1+i\) (accumulating for one period)
 \faIcon{arrow-right} ``discount'' for one period.
 \end{note}
 \item Multiplying the discount factor \(v\) to an amount \faIcon{dollar-sign}
-at the end of a period gives its \emph{value} (worth) at the beginning of the
-period (i.e., the amount needed at that time in order to accumulate to
-\faIcon{dollar-sign} at the end of the period).
+(or cash inflow of that amount) at the end of a period gives its \emph{value}
+(worth) at the beginning of the period (i.e., the amount needed at that time in
+order to accumulate to \faIcon{dollar-sign} at the end of the period).
 \begin{center}
 \begin{tikzpicture}
 \draw[-Latex] (0,0) -- (10,0) node[right]{Time};
@@ -805,7 +805,8 @@ which implies \(\displaystyle 1+i=\frac{1}{1-d}\).
 
 \begin{note}
 Unless otherwise specified, we shall assume the rates \(i\) and \(d\) are
-equivalent (when we use the notations ``\(i\)'' and ``\(d\)'').
+equivalent (when we use the notations ``\(i\)'' and ``\(d\)''). (This applies
+similarly for other interest-related notations when we just write them out.)
 \end{note}
 
 \item \label{it:id-equiv-fmlas}
@@ -958,16 +959,16 @@ and
 \lim_{m\to \infty}\qty(1-\frac{d^{(\infty)}}{m})^{-mt}=e^{-d^{(\infty)}(-t)}
 =e^{d^{(\infty)}t}.
 \]
-We shall fix the values \(i^{(\infty)}\) and \(d^{(\infty)}\) such that they
-are equivalent asymptotically (``at limit''), i.e.,
-\[
-e^{i^{(\infty)}t}=e^{d^{(\infty)}t}\quad\text{for any \(t\ge 0\)},
-\]
-which implies \(i^{(\infty)}=d^{(\infty)}\).
 
 \item \label{it:foi-fod}
-We denote this common value \(i^{(\infty)}=d^{(\infty)}\) by \(\delta\)
-and call it \defn{force of interest} (or \defn{force of discount}).
+When the values \(i^{(\infty)}\) and \(d^{(\infty)}\) are such that they are
+equivalent asymptotically (``at limit''), i.e.,
+\[
+e^{i^{(\infty)}t}=e^{d^{(\infty)}t}\quad\text{for any \(t\ge 0\)}\implies
+i^{(\infty)}=d^{(\infty)},
+\]
+the common value \(i^{(\infty)}=d^{(\infty)}\) is denoted by \(\delta\) and
+called \defn{force of interest} (or \defn{force of discount}).
 
 For the \defn{compounded continuously} case with (annual) force of interest
 \(\delta\) (or interest rate \(\delta\) \emph{compounded continuously}), the
@@ -982,10 +983,32 @@ are equivalent, we have
 (1+i)^t=e^{\delta t}\;\forall t\ge 0
 \implies \boxed{\delta=\ln(1+i)}.
 \]
+\begin{remark}
+\item By writing \(\displaystyle
+i^{(m)}=m\qty[(1+i)^{1/m}-1]=\frac{(1+i)^{1/m}-1}{1/m}\) (the nominal interest
+rate compounded \(m\)thly \emph{that is equivalent to} the rate \(i\)), we can
+actually obtain the force of interest \(\delta\) (equivalent to the rate \(i\))
+by
+\[
+\lim_{m\to \infty}i^{(m)}=\lim_{m\to \infty}\frac{(1+i)^{1/m}-1}{1/m}
+=\lim_{x\to 0}\frac{(1+i)^x-1}{x}
+=\ln(1+i)=\delta.
+\]
+
+\item Furthermore, since \(\displaystyle \qty(1-\frac{d^{(m)}}{m})^{-m}=1+i\implies
+d^{(m)}=m\qty[1-(1+i)^{-1/m}]\) (the nominal discount rate compounded \(m\)thly
+\emph{that is equivalent to} the rate \(i\)), we have also
+\[
+\lim_{m\to \infty}d^{(m)}=\lim_{x\to 0}\frac{1-(1+i)^{-x}}{x}
+=-\lim_{x\to 0}\frac{v^x-1}{x}
+=-\ln v=\ln(1+i)=\delta.
+\]
+\end{remark}
 \item \labelcref{it:foi-fod} gives the definition of \emph{constant} force of
 interest. Generally, in the compounded continuously case, we can indeed allow
-\emph{varying} force of interest , whose definition can be motivated through an
-``infinitesimal'' argument (see \labelcref{it:varying-foi-motivation}).
+(possibly) \emph{varying} force of interest, whose definition can be motivated
+through an ``infinitesimal'' argument (see
+\labelcref{it:varying-foi-motivation}).
 
 \item \label{it:varying-foi-motivation}
 For the compounded continuously case with constant force of interest
@@ -1000,11 +1023,11 @@ A(t+h)-A(t)=\underbrace{A(t)}_{A(0)e^{\delta t}}(e^{\delta h}-1)
 After that, loosely speaking, the interest earned in the infinitesimal time
 interval \([t,t+\dd{t}]\) is \(A(t)\delta\dd{t}\).
 
-Now, for the case with \emph{varying} force of interest \(\delta_t\) (as a
-function of time \(t\)), the interest earned in \([t,t+\dd{t}]\) becomes
-\(A(t)\delta_t\dd{t}\).\footnote{Loosely speaking, during the infinitesimal time
-interval \([t,t+\dd{t}]\), the force of interest can be ``regarded'' as staying at
-its time-\(t\) value \(\delta_t\) since the time length involved is
+Now, for the case with (possibly) \emph{varying} force of interest \(\delta_t\)
+(as a function of time \(t\)), the interest earned in \([t,t+\dd{t}]\) becomes
+\(A(t)\delta_t\dd{t}\).\footnote{Loosely speaking, during the infinitesimal
+time interval \([t,t+\dd{t}]\), the force of interest can be ``regarded'' as
+staying at its time-\(t\) value \(\delta_t\) since the time length involved is
 ``infinitesimally small'' \faIcon{arrow-right} ``constant'' force of interest
 during the interval.} Thus, we have
 \[
@@ -1062,4 +1085,13 @@ Next, note that \(A(s)\delta_s=A'(s)\), so
 \]
 proving the second formula.
 \end{pf}
+
+\begin{note}
+As a special case, when \(\delta_s=\delta\) for any \(s\in[0,t]\), the first
+formula becomes
+\[
+a(t)=e^{\delta t},
+\]
+which is reduced to the case in \labelcref{it:foi-fod}.
+\end{note}
 \end{enumerate}
