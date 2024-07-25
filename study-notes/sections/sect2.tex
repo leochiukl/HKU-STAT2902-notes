@@ -1167,7 +1167,7 @@ CF pattern looks like a ``rainbow'':
 \node[] () at (5,2.5) {\(+1\)};
 \end{tikzpicture}
 \end{center}
-\item More precisely, an \defn{\(2n-1\)-period rainbow immediate} is an
+\item More precisely, an \defn{\(2n-1\))-period rainbow immediate} is an
 \(2n-1\)-period annuity-immediate whose CFs at time
 \(1,\dotsc,n,n+1,\dotsc,2n-1\) are \(1,\dotsc,n,n-1,\dotsc,1\) respectively.
 \item \label{it:rainbow-imm-pv-split-shift}
@@ -1181,10 +1181,10 @@ There are two ways to derive its PV formula. The first way is the
 \node[] () at (\x,-0.5) {\x};}
 \draw[fill, opacity=0.4, orange!50!yellow] (0.8,0.3) -- (5.2,2.7) -- (5.2,0.3) -- cycle;
 \draw[-Latex, violet] (3.5,1.2) to[bend right] node[bend right, auto, swap]{shift} (0,0.8);
-\node[orange] () at (0,0.5) {\(\Ia_{\angl{n}}\)};
+\node[orange] () at (0,0.5) {\(+\Ia_{\angl{n}}\)};
 \draw[fill, opacity=0.4, blue!50!white] (5.8,0.3) -- (9.2,0.3) -- (5.8,2.2) -- cycle;
-\draw[-Latex, violet] (7.5,1) to[bend right] node[bend right, auto, swap]{shift} (0,2);
-\node[blue] () at (0,1.5) {\(v^n\Da_{\angl{n-1}}\)};
+\draw[-Latex, violet] (7.5,1) to[bend right] node[bend right, auto, swap]{shift} (5,3);
+\node[blue] () at (5,3.5) {\(+\Da_{\angl{n-1}}\)};
 \foreach \x in {1,...,9}\node[] () at (\x,0.5) {\(+1\)};
 \foreach \x in {2,...,8}\node[] () at (\x,1) {\(+1\)};
 \foreach \x in {3,...,7}\node[] () at (\x,1.5) {\(+1\)};
@@ -1271,7 +1271,7 @@ can derive two formulas for PV of an \(n\)-period paused rainbow immediate:
 \item \(\text{PV}=\ax**{\angl{n+1}}\ax{\angl{n}}\).
 \end{itemize}
 \end{enumerate}
-\subsection{``Paused-from-time-\(m\)'' Increasing Annuity}
+\subsection{``Paused-From-Time-\(m\)'' Increasing Annuity}
 \begin{enumerate}
 \item The last ``exotic'' annuity discussed here is the so-called \(n\)-period
 ``paused-from-time \(m\)'' increasing annuity (this name is not standard),
@@ -1310,9 +1310,9 @@ To get its PV, we can use the ``splitting'' and ``shifting'' approach:
 \foreach \x in {3,...,9}\node[] () at (\x,1.5) {\(+1\)};
 \foreach \x in {4,...,9}\node[] () at (\x,2) {\(+1\)};
 \draw[-Latex, violet] (3.5,1.2) to[bend right] node[bend right, auto, swap]{shift} (0,0.8);
-\node[orange] () at (0,0.5) {\(\Ia_{\angl{m}}\)};
-\draw[-Latex, violet] (7.5,1.5) to[bend right] node[bend right, auto, swap]{shift} (0,2);
-\node[blue] () at (0,1.5) {\(v^m(m\ax{\angl{n-m}})\)};
+\node[orange] () at (0,0.5) {\(+\Ia_{\angl{m}}\)};
+\draw[-Latex, violet] (7.5,1.5) to[bend right] node[bend right, auto, swap]{shift} (4,2.5);
+\node[blue] () at (4,3) {\(+m\ax{\angl{n-m}}\)};
 \end{tikzpicture}
 \end{center}
 Hence, the PV is

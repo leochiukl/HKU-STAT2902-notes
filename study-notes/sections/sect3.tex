@@ -1,2 +1,597 @@
 \section{Discounted Cash Flow Analysis}
 \label{sect:dcf-analysis}
+\begin{enumerate}
+\item The \emph{discounted cash flow analysis} starts with the concept of
+\emph{net cash flow} (NCF). \defn{Net cash flow} at time \(t\) (denoted by
+\(C_t\)) is
+\[
+\text{(total) cash inflow @ time \(t\)}-\text{(total) cash outflow @ time \(t\)}.
+\]
+\begin{remark}
+\item So, to be more precise, NCF is net cash \emph{inflow}.
+\item Sometimes we drop the word ``net'' and just call NCF as ``cash flow'' (like in \cref{sect:int-prob-annuities}).
+\item \defn{Discounted cash flow analysis} refers generally to any analysis involving
+discounting CFs. We will discuss two kinds of discounted cash flow analysis:
+project analysis in \cref{subsect:project-analysis} and fund return analysis in
+\cref{subsect:fund-return}.
+\end{remark}
+\end{enumerate}
+\subsection{Project Analysis With Investment Criteria}
+\label{subsect:project-analysis}
+\begin{enumerate}
+\item Here we consider a project with NCFs (at time \(0,1,\dotsc,n\))
+\(C_0,C_1,,\dotsc,C_n\) (NCF at time point other than \(0,1,\dotsc,n\) is
+zero). (So the project is \emph{terminated} at time \(n\) since from that time
+point onward there is no more NCF.)
+
+\begin{note}
+Theoretically, a project can \emph{never terminate} (having infinitely many
+positive NCFs). But here we shall focus on a project with finitely many
+positive NCFs like above.
+\end{note}
+\item Here we will introduce several investment criteria to \emph{analyze} the
+project:
+\begin{itemize}
+\item net present value (NPV);
+\item internal rate of return (IRR) or yield rate;
+\item discounted payback period (DPP).
+\end{itemize}
+\item \defn{Net present value} (NPV) of the project at an interest rate \(i\)
+is the PV of the NCFs at rate \(i\):
+\[
+\text{NPV}=P(i)=\sum_{t=0}^{n}C_tv^t.
+\]
+The solution to the equation \(P(i)=0\) (unknown: \(i\)) is called
+\defn{internal rate of return} (IRR) or \defn{yield rate} of the project.
+
+\begin{note}
+``Internal'' suggests that the calculation of IRR itself does not consider
+``external factors'' like inflation. (But of course, one may already
+incorporate some ``external information'' into the NCFs by ``adjusting'' them
+based on some ``external factors'').
+\end{note}
+\item \label{it:acc-disc-ncf-meaning}
+Before proceeding further, let us clarify on the meaning of
+accumulating/discounting positive and negative NCF.
+\begin{itemize}
+\item Accumulating
+\begin{itemize}
+\item positive NCF: lending/investing that amount for a time length (earning
+\emph{lending/investing (interest) rate}) and then collect proceeds from the
+loan later \faIcon{arrow-right} becomes a positive NCF at a later time after
+accumulation;
+\item negative NCF: borrowing/financing that amount (in absolute value) for a
+time length (earning \emph{borrowing/financing (interest) rate}) and then repay
+the loan later \faIcon{arrow-right} becomes a negative NCF at a later time
+after accumulation;
+\end{itemize}
+\item Discounting
+\begin{itemize}
+\item positive NCF: deducing NCF at a previous time that would accumulate to
+this positive NCF at this time (discount at \emph{lending/investing rate});
+\item negative NCF: deducing NCF at a previous time that would accumulate to
+this negative NCF at this time (discount at \emph{borrowing/financing rate}).
+\end{itemize}
+\end{itemize}
+\begin{remark}
+\item We can see that a minor difference between accumulating/discounting
+positive and negative NCFs is that different \emph{kinds} of interest rate are
+used.  When the lending and borrowing rates differ, we need to be careful about
+the appropriate interest rate to be used. For example, when we calculate NPV,
+positive (negative) NCF needs to be discounted at lending (borrowing) rate.
+\item Unless stated otherwise, we shall assume that lending and borrowing rates
+coincide for convenience.
+\end{remark}
+
+\item Now we discuss \emph{practical meanings} of NPV and IRR (which are
+important for us to analyze the project using these criteria).
+
+\item \label{it:interpret-npv}
+For NPV, let \(i_0\) be the lending (or borrowing) rate.  Then, consider the
+following cases:
+\begin{itemize}
+\item (\(\text{NPV}>0\)) NPV is the amount we need to \emph{invest/lend} now to
+accumulate (separately) to yield \emph{all} the NCFs in the project (i.e., to
+``get'' all the project NCFs) \faIcon{arrow-right} the project NCFs have a
+``positive worth'' as a whole (``like'' an asset).
+\item (\(\text{NPV}<0\)) NPV (in absolute value) is the amount we need to
+\emph{borrow/finance} now to ``get'' all the project NCFs \faIcon{arrow-right}
+the project NCFs have a ``negative worth'' as a whole (``like'' a debt).
+\item (\(\text{NPV}=0\)) We do not need to invest anything to ``get'' all the
+project NCFs \faIcon{arrow-right} the project NCFs have ``zero worth'' as a
+whole. (The project \emph{breaks even}.)
+\end{itemize}
+\item \label{it:npv-pract-meanings}
+Based on the interpretation in \labelcref{it:interpret-npv}, we have the
+following practical meanings of NPV:
+\begin{itemize}
+\item A project is \emph{profitable} (has ``positive worth'') if and only if
+its NPV \(>0\).
+\item Project A is \emph{more profitable} (``worth more'') than project B if
+and only if the NPV of project A \(>\) that of project B.
+\end{itemize}
+\item For IRR, it is instructive to ``associate'' the project with a ``fund''
+\faIcon{piggy-bank} where cash inflow corresponds to \emph{withdrawal}
+\faIcon{hand-holding-usd} from the fund, and cash outflow corresponds to
+\emph{contribution} \faIcon{donate} to the fund.
+
+Then, for an interest rate \(i\) to qualify as a constant ``rate of return''
+for the project, \emph{accumulating} all the withdrawals and contributions at
+that interest rate \(i\) to the end of project should give the ``final fund
+value''\footnote{Intuitively speaking, we keep accumulating ``remaining
+balance'' (even for negative balance; may be seen as ``accumulating overdraft
+charges'' in this case) in the fund \faIcon{piggy-bank}. To interpret the
+accumulation more formally, one may convert ``withdrawals'' and
+``contributions'' to ``positive NCFs'' and ``negative NCFs'' respectively, then
+refer to \labelcref{it:acc-disc-ncf-meaning}.} , i.e.,
+\begin{itemize}
+\item (when the value is positive) amount we get if we withdraw all money from
+the fund, or
+\item (when the value is negative) amount we need to further contribute to the
+fund for ``clearing the debt''.
+\end{itemize}
+(In either case, the value is equal to the time-\(n\) NCF \(C_n\).)
+In other words, the rate \(i\) should satisfy
+\[
+\sum_{t=0}^{n-1}C_t(1+i)^{n-t}=C_n \iff P(i)=0 \iff \text{\(i\) is IRR}.
+\]
+Hence, IRR can be interpreted as a \emph{possible} constant rate of return for
+the project, as one may expect.
+
+\begin{remark}
+\item Note that the return rate is only ``possible'': The project may not even
+have constant rate of return!
+\item Sometimes there are multiple IRRs, indicating that there are several
+\emph{possible} constant rates of return for the project, just by observing
+the NCFs.
+\end{remark}
+\item A ``typical'' NPV graph looks like the following --- a strictly
+decreasing function in \(i\) which crosses \(x\)-axis exactly once:
+
+\begin{intuition}
+Usually this happens when the early CFs are relatively more negative, and the
+later CFs are relatively more positive (which are ``typical''). Then, as the
+interest rate \(i\) rises, those relatively more positive CFs get discounted
+more heavily \faIcon{arrow-right} reducing NPV.
+\end{intuition}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5.5, ymax=2, samples=100, axis lines=middle,
+ylabel={NPV}, xlabel={\(i\)},
+ylabel style={at={(axis description cs:0,1)}, anchor=south},
+xlabel style={anchor=west},
+xtick={1.2247}, xticklabel={IRR}, ytick=\empty
+]
+\addplot[blue]{-1+2/(1+x)+0.5/(1+x)^2};
+\draw[opacity=0.4, green, line width=0.2cm] (0,0) -- (1.2247,0)
+node[pos=0.6, above, ForestGreen, opacity=1]{profitable};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Under this ``typical'' case, the project is profitable (i.e., NPV \(>0\)) if
+and only if the interest rate \(i<\text{IRR}\), giving a profitability
+criterion based on IRR.
+\item However, unlike NPV, IRR \emph{cannot} be used for comparing
+profitability of different projects \warn. To see this, consider the following
+graph:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5.5, ymax=2, samples=100, axis lines=middle,
+ylabel={NPV}, xlabel={\(i\)},
+ylabel style={at={(axis description cs:0,1)}, anchor=south},
+xlabel style={anchor=west},
+xtick={1.2247, 1.762}, xticklabels={\(i_A\), \(i_B\)}, ytick=\empty,
+legend entries={project A, project B}
+]
+\addplot[blue]{-1+2/(1+x)+0.5/(1+x)^2};
+\addplot[orange]{-0.5+1.2/(1+x)+0.5/(1+x)^2};
+\draw[opacity=0.4, green, line width=0.2cm] (0,0) -- (0.6,0);
+\draw[opacity=0.3, violet, line width=0.2cm] (0.6,0) -- (5.4,0);
+\draw[-Latex, ForestGreen] (1,-0.4) -- (0.3,-0.1)
+node[pos=-0.3]{A more profitable};
+\draw[-Latex, violet] (3.5,0.4) -- (2.5,0.1)
+node[pos=-0.3]{B more profitable};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+As seen in the graph, IRR of project B (\(i_B\)) is greater than IRR of project
+A (\(i_A\)), but project A is more profitable than project B for some \(i\)!
+\item In some ``non-typical'' case, the NPV graph can look weird and it can
+have \emph{multiple roots} or even \emph{no root}! \faIcon{arrow-right} IRR may
+\emph{not} be unique and may \emph{not} exist!
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5.5, samples=100, axis lines=middle,
+ylabel={NPV}, xlabel={\(i\)},
+ylabel style={at={(axis description cs:0,1)}, anchor=south},
+xlabel style={anchor=west},
+xtick=\empty, ytick=\empty,
+title={Two IRRs}
+]
+\addplot[blue]{0.7-1.8/(1+x)-1.5/(1+x)^2+3.3/(1+x)^3};
+node[pos=0.6, above, ForestGreen, opacity=1]{profitable};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5.5, ymin=-0.5, samples=100, axis lines=middle,
+ylabel={NPV}, xlabel={\(i\)},
+ylabel style={at={(axis description cs:0,1)}, anchor=south},
+xlabel style={anchor=west},
+xtick=\empty, ytick=\empty,
+title={No IRR}
+]
+\addplot[blue]{0.7-0.3/(1+x)-0.5/(1+x)^2+0.2/(1+x)^3};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item \label{it:suff-cond-irr-unique}
+Now we are interested in knowing when IRR exists uniquely. Here we give a
+sufficient condition for its uniqueness, based on \emph{Descartes' rule of
+signs}: Consider the project NCFs \(C_0,C_1,\dotsc,C_n\) as a sequence (in this
+order).  Then, IRR of the project exists \emph{uniquely} if there is
+\emph{exactly one} sign change in the sequence (ignoring any zero NCF in the
+sequence, if exist).
+
+\begin{note}
+This means when the sequence of NCFs (ignoring zero NCFs; in terms of sign) is
+of the form ``\(+ + \cdots + - - \cdots -\)'' or ``\(- - \cdots - + + \cdots
++\)'', then IRR is guaranteed to exist uniquely.
+\end{note}
+\item \label{it:dpp-def}
+Now we discuss the last investment criteria here: \emph{discounted
+payback period}. The \defn{discounted payback period} (DPP) of the project at
+an interest rate \(i\) is
+\[
+\text{DPP}=\min\{m\in\N_0:\text{NPV}_{m}\ge 0\}
+\]
+where \(\displaystyle \text{NPV}_{m}=\sum_{t=0}^{m}C_tv^t\) is the \defn{partial NPV up to
+time \(m\)}.
+\item DPP can be regarded as the time where the project \emph{first} ``pays
+back'' or ``breaks even''. If \(\text{NPV}_{n}<0\) for any \(n\in\N_0\), then
+DPP \emph{does not exist}.
+\item After removing ``\(v^t\)'' in \labelcref{it:dpp-def}, the resulting time
+becomes \defn{payback period} of the project at the interest rate \(i\).
+\end{enumerate}
+\subsection{Reinvestment Rates}
+\begin{enumerate}
+\item In \cref{subsect:project-analysis}, the investment (or lending) rate is
+assumed to stay constant throughout the project. But this is not necessarily
+the case in practice: While \emph{initial investment} may ``capture good
+opportunities'' and hence earn a relatively high rate, such ``good
+opportunities'' may be already gone for later \emph{reinvestments} of interests,
+so those reinvestments may earn a \emph{lower} rate (\emph{reinvestment rate}).
+\item Here we will derive some formulas with reinvestment rate \(j\) being distinct
+from the initial investment (interest) rate \(i\). To be more precise,
+\begin{itemize}
+\item the initial investment earns interests (payable at the end of each
+period) at the rate \(i\);
+\item interests paid are reinvested (immediately) at the rate \(j\) (earning
+further interests).
+\end{itemize}
+\item \label{it:1-acc-value-reinvest}
+In this case, the accumulated value of 1 at time \(n\) is
+\[
+{\color{magenta}1}+{\color{orange}i\sx{\angl{n}j}}.
+\]
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (0,0.5) {\faIcon{arrow-up}1};
+\node[brown] () at (0,1) {\faIcon{piggy-bank}};
+\node[] () at (2,0.5) {\faIcon{arrow-up}\(i\)};
+\node[violet] () at (2,1) {\faIcon{piggy-bank}};
+\node[] () at (4,0.5) {\faIcon{arrow-up}\(i\)};
+\node[violet] () at (4,1) {\faIcon{piggy-bank}};
+\node[] () at (8,0.5) {\faIcon{arrow-up}\(i\)};
+\node[violet] () at (8,1) {\faIcon{piggy-bank}};
+\node[] () at (10,0.5) {\faIcon{arrow-up}\(i\)};
+\node[violet] () at (10,1) {\faIcon{piggy-bank}};
+\node[] () at (10,-1) {{\color{brown}\faIcon{piggy-bank}}{\color{violet}\faIcon{piggy-bank}}};
+\node[] () at (10,-1.5) {\faIcon{hand-holding}};
+\draw[-Latex, ForestGreen] (0,1.1) to[bend left] (2.2,0.7);
+\draw[-Latex, ForestGreen] (0,1.1) to[bend left] (4.2,0.7);
+\draw[-Latex, ForestGreen] (0,1.1) to[bend left] (6.2,0.7);
+\draw[-Latex, ForestGreen] (0,1.1) to[bend left] (8.2,0.7);
+\draw[-Latex, ForestGreen] (0,1.1) to[bend left] (10.2,0.7);
+\node[ForestGreen] () at (5,3) {earn rate \(i\)};
+\draw[-Latex, magenta] (0,0.8) to[bend right] node[bend right, auto, swap]{no more interest} (9.8,-1.3);
+\draw[-Latex, orange] (2.1,0.7) to[bend left] (10.2,-0.8);
+\draw[-Latex, orange] (4.1,0.7) to[bend left] (10.2,-0.8);
+\draw[-Latex, orange] (6.1,0.7) to[bend left] (10.2,-0.8);
+\draw[-Latex, orange] (8.1,0.7) to[bend left] (10.2,-0.8);
+\draw[-Latex, orange] (10.1,0.7) to[bend left] (10.2,-0.8);
+\node[magenta] () at (9.3,-1) {1};
+\node[orange] () at (11,-1) {\(i\sx{\angl{n}j}\)};
+\end{tikzpicture}
+\end{center}
+\item \label{it:annu-imm-acc-value-reinvest}
+The accumulated value of an \(n\)-period annuity-immediate (amount of
+each CF = 1) at time \(n\) is
+\[
+{\color{magenta}n}+{\color{orange}i\Is_{\angl{n-1}j}}.
+\]
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (4,0.5) {\faIcon{arrow-up}\(i\)};
+\node[violet] () at (4,1) {\faIcon{piggy-bank}};
+\node[] () at (8,0.5) {\faIcon{arrow-up}\((n-2)i\)};
+\node[violet] () at (8,1) {\faIcon{piggy-bank}};
+\node[] () at (10,0.5) {\faIcon{arrow-up}\((n-1)i\)};
+\node[violet] () at (10,1) {\faIcon{piggy-bank}};
+
+\node[] () at (10,-3) {{\color{brown}\faIcon{piggy-bank}}{\color{violet}\faIcon{piggy-bank}}};
+\node[] () at (10,-3.5) {\faIcon{hand-holding}};
+
+\node[] () at (2,-1) {\faIcon{arrow-down}1};
+\node[brown] () at (2,-1.5) {\faIcon{piggy-bank}};
+\node[] () at (4,-1) {\faIcon{arrow-down}1};
+\node[brown] () at (4,-1.5) {\faIcon{piggy-bank}};
+\node[] () at (8,-1) {\faIcon{arrow-down}1};
+\node[brown] () at (8,-1.5) {\faIcon{piggy-bank}};
+\node[] () at (10,-1) {\faIcon{arrow-down}1};
+\node[brown] () at (10,-1.5) {\faIcon{piggy-bank}};
+
+\draw[-Latex, magenta] (2,-1.7) to[bend right] node[bend right, auto, swap]{no more interest} (9.6,-3);
+\draw[-Latex, magenta] (4,-1.7) to[bend right] (9.6,-3);
+\draw[-Latex, magenta] (8,-1.7) to[bend right] (9.6,-3);
+\draw[-Latex, magenta] (10,-1.7) to[bend right] (9.6,-3);
+
+\draw[-Latex, orange] (4.1,0.7) to[bend left] (10.2,-2.8);
+\draw[-Latex, orange] (6.1,0.7) to[bend left] (10.2,-2.8);
+\draw[-Latex, orange] (8.1,0.7) to[bend left] (10.2,-2.8);
+\draw[-Latex, orange] (10.1,0.7) to[bend left] (10.2,-2.8);
+\node[magenta] () at (9,-3) {\(n\)};
+\node[orange] () at (11.5,-3) {\(i\Is_{\angl{n-1}j}\)};
+\end{tikzpicture}
+\end{center}
+\begin{note}
+The interest payment at time \(m\) is
+\[
+i\times\text{amount in {\color{brown}\faIcon{piggy-bank}} at time \(m-1\)}
+\]
+(which is to be reinvested into {\color{violet}\faIcon{piggy-bank}} immediately).
+\end{note}
+\end{enumerate}
+\subsection{Measures of Fund Return Rate}
+\label{subsect:fund-return}
+\begin{enumerate}
+\item Consider here a fund \faIcon{piggy-bank} where we invest money
+\faIcon{dollar-sign} in \faIcon{piggy-bank} at time 0 and ``clear'' the balance
+in \faIcon{piggy-bank} at time 1\footnote{i.e., withdraw \faIcon{dollar-sign}
+when the balance is positive, or contribute \faIcon{dollar-sign} when the
+balance is negative (to make the fund balance zero)}, with possibly additional
+contributions/withdrawals between time 0 and 1.
+
+\item We introduce the following notations:
+\begin{itemize}
+\item \(A\): amount in \faIcon{piggy-bank} at time 0 \faIcon{arrow-right} we invest \(A\) into \faIcon{piggy-bank} at time 0
+\item \(B\): amount in \faIcon{piggy-bank} at time 1 (just before the
+``clearing'') \faIcon{arrow-right} we withdraw \(B\) out of \faIcon{piggy-bank}
+at time 1\footnote{Here withdrawing a negative amount means contributing that
+amount (in absolute value) into \faIcon{piggy-bank}.}
+\item \(I\): amount of interest earned between time 0 and 1
+\item \(C_t\): net contribution to \faIcon{piggy-bank} (net cash
+\underline{out}flow from our perspective) at time \(t\), where \(0<t<1\) (finitely many)
+\begin{note}
+Here we regard withdrawal (cash \underline{in}flow) as negative contribution to
+\faIcon{piggy-bank}. (Note that contribution is cash \underline{out}flow.)
+\end{note}
+\begin{warning}
+In this context, \(C_t\) is \underline{no longer} NCF at time \(t\)! Indeed, it
+is \emph{negative} of NCF at time \(t\)!
+\end{warning}
+\item \(C\): total net contribution to \faIcon{piggy-bank} in time interval
+\((0,1)\): \(C=\sum_{t}^{}C_t\)
+\item \(\actsymb[{\color{violet}a}]{i}{{\color{brown}b}}\): amount of interest
+earned between time \({\color{violet}a}\) and
+\({\color{violet}a}+{\color{brown}b}\), when 1 is invested into \faIcon{piggy-bank}
+at time \(a\)
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (6,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (3,-0.5) {\(t_1\)};
+\node[] () at (6,-0.5) {\(t_2\)};
+\node[] () at (10,-0.5) {1};
+\node[] () at (0,0.5) {\faIcon{arrow-up}\(A\)};
+\node[] () at (0,1) {\faIcon{piggy-bank}};
+\node[] () at (3,0.5) {\faIcon{arrow-up}1};
+\node[] () at (3,1) {\faIcon{piggy-bank}};
+\node[] () at (3,-1) {\(C_{t_1}=+1\)};
+\node[] () at (3,-1.5) {\(\text{NCF}=-1\)};
+\node[] () at (6,0.5) {\faIcon{arrow-down}1};
+\node[] () at (6,1) {\faIcon{piggy-bank}};
+\node[] () at (6,-1) {\(C_{t_2}=-1\)};
+\node[] () at (6,-1.5) {\(\text{NCF}=+1\)};
+\node[] () at (10,0.5) {\faIcon{arrow-down}\(B\)};
+\node[] () at (10,1) {\faIcon{piggy-bank}};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (3,0) circle [radius=0.5mm];
+\draw[fill] (6,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[violet] () at (3,-0.5) {\(a\)};
+\node[] () at (6,-0.5) {\({\color{violet}a}+{\color{brown}b}\)};
+\node[] () at (10,-0.5) {1};
+\node[] () at (3,0.5) {\faIcon{arrow-up}1};
+\node[] () at (3,1) {\faIcon{piggy-bank}};
+\node[] () at (6,0.5) {\faIcon{coins}: \(1+\actsymb[a]{i}{b}\)};
+\node[] () at (6,1) {\faIcon{piggy-bank}};
+\end{tikzpicture}
+\end{center}
+\item Here we discuss the following measures of fund return rate:
+\begin{itemize}
+\item IRR
+\item dollar-weighted rate of return/interest (DWRR)
+\item ``simplified'' DWRR
+\item time-weighted rate of return/interest (TWRR)
+\end{itemize}
+\item Let \(i\) be the IRR. Then, by definition we have
+\begin{align}
+\nonumber&&\text{NPV @ \(i\)}&=0 \\
+\nonumber&\Leftrightarrow&
+-A+\sum_{t}^{}({\color{Maroon}-}C_t)v^t+Bv&=0 \\
+\label{eq:fund-return-eq}
+&\Leftrightarrow&
+B&=A(1+i)+\sum_{t}^{}C_t\underbrace{(1+i)^{1-t}}_{1+\actsymb[t]{i}{1-t}}.
+\end{align}
+So, IRR is an interest rate \(i\) such that \cref{eq:fund-return-eq} holds.
+
+\item \label{it:dwrr-fmla}
+Now consider the DWRR. First we shall assume \emph{simple interest}
+temporarily here. Then, \cref{eq:fund-return-eq} becomes
+\[
+B=A(1+i)+\sum_{t}^{}C_t\underbrace{(1+(1-t)i)}_{1+\actsymb[t]{i}{1-t}},
+\]
+which implies
+\begin{equation}
+\label{eq:fund-return-eq-simple-int}
+B-A-C=i\qty[A+\sum_{t}^{}C_t(1-t)].
+\end{equation}
+\begin{note}
+Recall that \(C=\sum_{t}^{}C_t\).
+\end{note}
+
+Since changes in the amount in the fund \faIcon{piggy-bank} are only due to the
+net contributions and interest, we have \(B=A+\underbrace{C}_{\text{total net
+contrib.}}+\underbrace{I}_{\text{interest}}\), and hence can rewrite
+\cref{eq:fund-return-eq-simple-int} as
+\[
+i=\boxed{\frac{I}{A+\sum_{t}^{}C_t(1-t)}}.
+\]
+This interest rate \(i\) is called \defn{dollar-weighted rate of return}
+(DWRR), sometimes denoted by \(i^{\text{DW}}\).
+
+\begin{remark}
+\item From this, we see that DWRR is essentially IRR but assuming simple interest.
+\item The rate is ``dollar-weighted'' in the sense that the net contributions
+(``dollars'' \faIcon{dollar-sign}) influence the rate \(i\) (contribute to
+``weight'' for \(i\) in \cref{eq:fund-return-eq-simple-int}).
+\end{remark}
+
+\item \label{it:simplified-dwrr-fmla}
+Now, for ``simplified'' DWRR, it is simplified from DWRR in the sense
+that it assumes contributions/withdrawals can only possibly occur at time 0.5
+(``middle'')\footnote{It may be deemed ``reasonable'' when the net
+contributions spread quite ``uniformly'' \faIcon{arrow-right} we ``take
+average'' in some sense.}. Due to this assumption, we have
+\[
+\sum_{t}^{}C_t(1-t)=0.5C_{0.5}=0.5C.
+\]
+Hence, \cref{eq:fund-return-eq-simple-int} becomes
+\[
+i=\boxed{\frac{2I}{A+B-I}}
+\]
+and this interest rate \(i\) is \defn{``simplified'' DWRR} (this name is nonstandard).
+
+\begin{note}
+The expression is \emph{independent} from \(C\), which is a remarkable property
+for ``simplified'' DWRR.
+\end{note}
+\item The final measure to be discussed is TWRR. For this one, it is \emph{not}
+related to IRR, unlike (simplified) DWRR. To understand TWRR, consider the
+following graph:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, samples=100,
+xmin=-0.2, xmax=5.5, ymin=-0.5, ymax=3.5,
+xtick={0,1,2.5,5}, xticklabels={0,\(t_1\),\(t_2\),1},
+ytick=\empty, ylabel={Amount in \faIcon{piggy-bank}}, xlabel={Time},
+axis lines=middle,
+ylabel style={at={(axis description cs:0,1)}, anchor=south},
+xlabel style={anchor=west}
+]
+\addplot[blue, domain=0:0.99]{1+0.5*x^2};
+\addplot[opacity=0.4, violet, line width=0.2cm, domain=0:0.99]{1+0.5*x^2};
+\draw[blue] (1,1.5) circle [radius=0.5mm];
+\draw[blue, fill] (1,1.2) circle [radius=0.5mm];
+\draw[-Latex, red] (1,1.5) -- (1,1.2)
+node[midway, right]{withdraw};
+\addplot[blue, domain=1:2.49]{1.2+0.5*(x-1)^2};
+\addplot[opacity=0.4, brown, line width=0.2cm, domain=1:2.49]{1.2+0.5*(x-1)^2};
+\draw[blue] (2.5,2.325) circle [radius=0.5mm];
+\draw[blue, fill] (2.5,3.2) circle [radius=0.5mm];
+\draw[-Latex, ForestGreen] (2.5,2.325) -- (2.5,3.2)
+node[midway, left]{contribute};
+\addplot[blue, domain=2.5:5]{3.2-0.3*(x-2.5)^2};
+\addplot[opacity=0.4, magenta, line width=0.2cm,  domain=2.5:5]{3.2-0.3*(x-2.5)^2};
+\node[violet] () at (0.2,0.8) {\(B_0\)};
+\node[violet] () at (1.3,1.6) {\(B_1\)};
+\node[brown] () at (1.4,1) {\(B_1+C_1\)};
+\node[brown] () at (2.8,2.3) {\(B_2\)};
+\node[magenta] () at (1.8,3.2) {\(B_2+C_2\)};
+\node[magenta] () at (5,1.1) {\(B_3\)};
+\draw[opacity=0.4, violet, line width=0.2cm] (0,0) -- (1,0);
+\draw[opacity=0.4, brown, line width=0.2cm] (1,0) -- (2.5,0);
+\draw[opacity=0.4, magenta, line width=0.2cm] (2.5,0) -- (5,0);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Here we let \({\color{violet}j_1},{\color{brown}j_2},{\color{magenta}j_3}\) be
+the effective rate for the (whole) time intervals
+\({\color{violet}[0,t_1]},{\color{brown}[t_1,t_2]},{\color{magenta}[t_2,1]}\)
+respectively. Then,
+\[
+{\color{violet}B_0(1+j_1)=B_1},\quad
+{\color{brown}(B_1+C_1)(1+j_2)=B_2},\quad
+{\color{magenta}(B_2+C_2)(1+j_3)=B_3}.
+\]
+In this case, the TWRR is
+\[
+i^{\text{TW}}=(1+j_1)(1+j_2)(1+j_3),
+\]
+which is ``time-weighted'' in the sense that the quantity only depends on the
+``inherent growth rate'' of fund \faIcon{piggy-bank} over \emph{time}, but not
+the actual amount in \faIcon{piggy-bank}. (We just deduce the ``inherent growth
+rates'' \emph{based on} the observed amounts in \faIcon{piggy-bank}, and
+calculate TWRR using those rates.)
+\item \label{it:twrr-fmla}
+In general, suppose there are \(m-1\) time points \(t_1,\dotsc,t_{m-1}\) where
+the net contribution is nonzero (we shall denote them by \(C_1,\dotsc,C_{m-1}\)
+respectively). Then, using similar notations as above\footnote{For example,
+\(B_1,\dotsc,B_{m-1}\) are amounts/balances in \faIcon{piggy-bank} ``\emph{just
+before}'' time \(t_1,\dotsc,t_{m-1}\) respectively.}, we have
+\begin{align*}
+B_0(1+j_1)&=B_1 \\
+(B_1+C_1)(1+j_2)&=B_2 \\
+\vdots\\
+(B_{m-1}+C_{m-1})(1+j_m)&=B_m,
+\end{align*}
+and the \defn{time-weighted rate of return} (TWRR), sometimes denoted by
+\(i^{\text{TW}}\),  is
+\[
+i^{\text{TW}}=\boxed{(1+j_1)\dotsb(1+j_m)-1}.
+\]
+\end{enumerate}
