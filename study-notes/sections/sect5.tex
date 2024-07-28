@@ -1,0 +1,223 @@
+\section{Bonds and Other Securities}
+\label{sect:bonds-other-securities}
+\begin{enumerate}
+\item A \defn{security} is a tradable financial asset.
+\item Here, we will discuss the following securities:
+\begin{itemize}
+\item bonds (main focus)
+\item common stocks
+\item preferred stocks
+\end{itemize}
+For other kinds of securities like forwards, futures, and options, see STAT3905.
+\end{enumerate}
+\subsection{Bonds}
+\begin{enumerate}
+\item A \defn{bond} is an interest-bearing security which promises to pay
+stated amount(s) of money at some future date(s).
+
+\begin{remark}
+\item This definition is rather general, so there are indeed many kinds of bonds. But
+here we shall focus on some ``simple'' bonds.
+\item \defn{Coupons} \faIcon{money-bill-wave} are periodic \emph{level}
+payments promised in a bond, which are made at the end of each period (year
+unless otherwise specified).
+\item A bond with nonzero (zero) coupons is called a \defn{coupon-paying bond}
+(\defn{zero-coupon bond}).
+\end{remark}
+\item For simplicity, we shall make the
+following assumptions here:
+\begin{enumerate}
+\item all obligations for paying money are met --- there is no \emph{default}
+(``breaking promise'') \begin{note}
+See STAT3904 for a way to handle the \emph{default risk}.
+\end{note};
+\item bond has a fixed \defn{maturity} (i.e., time at which all promised
+payments are made)
+\begin{note}
+This will be loosened when we discuss
+\emph{callable bonds} later in \cref{sect:bonds-other-securities}.
+\end{note};
+\item we are only interested in finding bond price (given a ``yield
+rate''\footnote{This is related to the concept of IRR in
+\cref{sect:dcf-analysis}.}) \emph{immediately after} a ``coupon'' payment date,
+or at time 0 \begin{note} Here time 0 is the \emph{purchasing time} of the
+bond.
+\end{note}.
+\end{enumerate}
+\begin{note}
+The \defn{term} of a bond is the time length between time 0 and the maturity date.
+For a bond with \(n\) periods term, we call it \defn{\(n\)-period bond}.
+\end{note}
+\item \label{it:bond-main-qs}
+The main questions of interest here are:
+\begin{enumerate}
+\item Given a specific yield rate, what is the bond price (at time 0, without
+loss of generality\footnote{For time-\(t\) price of an \(n\)-year bond, it is
+the same as the time-0 price of an otherwise identical bond, but with term
+\(n-t\) years.})?
+
+\item Given a time-0 bond price (purchasing price), what is the (implied) yield rate?
+\begin{note}
+Loosely, this means ``How high is the return if the bond is purchased at this
+price?''
+\end{note}
+\end{enumerate}
+\item To answer these questions, it is useful to introduce some notations for
+describing a bond:
+\begin{itemize}
+\item \(F\): \defn{face value}/\defn{par value}/\defn{nominal value} (value
+``printed'' on the ``face'' of bond, used as reference for calculating payment
+amount(s))
+\item \(P\): purchasing price (time-0 price) of the bond
+\item \(A\): purchasing price per unit nominal (i.e., expressed as a unit where 1 unit = \(F\))
+
+\begin{note}
+\(A\) units = \(P\) by definition, so \(A=P/F\).
+\end{note}
+\item \(r\): \defn{coupon rate} (or \defn{nominal yield}), which is the
+\emph{total} amount of coupon(s) in each year expressed as a fraction of face value:
+\(\displaystyle r=\frac{\text{annual coupon amount}}{F}\)
+\item \(n\): total number of coupons to be paid throughout
+\item \(C\): redemption value, i.e., amount of payment promised to be made at
+\emph{maturity} (\warn{} \underline{not} including coupon at that time!)
+\item \(g\): \defn{modified coupon rate}, i.e., annual coupon amount expressed
+as a fraction of \emph{redemption value}: \(\displaystyle g=\frac{\text{annual coupon amount}}{C}\)
+\item \(R\): redemption value per unit nominal: \(R=C/F\); the bond is
+\begin{itemize}
+\item \defn{redeemable at par} if \(R=1\) (redemption value = par value);
+\item \defn{redeemable above par} if \(R>1\) (redemption value \(>\) par value);
+\item \defn{redeemable below par} if \(R<1\) (redemption value \(<\) par value)
+\end{itemize}
+\item \(i\): \defn{yield rate}/\defn{yield to maturity}/\defn{yield to
+redemption} --- By treating initial payment of purchasing price \(P\)  as cash
+outflow and the rest of incomes from bond as cash inflows, we can regard the
+bond as a ``project'', and then \(i\) is simply the yield rate (IRR) of the
+``project''
+
+\begin{note}
+The terms ``to maturity'' and ``to redemption'' are related to the
+interpretation of IRR: rate of return for a ``fund'' \faIcon{piggy-bank} which
+accumulates \emph{to maturity/redemption}.
+\end{note}
+\item \(K\): present value of \(C\) (treated as an amount at \emph{maturity})
+at yield rate \(i\)
+\item \(G\): \defn{base amount}, i.e., the amount we need to invest into a fund
+\faIcon{piggy-bank} at rate \(i\) such that the periodic interest payments
+(assumed to be paid at the end of each period) are identical to the coupon
+payments from the bond \faIcon{arrow-right} \(Gi=Fr\).
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\node[draw] () at (6,3.5) {Graphical Illustration};
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (0,0.5) {\(-P\)};
+\node[] () at (2,0.5) {\(+Fr\)};
+\node[] () at (4,0.5) {\(+Fr\)};
+\node[] () at (6,0.5) {\(\cdots\)};
+\node[] () at (8,0.5) {\(+Fr\)};
+\node[] () at (10,0.5) {\(+Fr+C\)};
+
+\node[] () at (2,1) {or};
+\node[] () at (4,1) {or};
+\node[] () at (8,1) {or};
+\node[] () at (10,1) {or};
+
+\node[] () at (2,1.5) {\(+Cg\)};
+\node[] () at (4,1.5) {\(+Cg\)};
+\node[] () at (6,1.5) {\(\cdots\)};
+\node[] () at (8,1.5) {\(+Cg\)};
+\node[] () at (10,1.5) {\(+Cg+C\)};
+
+\node[] () at (2,2) {or};
+\node[] () at (4,2) {or};
+\node[] () at (8,2) {or};
+\node[] () at (10,2) {or};
+
+
+\node[] () at (2,2.5) {\(+Gi\)};
+\node[] () at (4,2.5) {\(+Gi\)};
+\node[] () at (6,2.5) {\(\cdots\)};
+\node[] () at (8,2.5) {\(+Gi\)};
+\node[] () at (10,2.5) {\(+Gi+C\)};
+\end{tikzpicture}
+\end{center}
+\item Now we are ready to answer the first question in
+\labelcref{it:bond-main-qs}. To determine the time-0 bond price given a
+specific yield rate \(i\), we have the following four formulas:
+\begin{enumerate}
+\item basic formula: \(P=Fr\ax{\angl{n}i}+Cv^n\)
+\item premium/discount formula: \(P=C+C(g-i)\ax{\angl{n}i}\)
+\item base amount formula: \(P=G+(C-G)v^n\)
+\item Makeham's formula: \(\displaystyle P=K+\frac{g}{i}(C-K)\)
+\end{enumerate}
+\item \label{it:bond-basic-fmla}
+For basic formula, it is given by
+\[
+P=Fr\ax{\angl{n}i}+\underbrace{Cv^n}_{K},
+\]
+which directly follows from the fact that \(i\) is the IRR of the ``project''
+and the definition of IRR.
+
+\item \label{it:bond-prem-disc-fmla}
+To derive premium/discount formula, we start from the basic formula:
+\[
+P=Fr\ax{\angl{n}i}+Cv^n
+=Fr\ax{\angl{n}i}+C(1-i\ax{\angl{n}i})
+=C+(\underbrace{Fr}_{Cg}-Ci)\ax{\angl{n}i}
+=\boxed{C+C(g-i)\ax{\angl{n}i}}.
+\]
+To understand why the formula is called ``premium/discount formula'', we first
+introduce the following terminologies: The bond is
+\begin{itemize}
+\item \defn{sold at premium} if \(P>C\) (purchasing price is ``in excess of'' redemption value \faIcon{arrow-right} ``premium'');
+\item \defn{sold at discount} if \(P<C\) (purchasing price is ``cheaper than'' redemption value \faIcon{arrow-right} ``discount'').
+\end{itemize}
+When the bond is sold at premium (discount), the \defn{premium}
+(\defn{discount}) is given by \(P-C\) (\(C-P)\) (the difference between
+purchasing price and redemption value).
+
+Thus, the term \(C(g-i)\ax{\angl{n}i}\) in the premium/discount formula is the
+premium or discount (in absolute value) \faIcon{arrow-right} hence
+``premium/discount''.
+
+\begin{note}
+By premium/discount formula, we can see that the bond is sold at premium (discount) iff \(g>i\) (\(g<i\)).
+\end{note}
+
+\item \label{it:bond-base-amt-fmla}
+For deriving base amount formula, consider:
+\[
+P=Fr\ax{\angl{n}i}+Cv^n
+=G\underbrace{i\ax{\angl{n}i}}_{1-v^n}+Cv^n
+=\boxed{G+(C-G)v^n}.
+\]
+The main feature of base amount formula is that there is not
+``\(\ax{\angl{n}i}\)'' and we just have ``\(v^n\)'' \faIcon{arrow-right}
+relatively simpler to compute.
+\item \label{it:bond-base-amt-fmla}
+Finally, Makeham's formula can be derived as follows:
+\[
+P=Fr\ax{\angl{n}i}+Cv^n
+=Cg\underbrace{\ax{\angl{n}i}}_{\mathclap{\frac{1-v^n}{i}}}+K
+=\boxed{K+\frac{g}{i}(C-K)}.
+\]
+\begin{intuition}
+By comparing with basic formula, we see that \(\displaystyle \frac{g}{i}(C-K)\)
+is the PV of all coupons (\(Fr\ax{\angl{n}i}\)). Then, consider:
+\begin{itemize}
+\item \(g>i\) \faIcon{arrow-right} sold at premium \faIcon{arrow-right} PV of coupons relatively ``higher'' as \(g/i>1\) (We ``pay extra for it'')
+\item \(g<i\) \faIcon{arrow-right} sold at discount \faIcon{arrow-right} PV of coupons relatively ``lower'' as \(g/i<1\) (We ``pay less, so have less''.)
+\end{itemize}
+\end{intuition}
+\end{enumerate}

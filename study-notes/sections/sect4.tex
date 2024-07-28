@@ -1,0 +1,388 @@
+\section{Amortization Schedules and Sinking Funds}
+\label{sect:amort-sinking-funds}
+\begin{enumerate}
+\item There are two methods for repaying a \emph{loan}:
+\begin{enumerate}
+\item \defn{amortization method}: The loan is repaid by installments
+\faIcon{donate} (this process is referred to as \defn{amortization} of the
+loan).
+
+\faIcon{arrow-right} Each installment \faIcon{donate} has a portion for
+``repaying principal \faIcon{coins}'' and the rest is for ``repaying interest
+\faIcon{dollar-sign}''.
+\item \defn{sinking fund method}: The \emph{interest on loan} (always on the
+\emph{whole} loan amount \faIcon{arrow-right} constant) \faIcon{dollar-sign} is repaid
+by installments \faIcon{donate}, and the whole principal \faIcon{coins} is
+repaid by a \emph{lump-sum} payment at the \emph{end} of the term of loan,
+sourced from making \emph{deposits} into a fund (called \defn{sinking fund})
+which also earns interest but possibly at a different rate from loan.
+
+\faIcon{arrow-right} Each installment (not including the final lump-sum
+payment) \faIcon{donate} is \emph{only} for repaying interest.
+\faIcon{dollar-sign}.
+\end{enumerate}
+\end{enumerate}
+\subsection{Amortization Method} \begin{enumerate}
+\item We consider two cases for amortization method:
+\begin{enumerate}
+\item level installments are made at regular intervals;
+\item (possibly) non-level installments are made at regular intervals.
+\end{enumerate}
+\item \label{it:level-amort-notations}
+For the first case with level installments, we introduce the following
+notations:
+\begin{itemize}
+\item \(L\): amount borrowed (principal)
+\item \(n\): number of installments
+\item \(R\): amount of each installment
+\item \(i\): (annual effective) interest rate for the loan
+\end{itemize}
+Here we assume WLOG that the time between two successive installments is a year
+(to match with the measurement period for \(i\)). If this is not the case, we
+can use \(j\)-method, and then replace \(i\) by \(j\) in the following.
+(Similar for the non-level installments case.)
+\item \label{it:amort-loan-def}
+For an \defn{amortized loan}, we have by definition
+\[
+\text{PV of all installments}=L,
+\]
+or symbolically,
+\[
+L=R\ax{\angl{n}i},
+\]
+which implies that the amount of each installment is
+\[
+R=\frac{L}{\ax{\angl{n}i}}=\frac{Li}{1-v^n}.
+\]
+\item \label{it:amort-schedule}
+Now, consider the following \emph{amortization schedule} (decomposition
+of each installment into ``repayment of principal \faIcon{coins}'' and
+``repayment of interest \faIcon{dollar-sign}'':
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Time \(k\)&Installment amount&
+\makecell{Interest repaid\\ \(I_k=B_{k-1}i\)}&
+\makecell{Principal repaid \\ \(P_k=R-I_k\)}&Outstanding balance \(B_k\) \\
+\midrule
+0&\(0\)&\(0\)&\(0\)&\(L\;(=B_0)\) \\
+1&\(R\)&\(B_0i\)&\(R-I_1\)&\(B_0-P_1\) \\
+2&\(R\)&\(B_1i\)&\(R-I_2\)&\(B_1-P_2\) \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\(n\)&\(R\)&\(B_{n-1}i\)&\(R-I_{n-1}\)&\(B_{n-1}-P_n=0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+The term of the loan represented here is \(n\) periods, so by definition, the
+outstanding balance at time \(n\) has to be zero.
+\end{note}
+
+\item \label{it:amort-bal-recursive-fmla}
+From \labelcref{it:amort-schedule}, we can observe the following pattern:
+\begin{itemize}
+\item \(B_1=B_0{\color{violet}-P_1}=B_0{\color{violet}-R-B_0i}=B_0(1+i)-R\)
+\item \(B_2=B_1{\color{violet}-P_2}=B_1{\color{violet}-R-B_1i}=B_1(1+i)-R\)
+\item \(\vdots\)
+\end{itemize}
+In general, for any \(k=1,\dotsc,n\), we have
+\[
+B_k=\boxed{B_{k-1}(1+i)-R}.
+\]
+This is a \emph{recursive} formula.
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\draw[fill] (0,0) circle [radius=0.5mm];
+\draw[fill] (2,0) circle [radius=0.5mm];
+\draw[fill] (4,0) circle [radius=0.5mm];
+\draw[fill] (8,0) circle [radius=0.5mm];
+\draw[fill] (10,0) circle [radius=0.5mm];
+\node[] () at (0,-0.5) {0};
+\node[] () at (2,-0.5) {1};
+\node[] () at (4,-0.5) {2};
+\node[] () at (6,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (10,-0.5) {\(n\)};
+\node[] () at (-2,1.5) {Balance:};
+\node[] (ob0) at (0,1.5) {\(B_0\)};
+\node[] (ob1) at (2,1.5) {\(B_1\)};
+\node[] (ob2) at (4,1.5) {\(B_2\)};
+\node[] (obn1) at (8,1.5) {\(B_{n-1}\)};
+\node[] (obn) at (10,1.5) {\(B_n\)};
+\draw[-Latex, brown] (ob0.south east) to[bend right] node[bend right, auto, swap]{\(\times 1+i\)} (2,0.3);
+\draw[-Latex, red] (2,0.3) -- (2,1.3)
+node[midway, left]{\(-R\)};
+\draw[-Latex, brown] (ob1.south east) to[bend right] node[bend right, auto, swap]{\(\times 1+i\)} (4,0.3);
+\draw[-Latex, red] (4,0.3) -- (4,1.3)
+node[midway, left]{\(-R\)};
+\draw[-Latex, brown] (obn1.south east) to[bend right] node[bend right, auto, swap]{\(\times 1+i\)} (10,0.3);
+\draw[-Latex, red] (10,0.3) -- (10,1.3)
+node[midway, left]{\(-R\)};
+\end{tikzpicture}
+\end{center}
+
+\item \label{it:amort-bal-retrospective-fmla}
+Now, based on \labelcref{it:amort-bal-recursive-fmla}, we can deduce:
+\begin{itemize}
+\item \(B_0=L\)
+\item \(B_1=B_0(1+i)-R=L(1+i)-R\)
+\item \(B_2=B_1(1+i)-R=L(1+i)^{2}-R(1+i)-R=L(1+i)^{2}-R\sx{\angl{2}i}\)
+\item \(\vdots\)
+\end{itemize}
+In general, for any \(k=0,\dotsc,n\), we have
+\[
+B_k=\boxed{L(1+i)^k-R\sx{\angl{k}i}}.
+\]
+This is a \emph{retrospective} formula.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\node[] () at (0,-0.5) {0};
+\node[] () at (1,-0.5) {1};
+\node[] () at (2,-0.5) {2};
+\node[] () at (3,-0.5) {\(\cdots\)};
+\node[] () at (4,-0.5) {\(k-1\)};
+\node[] () at (5,-0.5) {\(k\)};
+\node[] () at (6,-0.5) {\(k+1\)};
+\node[] () at (7,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (9,-0.5) {\(n\)};
+\foreach \x in {0,...,9} \draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (1,0.5) {\(R\)};
+\node[] () at (2,0.5) {\(R\)};
+\node[] () at (3,0.5) {\(\cdots\)};
+\node[] () at (4,0.5) {\(R\)};
+\node[] () at (5,0.5) {\(R\)};
+\node[] () at (6,0.5) {\(R\)};
+\node[] () at (7,0.5) {\(\cdots\)};
+\node[] () at (8,0.5) {\(R\)};
+\node[] () at (9,0.5) {\(R\)};
+
+\node[] (loan) at (0,1.8) {\(L\)};
+\node[ForestGreen] (accloan) at (5,1.8) {\(L(1+i)^{k}\)};
+\draw[-Latex, ForestGreen] (loan.north east) to[bend left] (accloan.north west);
+\foreach \x in {1,...,5} \draw[-Latex, magenta] (\x,0.8) to[bend left] (5.1,0.8);
+\node[magenta] () at (5.3,1) {\(R\sx{\angl{k}}\)};
+\draw[dashed, cyan] (-0.5,-2) rectangle (5.2,2);
+\node[cyan] () at (2.5,-1.5) {retrospective (wrt time \(k\))};
+\draw[dashed, magenta!50!white] (0.7,0.3) rectangle (5.3,0.7);
+\end{tikzpicture}
+\end{center}
+\item \label{it:amort-bal-prospective-fmla}
+Based on \labelcref{it:amort-bal-retrospective-fmla}, we can derive a
+\emph{prospective} formula. Since \({\color{violet}L=R\ax{\angl{n}i}}\), for
+any \(k=0,\dotsc,n\), we have
+\[
+B_k={\color{violet}R\ax{\angl{n}i}}(1+i)^{k}-R\sx{\angl{k}i}
+=\boxed{R\ax{\angl{n-k}i}}.
+\]
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\node[] () at (0,-0.5) {0};
+\node[] () at (1,-0.5) {1};
+\node[] () at (2,-0.5) {2};
+\node[] () at (3,-0.5) {\(\cdots\)};
+\node[] () at (4,-0.5) {\(k-1\)};
+\node[] () at (5,-0.5) {\(k\)};
+\node[] () at (6,-0.5) {\(k+1\)};
+\node[] () at (7,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (9,-0.5) {\(n\)};
+\foreach \x in {0,...,9} \draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (1,0.5) {\(R\)};
+\node[] () at (2,0.5) {\(R\)};
+\node[] () at (3,0.5) {\(\cdots\)};
+\node[] () at (4,0.5) {\(R\)};
+\node[] () at (5,0.5) {\(R\)};
+\node[] () at (6,0.5) {\(R\)};
+\node[] () at (7,0.5) {\(\cdots\)};
+\node[] () at (8,0.5) {\(R\)};
+\node[] () at (9,0.5) {\(R\)};
+
+\foreach \x in {1,...,5} \draw[-Latex, brown] (\x,0.8) to[bend left] (5.1,0.8);
+\foreach \x in {6,...,9} \draw[-Latex, brown] (\x,0.8) to[bend right] (5.1,0.8);
+\node[brown] () at (5,2) {\(R\ax{\angl{n}i}(1+i)^{k}\)};
+\draw[dashed, brown!50!white] (0.7,0.3) rectangle (9.3,0.7);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\node[] () at (0,-0.5) {0};
+\node[] () at (1,-0.5) {1};
+\node[] () at (2,-0.5) {2};
+\node[] () at (3,-0.5) {\(\cdots\)};
+\node[] () at (4,-0.5) {\(k-1\)};
+\node[] () at (5,-0.5) {\(k\)};
+\node[] () at (6,-0.5) {\(k+1\)};
+\node[] () at (7,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (9,-0.5) {\(n\)};
+\foreach \x in {0,...,9} \draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (1,0.5) {\(R\)};
+\node[] () at (2,0.5) {\(R\)};
+\node[] () at (3,0.5) {\(\cdots\)};
+\node[] () at (4,0.5) {\(R\)};
+\node[] () at (5,0.5) {\(R\)};
+\node[] () at (6,0.5) {\(R\)};
+\node[] () at (7,0.5) {\(\cdots\)};
+\node[] () at (8,0.5) {\(R\)};
+\node[] () at (9,0.5) {\(R\)};
+
+\node[font=\large] () at (-1,0) {\((-)\)};
+\foreach \x in {1,...,5} \draw[-Latex, magenta] (\x,0.8) to[bend left] (5.1,0.8);
+\node[magenta] () at (5.3,1) {\(R\sx{\angl{k}i}\)};
+\draw[dashed, magenta!50!white] (0.7,0.3) rectangle (5.3,0.7);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (12,0);
+\node[] () at (0,-0.5) {0};
+\node[] () at (1,-0.5) {1};
+\node[] () at (2,-0.5) {2};
+\node[] () at (3,-0.5) {\(\cdots\)};
+\node[] () at (4,-0.5) {\(k-1\)};
+\node[] () at (5,-0.5) {\(k\)};
+\node[] () at (6,-0.5) {\(k+1\)};
+\node[] () at (7,-0.5) {\(\cdots\)};
+\node[] () at (8,-0.5) {\(n-1\)};
+\node[] () at (9,-0.5) {\(n\)};
+\foreach \x in {0,...,9} \draw[fill] (\x,0) circle [radius=0.5mm];
+\node[] () at (1,0.5) {\(R\)};
+\node[] () at (2,0.5) {\(R\)};
+\node[] () at (3,0.5) {\(\cdots\)};
+\node[] () at (4,0.5) {\(R\)};
+\node[] () at (5,0.5) {\(R\)};
+\node[] () at (6,0.5) {\(R\)};
+\node[] () at (7,0.5) {\(\cdots\)};
+\node[] () at (8,0.5) {\(R\)};
+\node[] () at (9,0.5) {\(R\)};
+
+\node[font=\large] () at (-1,0) {\((=)\)};
+\foreach \x in {6,...,9} \draw[-Latex, violet] (\x,0.8) to[bend right] (5.1,0.8);
+\node[violet] () at (4.5,1) {\(R\ax{\angl{n-k}i}\)};
+\draw[dashed, violet!50!white] (5.7,0.3) rectangle (9.3,0.7);
+\draw[dashed, cyan] (5.2,-2) rectangle (10.2,2);
+\node[cyan] () at (7.5,-1.5) {prospective (wrt time \(k\))};
+\end{tikzpicture}
+\end{center}
+\item \label{it:amort-pk-ik-fmlas}
+From \labelcref{it:amort-bal-prospective-fmla}, we can obtain formulas for interest
+repaid \(I_k\) and principal \(P_k\): For any \(k=0,\dotsc,n\),
+\begin{itemize}
+\item \(I_k=B_{k-1}i=R\ax{\angl{n-k}i}\,i=\boxed{R(1-v^{n-k-1})}\);
+\item \(P_k=R-I_k=R-R(1-v^{n-k-1})=\boxed{Rv^{n-k-1}}\).
+\end{itemize}
+These are useful for \emph{directly} computing \(P_k\) and \(I_k\) for any
+\(k\), without performing iterative computations like the amortization schedule
+in \labelcref{it:amort-schedule}.
+
+\begin{note}
+The assumption that the installments are \emph{level} is important for deriving
+these formulas. We do not have formulas like these when the installments are
+non-level.
+\end{note}
+
+\item Now we consider the second case with (possibly) non-level installments. The
+notations are largely similar to the ones in
+\labelcref{it:level-amort-notations}, except that we denote the amount of
+installment at time \(k\) by \(R_k\), for any \(k=1,\dotsc,n\) (where
+\(R_1,\dotsc,R_n\) may be distinct).
+
+\item Following the definition in \labelcref{it:amort-loan-def}, we have
+\[
+L=R_1v+R_2v^2+\dotsb+R_nv^n.
+\]
+\item For this case, the amortization schedule can be obtained by modifying
+\labelcref{it:amort-schedule} slightly:
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Time \(k\)&Installment amount&
+\makecell{Interest repaid\\ \(I_k=B_{k-1}i\)}&
+\makecell{Principal repaid \\ \(P_k=R-I_k\)}&Outstanding balance \(B_k\) \\
+\midrule
+0&\(0\)&\(0\)&\(0\)&\(L\;(=B_0)\) \\
+1&\(R_1\)&\(B_0i\)&\(R_1-I_1\)&\(B_0-P_1\) \\
+2&\(R_2\)&\(B_1i\)&\(R_1-I_2\)&\(B_1-P_2\) \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\(n\)&\(R_n\)&\(B_{n-1}i\)&\(R_n-I_{n-1}\)&\(B_{n-1}-P_n=0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\item In a similar manner as before, we can derive the following formulas:
+\begin{enumerate}
+\item (recursive) \(B_k=B_{k-1}(1+i)-R_k\);
+\item (retrospective) \(B_k=L(1+i)^{k}-R_1(1+i)^{k-1}-R_2(1+i)^{k-2}-\dotsb-R_k\);
+\item (prospective) \(B_k=R_{k+1}v+R_{k+2}v^2+\dotsb+R_nv^{n-k}\),
+\end{enumerate}
+for any \(k=1,\dotsc,n\).
+\end{enumerate}
+\subsection{Sinking Fund Method}
+\begin{enumerate}
+\item Here we shall focus on the case where the sinking fund deposits are
+\emph{level}, and we introduce the following notations:
+\begin{itemize}
+\item \(L\): amount borrowed (principal)
+\item \(n\): number of installments
+\item \(D\): amount of each sinking fund deposit
+\item \(R\): total amount of payment made at each time point (which is the
+installment for interest on loan \faIcon{dollar-sign} + \(D\), i.e., \(Li+D\))
+\item \(i\): (annual effective) interest rate for the loan
+\item \(j\): (annual effective) interest rate earned on sinking fund
+\end{itemize}
+\item \label{it:sinking-fund-def}
+For a \defn{sinking fund}, we have by definition
+\[
+\text{AV of all sinking fund deposits at time \(n\) (@ rate \(j\))} = L.
+\]
+Symbolically, in this case we have
+\[
+L=D\sx{\angl{n}j}.
+\]
+\item \label{it:sinking-fund-total-payment-amt-fmla}
+Now, by \labelcref{it:sinking-fund-def}, we have
+\[
+R=Li+D=\boxed{L\qty(i+\frac{1}{\sx{\angl{n}j}})},
+\]
+which gives a formula for computing the \emph{total amount of payment} \(R\).
+
+\begin{warning}
+\(R\) here is \underline{not} the amount of installment for interest on loan!
+That installment is \emph{always} \(Li\) (constant) for the sinking fund
+method, by definition.
+\end{warning}
+\item We can express the formula in
+\labelcref{it:sinking-fund-total-payment-amt-fmla} more compactly by defining
+the notation \(\ax{\angl{n}i\& j}\) in the following way:
+\[
+\frac{1}{\ax{\angl{n}i\& j}}=i+\frac{1}{\sx{\angl{n}j}}.
+\]
+\begin{intuition}
+To intuitively understand this choice of notation, note that we have
+\[
+\frac{1}{\ax{\angl{n}i}}=i+\frac{1}{\sx{\angl{n}i}}
+\]
+since
+\[
+\text{LHS}=\frac{i}{1-v^n}=\frac{i(1+i)^{n}}{(1+i)^{n}-1}
+=\frac{i[(1+i)^{n}-1]+i}{(1+i)^{n}-1}
+=i+\frac{i}{(1+i)^n-1}
+=\text{RHS}.
+\]
+\end{intuition}
+
+Using this notation, we can write
+\[
+R=\frac{L}{\ax{\angl{n}i\& j}}.
+\]
+Particularly, when \(i=j\), we have
+\[
+R=\frac{L}{\ax{\angl{n}i\& i}}=\frac{L}{\ax{\angl{n}i}},
+\]
+which turns out to be the same as the expression of ``\(R\)'' for amortization
+method (though the meanings of two ``\(R\)''s are different).
+\end{enumerate}
