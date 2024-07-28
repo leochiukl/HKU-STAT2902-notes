@@ -44,12 +44,16 @@ is the PV of the NCFs at rate \(i\):
 The solution to the equation \(P(i)=0\) (unknown: \(i\)) is called
 \defn{internal rate of return} (IRR) or \defn{yield rate} of the project.
 
-\begin{note}
-``Internal'' suggests that the calculation of IRR itself does not consider
+\begin{remark}
+\item ``Internal'' suggests that the calculation of IRR itself does not consider
 ``external factors'' like inflation. (But of course, one may already
 incorporate some ``external information'' into the NCFs by ``adjusting'' them
 based on some ``external factors'').
-\end{note}
+\item There is no general ``formula'' to find IRR, so typically we need to use
+numerical method to find IRR. (But we need to be careful that there may be zero
+or multiple IRRs. For a sufficient condition to ensure uniqueness of IRR, see
+\labelcref{it:suff-cond-irr-unique}.)
+\end{remark}
 \item \label{it:acc-disc-ncf-meaning}
 Before proceeding further, let us clarify on the meaning of
 accumulating/discounting positive and negative NCF.

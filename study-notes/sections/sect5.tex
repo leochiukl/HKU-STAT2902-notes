@@ -16,8 +16,10 @@ For other kinds of securities like forwards, futures, and options, see STAT3905.
 stated amount(s) of money at some future date(s).
 
 \begin{remark}
-\item This definition is rather general, so there are indeed many kinds of bonds. But
-here we shall focus on some ``simple'' bonds.
+\item This definition is rather general, so there are indeed many kinds of
+bonds. But here we shall focus on some ``simple'' bonds. (Nonetheless, we will
+briefly discuss some variants in
+\cref{subsect:serial-bonds,subsect:callable-bonds}.)
 \item \defn{Coupons} \faIcon{money-bill-wave} are periodic \emph{level}
 payments promised in a bond, which are made at the end of each period (year
 unless otherwise specified).
@@ -35,7 +37,7 @@ See STAT3904 for a way to handle the \emph{default risk}.
 payments are made)
 \begin{note}
 This will be loosened when we discuss
-\emph{callable bonds} later in \cref{sect:bonds-other-securities}.
+\emph{callable bonds} later in \cref{subsect:callable-bonds}.
 \end{note};
 \item we are only interested in finding bond price (given a ``yield
 rate''\footnote{This is related to the concept of IRR in
@@ -52,9 +54,10 @@ For a bond with \(n\) periods term, we call it \defn{\(n\)-period bond}.
 The main questions of interest here are:
 \begin{enumerate}
 \item Given a specific yield rate, what is the bond price (at time 0, without
-loss of generality\footnote{For time-\(t\) price of an \(n\)-year bond, it is
-the same as the time-0 price of an otherwise identical bond, but with term
-\(n-t\) years.})?
+loss of generality\footnote{For time-\(k\) price of an \(n\)-year bond (where
+``time \(k\)'' here is supposed to be the time immediately after payment of
+\(k\)th coupon), it is the same as the time-0 price of an otherwise identical
+bond, but with term \(n-k\) years.})?
 
 \item Given a time-0 bond price (purchasing price), what is the (implied) yield rate?
 \begin{note}
@@ -152,7 +155,8 @@ payments from the bond \faIcon{arrow-right} \(Gi=Fr\).
 \node[] () at (10,2.5) {\(+Gi+C\)};
 \end{tikzpicture}
 \end{center}
-\item Now we are ready to answer the first question in
+\item \label{it:bond-pricing-fmlas}
+Now we are ready to answer the first question in
 \labelcref{it:bond-main-qs}. To determine the time-0 bond price given a
 specific yield rate \(i\), we have the following four formulas:
 \begin{enumerate}
@@ -205,7 +209,7 @@ P=Fr\ax{\angl{n}i}+Cv^n
 The main feature of base amount formula is that there is not
 ``\(\ax{\angl{n}i}\)'' and we just have ``\(v^n\)'' \faIcon{arrow-right}
 relatively simpler to compute.
-\item \label{it:bond-base-amt-fmla}
+\item \label{it:bond-makeham-fmla}
 Finally, Makeham's formula can be derived as follows:
 \[
 P=Fr\ax{\angl{n}i}+Cv^n
@@ -216,8 +220,313 @@ P=Fr\ax{\angl{n}i}+Cv^n
 By comparing with basic formula, we see that \(\displaystyle \frac{g}{i}(C-K)\)
 is the PV of all coupons (\(Fr\ax{\angl{n}i}\)). Then, consider:
 \begin{itemize}
-\item \(g>i\) \faIcon{arrow-right} sold at premium \faIcon{arrow-right} PV of coupons relatively ``higher'' as \(g/i>1\) (We ``pay extra for it'')
-\item \(g<i\) \faIcon{arrow-right} sold at discount \faIcon{arrow-right} PV of coupons relatively ``lower'' as \(g/i<1\) (We ``pay less, so have less''.)
+\item \(g>i\) \faIcon{arrow-right} sold at premium \faIcon{arrow-right} PV of coupons is relatively ``higher'' as \(g/i>1\). (We ``pay extra for it'')
+\item \(g<i\) \faIcon{arrow-right} sold at discount \faIcon{arrow-right} PV of coupons is relatively ``lower'' as \(g/i<1\). (We ``pay less, so have less''.)
 \end{itemize}
 \end{intuition}
+\item Answering the second question in \labelcref{it:bond-main-qs} is quite
+straightforward since essentially we are just finding IRR of a ``project'', so
+standard approaches (e.g.\ numerical) apply.
+\end{enumerate}
+\subsection{Incorporating Income and Capital Gains Taxes}
+\begin{enumerate}
+\item In practice, there are taxes charged on the bond payments. Two typical
+taxes are income and capital gain taxes. Here we consider the situation that
+\emph{income} tax is payable for each coupon payment (treated as ``income''),
+and \emph{capital gain} tax is payable (at the maturity) \emph{in case} the redemption
+value (\(C\)) exceeds purchasing price (\(P\)) (the difference \(C-P\) is
+treated as ``capital gain'').
+
+\item \label{it:inc-tax-basic-prem-desc-makeham-fmlas}
+First consider the case with income tax (and no capital gains tax). Let
+\(t_{\text{inc}}\) be the income tax rate. Then, after charging income tax on
+each coupon payment, the amount of each coupon decreases from \(Fr\) to
+\(Fr(1-t_{\text{inc}})\). After making such modification on the coupon amount,
+we can obtain the following bond pricing formulas:
+\begin{enumerate}
+\item basic formula: \(P=Fr(1-t_{\text{inc}})\ax{\angl{n}i}+Cv^n\)
+\item premium/discount formula: \(P=C+C\qty[g(1-t_{\text{inc}})-i]\ax{\angl{n}i}\)
+\item Makeham's formula: \(\displaystyle P=K+\frac{g(1-t_{\text{inc}})}{i}(C-K)\)
+\end{enumerate}
+
+\item \label{it:cap-gain-criterion}
+To incorporate capital gains tax, it is more tricky since we also need to
+decide \emph{whether} there is a capital gain (and hence capital gains tax). As
+mentioned previously, there is a capital gain iff \(C>P\). Based on
+premium/discount formula, we know that the condition is equivalent to:
+\begin{itemize}
+\item \(g<i\) (no income tax), or
+\item \(g(1-t_{\text{inc}})<i\) (income tax rate: \(t_{\text{inc}}\)).
+\end{itemize}
+\begin{note}
+This equivalent criterion is helpful for deciding whether there is capital
+gains tax payable.
+\end{note}
+
+\item \label{it:handle-cap-gain-tax}
+Now, suppose that capital gains tax is payable, and let \(t_{\text{cap}}\) be
+the capital gains tax rate. Then, the capital gains tax payable at the maturity
+is \((C-P)t_{\text{cap}}\), which can be treated as an extra cash outflow (from
+the perspective of bond purchaser) at the maturity. Hence, we just need to add
+\((C-P)t_{\text{cap}}v^n\) at the RHS of bond pricing formulas in
+\labelcref{it:bond-pricing-fmlas} to handle the capital gains tax.
+\end{enumerate}
+\subsection{Incorporating Inflation}
+\begin{enumerate}
+\item Another practical element involved is \emph{inflation}, which affects the
+\emph{real} amounts of future cash flows.
+
+\item \label{it:real-pv-fmla}
+To track the inflation, we usually utilize a \emph{price level index},
+denoted by \(Q(t)\) for time-\(t\) value. The defining property of a
+\defn{price level index} is that the \defn{real present value} of a time-\(t\) cash flow
+\(Q(t)(1+i)^t\) is \(Q(0)\) (so both interest and inflation effects are
+incorporated). Expressing differently, the real present value of a time-\(t\)
+cash flow \(C\) is
+\[
+C\cdot\underbrace{\frac{Q(0)}{Q(t)}}_{\text{inflation}}\cdot\underbrace{v^t}_{\text{interest}}.
+\]
+\item Thus, given a price level index, we can simply modify present value to
+\emph{real} present value to incorporate inflation. For example, basic formula
+becomes
+\[
+P=Fr\qty(\frac{Q(0)}{Q(1)}v+\frac{Q(0)}{Q(2)}v^{2}+\dotsb+\frac{Q(0)}{Q(n)}v^{n})+C\cdot\frac{Q(0)}{Q(n)}v^n
+\]
+(assuming absence of taxes here; but income and capital gains taxes can also be
+incorporated in a similar manner as before).
+\end{enumerate}
+\subsection{Bond Amortization}
+\begin{enumerate}
+\item Since bond \emph{seller} is effectively borrowing money from bond
+\emph{buyer}, and the loan is repaid by installments (in the form of  coupon
+payments and final payment of redemption value), we can also do \emph{loan
+amortization} for a \emph{bond} (from the perspective of bond seller), like
+\cref{subsect:amort-method}.
+
+\item \label{it:book-value-prosp-fmla}
+For bond amortization, an important quantity is \defn{book value} of a
+bond at time \(k\) (\(k=0,\dotsc,n\)), which is the time-\(k\) price of the
+bond (i.e., time-0 price of an otherwise identical bond but with \(n-k\)
+periods term). Here, denote the time-\(k\) book value by \(B_k\). Then, by
+basic formula, for any \(k=0,\dotsc,n\),
+\begin{equation}
+\label{eq:book-val-basic-fmla}
+B_k=Fr\ax{\angl{n-k}}+Cv^{n-k}.
+\end{equation}
+\item To relate book value and loan amortization, the time-\(k\) book value can
+actually be understood as the time-\(k\) \emph{outstanding balance} for the
+loan (implied by the bond), by comparing \cref{eq:book-val-basic-fmla} with the
+prospective method in loan amortization.
+
+\begin{warning}
+\Cref{eq:book-val-basic-fmla} is \underline{not} \emph{completely} identical to the formula
+for prospective method. They are the same for any \(k=0,\dotsc,n-1\), but when
+\(k=n\), the time-\(n\) book value here is \(C\) (while the time-\(n\)
+outstanding balance is zero for loan amortization).
+\end{warning}
+
+\item \label{it:book-value-retro-recur-fmlas}
+With this understanding, we can also develop similar formulas
+corresponding to the recursive and retrospective methods in loan amortization:
+\begin{note}
+We need to have some special treatment for time-\(n\) book value, due to the
+distinction mentioned above.
+\end{note}
+For any \(k=0,\dotsc,n\),
+\begin{itemize}
+\item (recursive) \(B_{k}=B_{k-1}(1+i)-Fr\)
+\begin{warning}
+We do \underline{not} have \(B_n=B_{n-1}(1+i)-Fr-C\) because of the special treatment!
+\end{warning}
+\item (retrospective) \(B_k=P(1+i)^k-Fr\sx{\angl{k}}\)
+\begin{note}
+\(P\) is the ``amount of loan'' in this context.
+\end{note}
+\begin{warning}
+We do \underline{not} have \(B_n=P(1+i)^k-Fr\sx{\angl{n}}-C\) because of the special treatment!
+\end{warning}
+\end{itemize}
+
+\item Now we introduce a notation to denote changes in book values: \(\Delta
+B_k=B_{k+1}-B_k\), which is given by \(B_ki-Fr\) by recursive formula.
+
+\item By premium/discount formula, for any \(k=0,\dotsc,n\), we have
+\[
+B_k=\underbrace{C}_{B_n}+\underbrace{C(g-i)\ax{\angl{n-k}}}_{\text{\ystar}}.
+\]
+From here we can observe that:
+\begin{itemize}
+\item When the bond is sold at premium (\(g>i\)), \ystar{} gradually
+\faIcon{arrow-down} to zero (from a positive value) as \(k\) \faIcon{arrow-up}. Hence,
+\(\Delta B_k<0\) for any \(k=1,\dotsc,n\).
+
+\begin{remark}
+\item \ystar{} is amount of premium (with respect to time-\(k\) price).
+\item This process is known as \defn{amortization of premium} or \defn{writing down}.
+\end{remark}
+
+\item When the bond is sold at discount (\(g<i\)), \ystar{} gradually
+\faIcon{arrow-up} to zero (from a negative value) as \(k\) \faIcon{arrow-up}. Hence,
+\(\Delta B_k>0\) for any \(k=1,\dotsc,n\).
+
+\begin{remark}
+\item \ystar{} (in absolute value) is amount of discount (with respect to time-\(k\) price).
+\item This process is known as \defn{accumulation of discount} or \defn{writing up}.
+\end{remark}
+\end{itemize}
+In either case, the time-\(k\) book value gets closer and closer to the
+time-\(n\) book value \(C\) as \(k\) \faIcon{arrow-up}. Intuitively, this is
+because the premium is ``amortized'', or the discount is ``cancelled out'' by
+``accumulation''.
+
+\item \label{it:bond-amort-schedule}
+We can also develop a \emph{bond amortization schedule}, like
+\labelcref{it:amort-schedule}:
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Time \(k\)&
+\makecell{``Installment''\\ (coupon) amount}&
+\makecell{Interest repaid\\ \(I_k=B_{k-1}i\)}&
+\makecell{Principal repaid \\ \(P_k=Cg-I_k\)}&Book value \(B_k\) \\
+\midrule
+0&\(0\)&\(0\)&\(0\)&\(C+C(g-i)\ax{\angl{n}}\) \\
+1&\(Cg\)&\(B_0i\)&\(Cg-I_1\)&\(C+C(g-i)\ax{\angl{n-1}}\) \\
+2&\(Cg\)&\(B_1i\)&\(Cg-I_2\)&\(C+C(g-i)\ax{\angl{n-2}}\) \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\(n\)&\(Cg\)&\(B_{n-1}i\)&\(Cg-I_{n}\)&\(C\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item \label{it:bond-amort-pk-fmla}
+From \labelcref{it:bond-amort-schedule}, we can derive a formula for
+\(P_k\) for any \(k=1,\dotsc,n\):
+\[
+P_k=Cg-iB_{k-1}
+=Cg-i\qty[C+C(g-i)\ax{n-k+1}]
+=C(g-i)(1-i\ax{n-k+1})
+=\boxed{C(g-i)v^{n-k+1}}.
+\]
+Since \(P_k={\color{violet}-}\Delta B_{k-1}\), this also suggests a formula for
+\(\Delta B_k\) for any \(k=0,\dotsc,n-1\).
+\end{enumerate}
+
+\subsection{Serial Bonds}
+\label{subsect:serial-bonds}
+\begin{enumerate}
+\item A \defn{serial bond} is a series of (possibly) coupon-paying
+(``ordinary'') bonds with the same \(g\) and \(i\),  but possibly different
+\(n\) (maturity dates differ) and \(C\) (redemption values differ).
+
+\begin{note}
+Thus, a serial bond is essentially a portfolio of (possibly) coupon-paying bonds.
+\end{note}
+
+\item \label{it:serial-bond-price-fmla}
+To price a serial bond, we need to price the bonds in the series
+individually and sum them up. To do this in a convenient way, we use
+\emph{Makeham's formula}.
+
+\item Suppose that there are \(m\) bonds in the series, with maturity dates
+\(n_1,\dotsc,n_m\) and redemption values \(C_1,\dotsc,C_m\) respectively. We
+also denote the present values of redemption values by \(K_1,\dotsc,K_m\), and
+the (time-0) prices of \(m\) bonds by \(P_1,\dotsc,P_m\) respectively. Then,
+the (time-0) price of serial bond is
+\[
+\sum_{i=1}^{m}P_i=\sum_{i=1}^{m}\qty(K_i+\frac{g}{i}(C_i-K_i))
+=\sum_{i=1}^{m}K_i+\frac{g}{i}\qty(\sum_{i=1}^{m}C_i-\sum_{i=1}^{m}K_i)
+=\boxed{K'+\frac{g}{i}(C'-K')}
+\]
+where \(\displaystyle K'=\sum_{i=1}^{m}K_i\) and \(\displaystyle
+C'=\sum_{i=1}^{m}C_i\).
+
+\begin{note}
+The expression is still quite like the form in Makeham's formula: We just need
+to use \(K'\) and \(C'\) instead of simply \(K\) and \(C\).
+\end{note}
+\end{enumerate}
+
+\subsection{Callable Bonds}
+\label{subsect:callable-bonds}
+\begin{enumerate}
+\item A \defn{callable bond} is a bond where the bond issuer (seller) has an
+\emph{option} to redeem (i.e., pay the redemption value to buyer) early to
+force the bond to mature at that time (``call'' the bond).
+
+\begin{note}
+Since there are different possible time for the issuer to call the bond, the
+bond term (time length from time 0 to maturity) is \emph{not fixed} for a
+callable bond.
+\end{note}
+
+\item To make the analysis of callable bond ``more tractable'', one way is to
+assume that the option is utilized such that the result is \emph{optimal for
+the issuer} (and hence worst for the buyer\footnote{This is because bond
+transaction can be regarded as a \emph{zero-sum game} (ignoring transaction
+costs etc.).}). So, from the perspective of \emph{bond buyer}, we carry out
+calculations in ``worst-case scenario''.
+
+\begin{note}
+More precisely, ``worst result'' for bond buyer means the present value of cash
+inflows (from the perspective of bond buyer) is the lowest.\footnote{Note that
+the initial cash outflow (payment of bond price) can be ignored since it is the
+same no matter when the issuer calls the bond: It has already been paid, and
+changes in call timing would not affect that amount!}
+\end{note}
+
+\item \label{it:callable-bond-price}
+A general first step for performing such calculations is to compare the
+hypothetical purchasing prices that \emph{would} result under different
+scenarios \begin{warning} Those hypothetical purchasing prices should not be
+confused with the \emph{actual} purchasing price! \end{warning}
+\faIcon{arrow-right} \emph{lowest one} is the worst for bond buyer since it
+implies that under that scenario, the present value of all future cash inflows
+is the lowest.
+
+After that, the lowest value is the price of the callable bond since it
+corresponds to the worst-case scenario for bond buyer.
+\end{enumerate}
+\subsection{Preferred Stocks}
+\begin{enumerate}
+\item A \defn{preferred stock} is a security which provides fixed dividend
+payments at the end of each period forever.
+
+\begin{note}
+A preferred stock is like a bond, but it is an \emph{ownership security} rather
+than a \emph{debt security}. Also, since the payment continues forever, it has
+no maturity date.
+\end{note}
+
+\item \label{it:pref-stock-price}
+Given a specific yield rate \(i\), the purchasing price \(P\) of a preferred stock
+with dividend amount \(D\) can be found using a similar way as basic formula:
+\[
+P=D\ax{\angl{\infty}i}=\boxed{\frac{D}{i}}.
+\]
+\end{enumerate}
+\subsection{Common Stocks}
+\begin{enumerate}
+\item A \defn{common stock} a security which provides dividend payments (which
+are not fixed) at the end of each period forever.
+
+\item The future dividends for a common stock are influenced by many factors
+(e.g.\ profitability, economic environment etc.). Different people may have
+different ``views'' on future dividends, even with the knowledge of the same
+\emph{current information}. Still, an ``overall'' view from the market is
+reflected by the current market price of the common stock. (See STAT3904 for
+more discussions about this.)
+
+\item \label{it:common-stock-price}
+Suppose that a specific yield rate \(i\) is given. Then, consider a common
+stock where the amounts of dividends at time 1, 2, 3, \(\dotsc\) are in a
+geometric sequence: \(D\), \(D(1+k)\), \(D(1+k)^{2},\dotsc\) (resp.) with
+\(-1<k<i\) (so that dividends are all positive and the geometric sum below is
+finite).
+
+The purchasing price \(P\) of the common stock is
+\[
+P=Dv\qty[1+\frac{1+k}{1+i}+\qty(\frac{1+k}{1+i})^{2}+\dotsb]
+=\frac{Dv}{1-\frac{1+k}{1+i}}=\boxed{\frac{D}{i-k}}.
+\]
 \end{enumerate}
