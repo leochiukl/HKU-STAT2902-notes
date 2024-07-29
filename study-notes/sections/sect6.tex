@@ -1,0 +1,347 @@
+\section{Evolution of Interest Rates}
+\label{sect:int-evol}
+\begin{enumerate}
+\item In this section, we will focus on studying how interest rates/yield rates
+\emph{evolve}, both over different \emph{bond terms}
+(\cref{subsect:term-structure,subsect:spot-fwd-par-yld}) and over \emph{time}
+(in a random manner) (\cref{subsect:stochastic-int}).
+\end{enumerate}
+
+\subsection{Term Structure of Interest Rates}
+\label{subsect:term-structure}
+\begin{enumerate}
+\item In \cref{sect:bonds-other-securities}, we have assumed that yield rate
+stays constant throughout, regardless of bond term.
+
+However, this is clearly \emph{not} true in practice: We can observe that for
+otherwise identical bonds with different terms, the (implied) yield rates
+differ. This suggests that yield rate appears to have some relationship with
+bond term \faIcon{arrow-right} a single value is \emph{not} sufficient to
+describe yield rate!
+
+\begin{note}
+The phenomenon that yield rate varies according to bond term is called
+\defn{term structure of interest rates}.
+\end{note}
+
+\item To represent the term structure of interest rates, we can use a
+\defn{yield curve} (a function mapping from term to respective yield rate).
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0.1:5, xmin=-0.2, ymin=-0.2, ymax=1.5,
+axis lines=middle, ytick=\empty, xtick=\empty,
+ylabel={(annual) yield rate},
+xlabel={bond term}, title={Yield Curve}]
+\addplot[blue]{1.2-1/(1+x)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item In attempt to \emph{explain} this phenomenon, there are three typical
+theories: \begin{enumerate}
+\item expectation theory
+\item liquidity preference
+\item market segmentation
+\end{enumerate}
+\item For \defn{expectation theory}:
+\begin{itemize}
+\item expected \faIcon{arrow-down} in future interest rate 
+
+\faIcon{arrow-alt-circle-right} we want to ``capture'' high interest rate available now for \emph{longer time}
+
+\faIcon{arrow-alt-circle-right} short-term (long-term) bond becomes {\color{red}\emph{less attractive}}
+({\color{ForestGreen}\emph{more attractive}})
+
+\faIcon{arrow-alt-circle-right} purchasing price \faIcon{arrow-down} (\faIcon{arrow-up})
+
+\faIcon{arrow-alt-circle-right} implied yield rate \faIcon{arrow-up} (\faIcon{arrow-down})
+
+\item expected \faIcon{arrow-up} in future interest rate 
+
+\faIcon{arrow-alt-circle-right} we do not want to ``lock in'' a low interest rate available now for too long
+
+\faIcon{arrow-alt-circle-right} short-term (long-term) bond becomes {\color{ForestGreen}\emph{more attractive}}
+({\color{red}\emph{less attractive}})
+
+\faIcon{arrow-alt-circle-right} purchasing price \faIcon{arrow-up} (\faIcon{arrow-down})
+
+\faIcon{arrow-alt-circle-right} implied yield rate \faIcon{arrow-down} (\faIcon{arrow-up})
+\end{itemize}
+
+\item For \defn{liquidity preference}: Investors prefer to be ``liquid'' and
+want to have free access to their funds
+
+\faIcon{arrow-alt-circle-right} \emph{naturally} inclined towards short-term
+rather than long-term bonds
+
+\faIcon{arrow-alt-circle-right} \emph{higher} yield rate required for
+\emph{long-term} bonds to compensate for this preference.
+
+\item For \defn{market segmentation}: Bonds of \emph{different} terms are
+attractive for \emph{different} investors (as they are used for different
+purposes)
+
+\faIcon{arrow-alt-circle-right} ``different markets'' for bonds of different
+terms (market ``divided'' into multiple segments)
+
+\faIcon{arrow-alt-circle-right} bonds of different terms are subject to
+different forces of supply and demand
+
+\faIcon{arrow-alt-circle-right} they have different prices and different yield
+rates.
+\end{enumerate}
+
+\subsection{Spot Rates, Forward Rates, and Par Yields}
+\label{subsect:spot-fwd-par-yld}
+\begin{enumerate}
+\item Apart from providing whole yield curve, there are other methods to describe
+term structure of interest rates (partially), using the following terminologies:
+\begin{enumerate}
+\item spot rates
+\item forward rates
+\item par yields
+\end{enumerate}
+\begin{note}
+The ``underlying'' measurement period for these rates is years by convention.
+\end{note}
+
+\item A \defn{spot rate} for a term of \(n\) periods (or \(n\)-period spot
+rate) is the (constant) \emph{annual} interest rate equivalent to the
+\(n\)-period interest rate (both rates are applicable from time 0 to time
+\(n\)).  (Equivalently, it is the annual yield rate of an \(n\)-period
+zero-coupon bond purchased at time 0\footnote{under the condition that the
+interest rate earned in the zero-coupon bond is the same as the ``market''
+interest rate (which should be assumed by default)}.) The notation for
+\(n\)-period spot rate is \(s_n\).
+
+\begin{note}
+Typically \(n\) is an integer, but it does not have to be.
+\end{note}
+
+\item For example, if we are given \(n\)-period spot rate for every \(n\in\N\)
+(for describing the term structure of interest rates), we can find the
+purchasing price of a coupon-paying bond by basic formula as follows:
+\[
+P=Fr\qty[(1+s_1)^{-1}+(1+s_2)^{-2}+\dotsb+(1+s_n)^{-n}]+C(1+s_n)^{-n}.
+\]
+\item An \(m\)-period deferred \(n\)-period \defn{forward rate} is the
+\emph{annual} interest rate equivalent to the \(n\)-period interest rate (both
+rates are applicable from time \(m\) (starting time deferred for \(m\) periods)
+to time \(m+n\)), denoted by \(\actsymb[n]{f}{m}\). \begin{warning}
+This is \underline{not} to be confused with \(\actsymb[m]{f}{n}\)!
+The right subscript denotes the \emph{starting time} and the left subscript
+denotes the \emph{time length}.
+\end{warning}
+
+\begin{note}
+Typically \(m\) and \(n\) are integers, but they do not have to be.
+\end{note}
+
+\item \label{it:fwd-rate-spot-rate-fmla}
+Consider spot rates and forward rates for the \emph{same} term structure of
+interest rates. Since the ``growth rate'' is supposed to be independent from
+timing of initial investment (as in
+\labelcref{it:growth-independent-amt-time}), we have the following
+relationship between spot and forward rates:
+\[
+(1+\actsymb[n]{f}{m})^n=\frac{(1+s_{m+n})^{m+n}}{(1+s_{m})^{m}},
+\]
+for any \(m\) and \(n\).
+
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (10,0) node[right]{Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below] {0}
+node[above, brown]{1}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}};
+\fill[] (4,0) circle [radius=0.05]
+node[below=0.1cm] {\(m\)}
+node[above, brown]{\((1+s_m)^{m}\)}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}}
+node[below=0.6cm, violet]{\(1\)}
+node[below=1.2cm, violet]{\faIcon{piggy-bank}};
+\fill[] (8,0) circle [radius=0.05]
+node[below=0.1cm] {\(m+n\)}
+node[above, brown]{\((1+s_{m+n})^{m+n}\)}
+node[above=0.6cm, brown]{\faIcon{piggy-bank}}
+node[below=0.5cm, violet]{\((1+\actsymb[n]{f}{m})^{n}\)}
+node[below=1.2cm, violet]{\faIcon{piggy-bank}};
+\draw[-Latex, brown] (5,0.6) -- (7,0.6);
+\draw[-Latex, violet] (5,-1.2) -- (7,-1.2);
+\draw[<->, magenta] (6,-1.1) -- (6,0.5)
+node[pos=0.4, right, text width=1cm]{same growth};
+
+\node[brown] () at (10,1) {spot};
+\node[violet] () at (10,-1.5) {forward};
+\end{tikzpicture}
+\end{center}
+
+\item \label{it:spot-rate-in-fwd-rates-fmla}
+As a corollary of \labelcref{it:fwd-rate-spot-rate-fmla}, we have
+\[
+(1+s_n)^n=(1+\actsymb[1]{f}{0})(1+\actsymb[1]{f}{1})\dotsb(1+\actsymb[1]{f}{n-1})
+\]
+for any \(n\in\N\).
+
+\item Finally, for \emph{par yield}, it is related to a bond \emph{redeemable
+at par} (i.e., \(C=F\)). To motivate the definition of par yield, we shall
+consider the following result.
+\begin{proposition}
+\label{prp:price-par-coupon-yield}
+For a bond redeemable at par, its coupon rate \(r\) equals its yield rate \(i\)
+(assumed to be nonzero and exist uniquely) iff its purchasing price \(P\)
+equals its par value \(F\).
+\end{proposition}
+\begin{pf}
+``\(\Rightarrow\)'': Assume that \(r=i\). Then, by basic formula,
+\[
+P=Fi\ax{\angl{n}i}+Fv^n
+=F(1-v^n)+Fv^n=F.
+\]
+``\(\Leftarrow\)'': Assume that \(P=F\). Then, by definition of IRR, we have
+\[
+-F+Fr\ax{\angl{n}i}+Fv^n=0\implies 
+\frac{r}{i}(1-v^n)+v^n=1
+\implies r(1-v^n)=i(1-v^n)
+\implies r=i.
+\]
+\end{pf}
+\item An \defn{\(n\)-period par yield} is a coupon rate for an \(n\)-period
+bond that is redeemable at par such that its price equals its par value (``sold
+at par''), denoted by \(i_{p_n}\) (\(n\in\N\)).
+
+\begin{note}
+By \cref{prp:price-par-coupon-yield}, equivalently, it is a coupon rate for a
+bond redeemable at \underline{par} such that the coupon rate and
+\underline{yield} rate coincide (when yield rate exists uniquely)
+\faIcon{arrow-right} hence named ``par yield''.
+\end{note}
+
+\item Following the definition of par yield, given spot rates, we have by
+basic formula
+\[
+F=Fi_{p_n}\qty[(1+s_1)^{-1}+\dotsb+(1+s_n)^{-n}]+F(1+s_n)^{-n},
+\]
+which implies
+\[
+i_{p_n}=\frac{1-(1+s_{n})^{-n}}{(1+s_1)^{-1}+\dotsb+(1+s_n)^{-n}}.
+\]
+From here we can see that par yield also suggests relationship of a kind of
+``rate'' with bond term \(n\), ``through'' spot rates \faIcon{arrow-right} it
+also describes term structure of interest rates.
+\end{enumerate}
+\subsection{Stochastic Approach to Interest}
+\label{subsect:stochastic-int}
+\begin{enumerate}
+\item So far all interest-related quantities are deterministic (non-random)
+\faIcon{arrow-right} \emph{deterministic} approach to interest.
+
+\item Here we are interested in investigating the behaviour of various
+quantities when we incorporate \emph{randomness} to interest
+\faIcon{arrow-right} \emph{stochastic} approach to interest, which may be seen
+as ``more realistic''.
+
+\item We shall start by introducing randomness to \emph{effective} interest
+rate for \(n\)th period: \(i_n\), for every \(n\in\N\). In stochastic approach
+to interest, we shall suppose the effective interest rate for \(n\)th period is
+a \emph{random variable} \(I_n\), for any \(n\in\N\).
+
+\begin{note}
+\(I_1,I_2,\dotsc\) may or may not be independent and they can have different
+distributions.
+\end{note}
+
+\item Denote the mean and variance of \(I_n\) by \(j_n\) and \(s_n^2\)
+respectively. Now, we are interested in what happens if we do the work in
+\cref{sect:interest-measurement} under this stochastic setting.
+
+\item \label{it:stoch-acc-value-prob-quantities-one-period}
+For example, for the time-\(n\) accumulated value of 1 invested at time
+\(n-1\):
+\begin{itemize}
+\item its mean is \(\expv{1+I_n}=\boxed{1+j_n}\);
+\item its variance is \(\vari{1+I_n}=\vari{I_n}=\boxed{s_n^2}\);
+\item its second moment is
+\(\expv{(1+I_n)^{2}}=\vari{1+I_n}+(\expv{1+I_n})^{2}=\boxed{s_n^2+(1+j_n)^2}\).
+\end{itemize}
+\item \label{it:stoch-acc-value-prob-quantities-n-periods}
+For calculations involving \emph{multiple} periods, they are affected by
+the \emph{dependence structure} of \(I_1,I_2,\dotsc\). As a simple case, we
+focus on the time interval \([0,n]\) and \(I_1,\dotsc,I_n\) are
+\emph{independent}.
+
+Denote the time-\(n\) accumulated value of principal of 1 by \(S_n\) (this is
+\(a(n)\)). Then, by definition of effective interest rate, we have
+\[
+S_n=(1+I_1)\dotsb(1+I_n).
+\]
+Due to independence, we can compute the following probabilistic quantities
+easily:
+\begin{itemize}
+\item mean: \(\expv{S_n}=\expv{1+I_1}\dotsb\expv{1+I_n}=\boxed{(1+j_1)\dotsb(1+j_n)}\)
+\item second moment: \(\expv{S_n^2}=\expv{(1+I_1)^2}\dotsb\expv{(1+I_n)^2}
+=\boxed{\qty[s_1^2+(1+j_1)^2]\dotsb\qty[s_n^2+(1+j_n)^2]}\)
+\item variance: \(\vari{S_n}=\expv{S_n^2}-(\expv{S_n})^{2}
+=\boxed{\qty[s_1^2+(1+j_1)^2]\dotsb\qty[s_n^2+(1+j_n)^2]-\qty[(1+j_1)\dotsb(1+j_n)]^{2}}\)
+\end{itemize}
+
+\item For further specification of the behaviour of stochastic interest, we may
+impose a class of distribution on each of \(I_1,I_2,\dotsc\), and a common one
+is \emph{lognormal distribution}.
+
+\item A random variable \(Y\) follows a \defn{lognormal distribution} with
+parameters \(\mu\) and \(\sigma^2\) (denoted by \(Y\sim
+\text{\(LN(\mu,\sigma^2)\)}\)) if the ``log'' of \(Y\), \(\ln Y\),
+follows a normal distribution with mean \(\mu\) and variance \(\sigma^2\),
+i.e., \(\ln Y\sim N(\mu,\sigma^2)\).
+
+\begin{warning}
+The parameters \(\mu\) and \(\sigma^2\) are \emph{not} the mean and variance of
+\(Y\)!
+\end{warning}
+
+\item \label{it:ln-dist-mean-var}
+To compute moments of \(Y\), it is useful to recall that the moment
+generating function of a normal r.v. \(X\sim N(\mu,\sigma^2)\):
+\[
+M_X(t)=\expv{e^{tX}}=\exp\qty(\mu t+\frac{1}{2}\sigma^2t^2).
+\]
+Since \(Y=e^{X}\), the first and second moments of \(Y\) are
+\[
+\expv{Y}=\expv{e^X}=M_X(1)=\boxed{e^{\mu+\sigma^2/2}},
+\]
+and
+\[
+\expv{Y^2}=\expv{e^{2X}}=M_X(2)=\boxed{e^{2(\mu+\sigma^2)}}.
+\]
+Hence, the variance of \(Y\) is
+\[
+\vari{Y}=\expv{Y^2}-\qty(\expv{Y})^{2}=\boxed{e^{2\mu+\sigma^2}\qty(e^{\sigma^2}-1)}.
+\]
+\item To impose lognormal distribution here, we shall assume \((1+I_n)\sim
+LN(\mu_n,\sigma_n^2)\) (or equivalently, \(\ln(1+I_n)\sim
+N(\mu_n,\sigma_n^2)\)) for any \(n\in\N\).
+
+\begin{note}
+Usage of lognormal distribution on \(1+I_n\) is ``reasonable'' here since
+\(1+I_n\) should be positive (effective interest rate should be larger than
+\(-100\%\), even if negative interest rate is possible!).
+\end{note}
+\item \label{it:lognormal-acc-value-sn-dist}
+Again, we shall also assume that \(I_1,\dotsc,I_n\) are independent.
+Then, as functions of \(I_1,\dotsc,I_n\),
+\[\ln(1+I_1),\dotsc,\ln(1+I_n)\]
+are also independent. Then, we have
+\[
+\ln S_n=\ln(\prod_{t=1}^{n}(1+I_t))
+=\sum_{t=1}^{n}\ln(1+I_t)
+\sim N\qty(\sum_{t=1}^{n}\mu_t,\sum_{t=1}^{n}\sigma_t^2),
+\]
+so in this case \(S_n\) is also lognormally distributed.
+
+\begin{note}
+After knowing the distribution of \(S_n\), we can use the formulas in
+\labelcref{it:ln-dist-mean-var} to compute its mean and variance.
+\end{note}
+\end{enumerate}
+
