@@ -1,0 +1,161 @@
+\section{Duration, Convexity, and Immunization}
+\label{sect:duration-convexity-immun}
+\subsection{Duration}
+\begin{enumerate}
+\item Recall that we have discussed an approximation of ``overall timing'' of
+cash flows \(C_1,\dotsc,C_n\) (at time \(1,\dotsc,n\)) in
+\cref{subsect:method-of-eq-time}, namely \emph{method of equated time}:
+\[
+\overline{t}=\frac{C_1t_1+\dotsb+C_nt_n}{C_1+\dotsb+C_n},
+\]
+\item Here we shall discuss a ``better'' approximation that takes into account
+time value of money: \defn{Macaulay duration} (denoted by \(D_{\text{mac}}\)),
+defined by
+\[
+D_{\text{mac}}=\frac{C_1v^{t_1}t_1+\dotsb+C_nv^{t_n}t_n}{C_1v^{t_1}+\dotsb+C_nv^{t_n}}.
+\]
+This approximates ``overall timing'' (``\emph{duration}'') of the cash flows.
+
+\item It turns out that there is a connection between \(D_{\text{mac}}\) (about
+``timing'') and \emph{interest rate sensitivity}. Consider a project with those
+CFs, thus having NPV (at rate \(i\)):
+\[
+P(i)=\sum_{t=1}^{n}C_t(1+i)^{-t}.
+\]
+The interest rate sensitivity of a project can be loosely understood as how
+``sensitive'' \(P(i)\) is in respond to changes in rate \(i\).
+\item Mathematically, sensitivity is measured in an ``infinitesimal'' setting
+(like force of interest). We have:
+\[
+\dd{P(i)}=P(i)\times\text{sensitivity}\times \dd{i},
+\]
+or
+\[
+\text{sensitivity}=\frac{1}{P(i)}\cdot\dv{P(i)}{i}.
+\]
+\begin{note}
+So, \(P(i+h)-P(i)\approx P(i)\times\text{sensitivity}\times h\) for small \(h\).
+\end{note}
+Typically, NPV is a strictly decreasing function of \(i\), thus
+\[
+\dv{P(i)}{i}\le 0,
+\]
+and this means the ``sensitivity'' above is often \emph{negative} due to
+the typical inverse relationship between NPV and interest rate.
+
+\item Conventionally, we want to have a (usually) positive number that measures
+``volatility'' (higher \faIcon{arrow-right} more volatile). Hence, we define
+the \defn{volatility} (or \defn{modified duration}) by
+\[
+-\frac{1}{P(i)}\cdot\dv{P(i)}{i}.
+\]
+It is denoted by \(\overline{v}\) (when the term ``volatility'' is used) or
+\(D_{\text{mod}}\) (when the term ``modified duration'' is used).
+
+\item \label{it:mod-dur-mac-dur-relation}
+The reason why the volatility is also called \emph{modified duration} is
+that the volatility can be expressed as:
+\[
+-\frac{1}{P(i)}\cdot\dv{P(i)}{i}
+=-\frac{1}{\sum_{t=1}^{n}C_t(1+i)^{-t}}\cdot\dv{}{i}\sum_{t=1}^{n}C_t(1+i)^{-t}
+=\frac{1}{\sum_{t=1}^{n}C_t(1+i)^{-t}}\cdot\sum_{t=1}^{n}t(1+i)^{-t-1}C_t
+=\boxed{\frac{D_{\text{mac}}}{1+i}}.
+\]
+\begin{note}
+This suggests the connection between \(D_{\text{mac}}\) and interest rate
+sensitivity.
+\end{note}
+\end{enumerate}
+\subsection{Convexity}
+\begin{enumerate}
+\item The concept of convexity is somewhat related to interest rate sensitivity
+also. For \emph{volatility}, we can observe that it is related to the
+first-order term in Taylor expansion. For \emph{convexity}, it is
+related to the \emph{second-order term} in Taylor expansion.
+
+\item \label{it:vol-approx-npv-change}
+For first-order Taylor expansion, we have
+\[P(i+h)\approx P(i)+P'(i)h=\boxed{P(i)-P(i)\overline{v}h}\]
+when \(h\) is small.
+
+\begin{note}
+This provides a formula for approximating NPV after changes in interest rate
+using volatility \(\overline{v}\).
+\end{note}
+
+\item \label{it:vol-convexity-approx-npv-change}
+For second-order Taylor expansion, we have
+\[P(i+h)\approx P(i)+P'(i)h+\frac{1}{2}P''(i)h^2
+=\boxed{P(i)-P(i)\overline{v}h+\frac{1}{2}P(i)\times \text{convexity}\times h^2}
+\]
+when \(h\) is small.
+
+\begin{note}
+This provides a formula for approximating NPV after changes in interest rate
+using both volatility and convexity (yielding a better approximation).
+\end{note}
+
+Here suggests the definition of convexity, denoted by
+\(\overline{c}\):
+\[
+\overline{c}=\frac{P''(i)}{P(i)}.
+\]
+\begin{note}
+There is not negative sign in the definition of convexity, mainly to ``match''
+with the mathematical notion of \emph{convex}:
+\[
+P(\cdot)\text{ is convex} \iff P''(i)\ge 0 \quad\forall i\iff \text{convexity always nonnegative}.
+\]
+\end{note}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=-2:3, title={Convex Function}]
+\addplot[blue]{x^2+2};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{axis}[domain=-2.5:2, title={Concave Function}]
+\addplot[blue]{-x^2+1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{itemize}
+\end{enumerate}
+\subsection{Immunization}
+\begin{enumerate}
+\item We have discussed quantities related to interest rate sensitivity, so we
+are now interested in knowing how to \emph{reduce} or \emph{eliminate} the
+impact from interest rate movements (reducing/eliminating sensitivity).
+\item \defn{Immunization} is a technique to reduce or even eliminate the impact
+of interest rate movements on a project.
+\item We introduce the following notations for the project:
+\begin{itemize}
+\item \(P_A(i)\): NPV of all cash inflows (positive CFs) at rate \(i\) (from
+``assets'')
+\item \(P_L(i)\): NPV (in absolute value) of all cash outflows (negative CFs)
+at rate \(i\) (from ``liabilities'')
+\end{itemize}
+
+To perform immunization, we usually want to ``match'' assets and liabilities in
+some sense.
+\item A simple immunization approach is known as \emph{Redington immunization}.
+First, we assume that yield curve stays flat (i.e., yield rate is constant for
+any bond term) \faIcon{arrow-right} interest movement only leads to
+upward/downward shift in yield curve (not affecting its \emph{shape}).
+
+Note that the NPV of project at rate \(i\) is \(P(i)=P_A(i)-P_L(i)\). To perform
+\defn{Redington immunization}, we ``match'' assets and liabilities in our
+project to produce CFs such that
+\begin{itemize}
+\item at \emph{current} interest rate \(i_0\), \(P(i_0)=0\) (or \(P_A(i_0)=P_L(i_0)\));
+\item \(P'(i_0)=0\) (or \(P_A'(i_0)=P_L'(i_0)\));
+\item \(P''(i_0)>0\) (or \(P_A''(i_0)>P_L''(i_0)\)).
+\end{itemize}
+In this case, \(P(i)\) would have a \emph{local minimum} at \(i=i_0\) (by
+second derivative test).\footnote{This means that there exists \(\delta>0\)
+such that \(P(i_0)\le P(i)\) for any \(i\in(i_0-\delta,i_0+\delta)\).} Hence,
+``small'' movements of interest rate from \(i_0\) in \emph{either} direction
+would not \faIcon{arrow-down} the NPV\footnote{The resulting NPV is
+then nonnegative, since \(P(i_0)=0\).} \faIcon{arrow-alt-circle-right} providing a
+``local'' protection against interest rate risk.
+\end{enumerate}
